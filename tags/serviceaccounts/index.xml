@@ -1,26 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Rizwan Khan👨🏻‍💻</title>
-    <link>https://rizwan-kh.github.io/</link>
-    <description>Recent content on Rizwan Khan👨🏻‍💻</description>
+    <title>serviceAccounts on Rizwan Khan👨🏻‍💻</title>
+    <link>https://rizwan-kh.github.io/tags/serviceaccounts/</link>
+    <description>Recent content in serviceAccounts on Rizwan Khan👨🏻‍💻</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
     <lastBuildDate>Mon, 02 Sep 2019 17:40:27 +0400</lastBuildDate>
     
-	<atom:link href="https://rizwan-kh.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://rizwan-kh.github.io/tags/serviceaccounts/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>I am Rizwan Khan;</title>
-      <link>https://rizwan-kh.github.io/about/</link>
-      <pubDate>Wed, 02 Sep 2020 16:44:33 +0400</pubDate>
-      
-      <guid>https://rizwan-kh.github.io/about/</guid>
-      <description>welcome to my page - I am from Kolkata, a city of India, in the state of West Bengal. I grew up in a joint family. I graduated from the West Bengal University of Technology with a major in Information Technology and most part of my education was completed in the same city.
-I started my career with CMC Limited in Mumbai and used to work on C++ and C for a major Stock Exchange as a Backend Developer.</description>
-    </item>
     
     <item>
       <title>How to use service accounts for Kubernetes imagePullSecrets</title>

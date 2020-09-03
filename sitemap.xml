@@ -1,16 +1,48 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-	
-	<sitemap>
-	   	<loc>https://rizwan-kh.github.io/en/sitemap.xml</loc>
-		
-	   	<lastmod>2020-09-02T17:40:27+04:00</lastmod>
-		
-	</sitemap>
-	
-	<sitemap>
-	   	<loc>https://rizwan-kh.github.io/fr/sitemap.xml</loc>
-		
-	</sitemap>
-	
-</sitemapindex>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/about/</loc>
+    <lastmod>2020-09-02T16:44:33+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/posts/2019/09/how-to-use-service-accounts-for-kubernetes-imagepullsecrets/</loc>
+    <lastmod>2019-09-02T17:40:27+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/kubernetes/</loc>
+    <lastmod>2019-09-02T17:40:27+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/posts/</loc>
+    <lastmod>2019-09-02T17:40:27+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/</loc>
+    <lastmod>2019-09-02T17:40:27+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/serviceaccounts/</loc>
+    <lastmod>2019-09-02T17:40:27+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/</loc>
+    <lastmod>2019-09-02T17:40:27+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/series/</loc>
+  </url>
+  
+</urlset>
