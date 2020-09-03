@@ -1,3 +1,3 @@
-# rizwan-kh.github.io
+# Site 
 
 Personal blog site hosted on Github.io
