@@ -1,0 +1,51 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Posts on Rizwan Khan👨🏻‍💻</title>
+        <link>https://rizwan-kh.github.io/posts/</link>
+        <description>Recent content in Posts on Rizwan Khan👨🏻‍💻</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+        <lastBuildDate>Wed, 02 Sep 2020 17:40:27 +0400</lastBuildDate>
+        <atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>How to use service accounts for Kubernetes imagePullSecrets</title>
+            <link>https://rizwan-kh.github.io/posts/2020/09/how-to-use-service-accounts-for-kubernetes-imagepullsecrets/</link>
+            <pubDate>Wed, 02 Sep 2020 17:40:27 +0400</pubDate>
+            
+            <guid>https://rizwan-kh.github.io/posts/2020/09/how-to-use-service-accounts-for-kubernetes-imagepullsecrets/</guid>
+            <description>What are Service Accounts in Kubernetes? As per Kubernetes.io - A service account provides an identity for processes that run in a Pod.
+One can think of service accounts as service users for pods. They help pods authenticate with the api-server and interact with it.
+ Many times, we come across a situation where our organization uses a private Docker registry to store the Docker images and to make this available we need to create a docker-registry kubernetes secret and pass as imagePullSecrets in the deployment manifest.</description>
+            <content type="html"><![CDATA[<h2 id="what-are-service-accounts-in-kubernetes">What are Service Accounts in Kubernetes?</h2>
+<p>As per <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/">Kubernetes.io</a> - A service account provides an identity for processes that run in a Pod.</p>
+<p>One can think of service accounts as service users for pods. They help pods authenticate with the api-server and interact with it.</p>
+<h2 id="heading"></h2>
+<p>Many times, we come across a situation where our organization uses a private Docker registry to store the Docker images and to make this available we need to create a <code>docker-registry</code> kubernetes secret and pass as <code>imagePullSecrets</code> in the deployment manifest.</p>
+<pre><code>kubectl create secret docker-registry registry-cred \
+ --docker-server=my.private-registry.com \
+ --docker-username=my_username \
+ --docker-password=&quot;my_superr_strong_password&quot; \
+ --docker-email=my.email@mycompany.com -n my-namespace
+</code></pre><p>Then, we pass this secret in the deployment manifest as below.</p>
+<pre><code>...
+      imagePullSecrets:
+      - name: registry-cred
+...
+
+</code></pre><h2 id="the-problem-with-this-approach">The problem with this approach?</h2>
+<p>Not many that I can think of, except below ones:</p>
+<ul>
+<li>The deployment yaml are generally developed by Developers who doesn&rsquo;t need to know about this credentials</li>
+<li>If there are a large number of pods in the namespace, then each manifest needs to be updated, whenever the password is rotated</li>
+</ul>
+<h2 id="the-solution">The solution</h2>
+<p><code>serviceAccounts</code> - your Kubernetes administrator can just patch serviceAccounts with the registry credential secret and you don&rsquo;t need to worry about replacing or adding it in your manifest yaml each time.</p>
+<pre><code>kubectl patch serviceaccount default \
+-p '{&quot;imagePullSecrets&quot;: [{&quot;name&quot;: &quot;registry-cred&quot;}]}' -n my-namespace
+</code></pre>]]></content>
+        </item>
+        
+    </channel>
+</rss>

@@ -3,6 +3,36 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://rizwan-kh.github.io/posts/2020/09/how-to-use-service-accounts-for-kubernetes-imagepullsecrets/</loc>
+    <lastmod>2020-09-02T17:40:27+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/posts/</loc>
+    <lastmod>2020-09-02T17:40:27+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/</loc>
+    <lastmod>2020-09-02T17:40:27+04:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="https://rizwan-kh.github.io/fr/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://rizwan-kh.github.io/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/about/</loc>
+    <lastmod>2020-09-02T16:44:33+04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://rizwan-kh.github.io/categories/</loc>
     <xhtml:link
                 rel="alternate"
@@ -13,20 +43,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://rizwan-kh.github.io/categories/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="fr"
-                href="https://rizwan-kh.github.io/fr/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://rizwan-kh.github.io/"
                 />
   </url>
   
