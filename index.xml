@@ -18,16 +18,16 @@
       <pubDate>Wed, 02 Sep 2020 16:44:33 +0400</pubDate>
       
       <guid>https://rizwan-kh.github.io/about/</guid>
-      <description>welcome to my page - I am from Kolkata, a city of India. I grew up in a joint family. I graduated from the West Bengal University of Technology with a major in Information Technology and most part of my education was completed in the same city.
+      <description>welcome to my page - I am from Kolkata, a city in India. I grew up in a joint family. I graduated from the West Bengal University of Technology with a major in Information Technology and most part of my education was completed in the same city.
 I started my career with CMC Limited in Mumbai and used to work on C++ and C for a major Stock Exchange as a Backend Developer.</description>
     </item>
     
     <item>
-      <title>Gtlab CI &amp; Kaniko to build Docker Images</title>
-      <link>https://rizwan-kh.github.io/posts/2020/02/gtlab-ci-kaniko-to-build-docker-images/</link>
+      <title>Gitlab CI &amp; Kaniko to build Docker Images</title>
+      <link>https://rizwan-kh.github.io/posts/2020/02/gitlab-ci-kaniko-to-build-docker-images/</link>
       <pubDate>Wed, 12 Feb 2020 12:11:00 +0400</pubDate>
       
-      <guid>https://rizwan-kh.github.io/posts/2020/02/gtlab-ci-kaniko-to-build-docker-images/</guid>
+      <guid>https://rizwan-kh.github.io/posts/2020/02/gitlab-ci-kaniko-to-build-docker-images/</guid>
       <description>You will get N number of blogs on how to use the CI/CD of GitLab; I am creating this document as an easy reference point to extend the file and create CI/CD for Docker Image to be built and stored in the same GitLab registry. This file needs to be created in the individual project in the GitLab using the template available with the name .gitlab-ci.yml.
 Please note, we have stopped using Docker-in-Docker for building Docker images due to security limitations(this blog makes a strong case on why not to use it) and so we use kaniko to build Images on our private hosted GitLab on Kubernetes using CI</description>
     </item>
