@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sat, 02 Nov 2019 17:40:27 +0400</lastBuildDate>
+    <lastBuildDate>Wed, 12 Feb 2020 12:11:00 +0400</lastBuildDate>
     
 	<atom:link href="https://rizwan-kh.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -23,14 +23,35 @@ I started my career with CMC Limited in Mumbai and used to work on C++ and C for
     </item>
     
     <item>
-      <title>How to use service accounts for Kubernetes imagePullSecrets</title>
-      <link>https://rizwan-kh.github.io/posts/2019/11/how-to-use-service-accounts-for-kubernetes-imagepullsecrets/</link>
-      <pubDate>Sat, 02 Nov 2019 17:40:27 +0400</pubDate>
+      <title>Gtlab CI &amp; Kaniko to build Docker Images</title>
+      <link>https://rizwan-kh.github.io/posts/2020/02/gtlab-ci-kaniko-to-build-docker-images/</link>
+      <pubDate>Wed, 12 Feb 2020 12:11:00 +0400</pubDate>
       
-      <guid>https://rizwan-kh.github.io/posts/2019/11/how-to-use-service-accounts-for-kubernetes-imagepullsecrets/</guid>
+      <guid>https://rizwan-kh.github.io/posts/2020/02/gtlab-ci-kaniko-to-build-docker-images/</guid>
+      <description>You will get N number of blogs on how to use the CI/CD of GitLab; I am creating this document as an easy reference point to extend the file and create CI/CD for Docker Image to be built and stored in the same GitLab registry. This file needs to be created in the individual project in the GitLab using the template available with the name .gitlab-ci.yml.
+Please note, we have stopped using Docker-in-Docker for building Docker images due to security limitations(this blog makes a strong case on why not to use it) and so we use kaniko to build Images on our private hosted GitLab on Kubernetes using CI</description>
+    </item>
+    
+    <item>
+      <title>How to use service accounts for Kubernetes imagePullSecrets</title>
+      <link>https://rizwan-kh.github.io/posts/2020/01/how-to-use-service-accounts-for-kubernetes-imagepullsecrets/</link>
+      <pubDate>Thu, 02 Jan 2020 17:40:27 +0400</pubDate>
+      
+      <guid>https://rizwan-kh.github.io/posts/2020/01/how-to-use-service-accounts-for-kubernetes-imagepullsecrets/</guid>
       <description>What are Service Accounts in Kubernetes? As per Kubernetes.io - A service account provides an identity for processes that run in a Pod.
 One can think of service accounts as service users for pods. They help pods authenticate with the api-server and interact with it.
  Many times, we come across a situation where our organization uses a private Docker registry to store the Docker images and to make this available we need to create a docker-registry kubernetes secret and pass as imagePullSecrets in the deployment manifest.</description>
+    </item>
+    
+    <item>
+      <title>Docker Cheat Sheet</title>
+      <link>https://rizwan-kh.github.io/posts/2019/10/docker-cheat-sheet/</link>
+      <pubDate>Fri, 11 Oct 2019 05:11:13 +0400</pubDate>
+      
+      <guid>https://rizwan-kh.github.io/posts/2019/10/docker-cheat-sheet/</guid>
+      <description>Below are few of the main and basic commands used in Docker, an easy pick-up and good-to-go command page for docker troubleshooting.
+Alias  If you are a lazy developer/sysadmin like me, the first thing you should do on your system is to make easy alias of all the long commands, below are the ones I often use on any system I use on a daily basis:
+These can be imported on ~/.</description>
     </item>
     
     <item>

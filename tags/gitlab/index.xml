@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>gitlab on Rizwan Khan👨🏻‍💻</title>
+    <link>https://rizwan-kh.github.io/tags/gitlab/</link>
+    <description>Recent content in gitlab on Rizwan Khan👨🏻‍💻</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Wed, 12 Feb 2020 12:11:00 +0400</lastBuildDate>
+    
+	<atom:link href="https://rizwan-kh.github.io/tags/gitlab/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Gtlab CI &amp; Kaniko to build Docker Images</title>
+      <link>https://rizwan-kh.github.io/posts/2020/02/gtlab-ci-kaniko-to-build-docker-images/</link>
+      <pubDate>Wed, 12 Feb 2020 12:11:00 +0400</pubDate>
+      
+      <guid>https://rizwan-kh.github.io/posts/2020/02/gtlab-ci-kaniko-to-build-docker-images/</guid>
+      <description>You will get N number of blogs on how to use the CI/CD of GitLab; I am creating this document as an easy reference point to extend the file and create CI/CD for Docker Image to be built and stored in the same GitLab registry. This file needs to be created in the individual project in the GitLab using the template available with the name .gitlab-ci.yml.
+Please note, we have stopped using Docker-in-Docker for building Docker images due to security limitations(this blog makes a strong case on why not to use it) and so we use kaniko to build Images on our private hosted GitLab on Kubernetes using CI</description>
+    </item>
+    
+  </channel>
+</rss>
