@@ -78,7 +78,8 @@ build_image:
             <description>What are Service Accounts in Kubernetes? As per Kubernetes.io - A service account provides an identity for processes that run in a Pod.
 One can think of service accounts as service users for pods. They help pods authenticate with the api-server and interact with it.
  Many times, we come across a situation where our organization uses a private Docker registry to store the Docker images and to make this available we need to create a docker-registry kubernetes secret and pass as imagePullSecrets in the deployment manifest.</description>
-            <content type="html"><![CDATA[<h2 id="what-are-service-accounts-in-kubernetes">What are Service Accounts in Kubernetes?</h2>
+            <content type="html"><![CDATA[<p><img src="/kubernetes.jpg" alt="Kubernetes"></p>
+<h2 id="what-are-service-accounts-in-kubernetes">What are Service Accounts in Kubernetes?</h2>
 <p>As per <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/">Kubernetes.io</a> - A service account provides an identity for processes that run in a Pod.</p>
 <p>One can think of service accounts as service users for pods. They help pods authenticate with the api-server and interact with it.</p>
 <h2 id="heading"></h2>
@@ -116,7 +117,8 @@ One can think of service accounts as service users for pods. They help pods auth
             <description>Below are few of the main and basic commands used in Docker, an easy pick-up and good-to-go command page for docker troubleshooting.
 Alias  If you are a lazy developer/sysadmin like me, the first thing you should do on your system is to make easy alias of all the long commands, below are the ones I often use on any system I use on a daily basis:
 These can be imported on ~/.</description>
-            <content type="html"><![CDATA[<p>Below are few of the main and basic commands used in Docker, an easy pick-up and good-to-go command page for docker troubleshooting.</p>
+            <content type="html"><![CDATA[<p><img src="/docker.png" alt="docker">
+Below are few of the main and basic commands used in Docker, an easy pick-up and good-to-go command page for docker troubleshooting.</p>
 <h2 id="alias">Alias</h2>
 <hr>
 <p>If you are a lazy developer/sysadmin like me, the first thing you should do on your system is to make easy alias of all the long commands, below are the ones I often use on any system I use on a  daily basis:</p>
