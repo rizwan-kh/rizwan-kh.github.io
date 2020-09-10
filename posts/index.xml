@@ -17,7 +17,8 @@
             <guid>https://rizwan-kh.github.io/posts/2020/02/gitlab-ci-kaniko-to-build-docker-images/</guid>
             <description>Introduction You can build container images from a Dockerfile inside a container or a Kubernetes cluster, though Jérôme Petazzoni strongly discourages from doing so. He wrote a detailed blog that can be read here on why not to build container images using Dockerfile inside a container or a Kubernetes cluster.
  Context You will get N number of blogs on how to use the CI/CD of GitLab; here we will see an easy reference point to extend a file and create CI/CD for Docker Image to be built and stored in the same GitLab registry using kaniko.</description>
-            <content type="html"><![CDATA[<h3 id="introduction">Introduction</h3>
+            <content type="html"><![CDATA[<p><img src="/gitlab.jpeg" alt="GitLab"></p>
+<h3 id="introduction">Introduction</h3>
 <p>You can build container images from a Dockerfile inside a container or a Kubernetes cluster, though <em>Jérôme Petazzoni</em> strongly discourages from doing so. He wrote a detailed blog that can be read <a href="http://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/">here</a> on why not to build container images using Dockerfile inside a container or a Kubernetes cluster.</p>
 <hr>
 <h4 id="context">Context</h4>
