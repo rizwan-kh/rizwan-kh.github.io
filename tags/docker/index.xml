@@ -18,8 +18,8 @@
       <pubDate>Wed, 12 Feb 2020 12:11:00 +0400</pubDate>
       
       <guid>https://rizwan-kh.github.io/posts/2020/02/gitlab-ci-kaniko-to-build-docker-images/</guid>
-      <description>You will get N number of blogs on how to use the CI/CD of GitLab; I am creating this document as an easy reference point to extend the file and create CI/CD for Docker Image to be built and stored in the same GitLab registry. This file needs to be created in the individual project in the GitLab using the template available with the name .gitlab-ci.yml.
-Please note, we have stopped using Docker-in-Docker for building Docker images due to security limitations(this blog makes a strong case on why not to use it) and so we use kaniko to build Images on our private hosted GitLab on Kubernetes using CI</description>
+      <description>Introduction You can build container images from a Dockerfile inside a container or a Kubernetes cluster, though Jérôme Petazzoni strongly discourages from doing so. He wrote a detailed blog that can be read here on why not to build container images using Dockerfile inside a container or a Kubernetes cluster.
+ Context You will get N number of blogs on how to use the CI/CD of GitLab; here we will see an easy reference point to extend a file and create CI/CD for Docker Image to be built and stored in the same GitLab registry using kaniko.</description>
     </item>
     
     <item>

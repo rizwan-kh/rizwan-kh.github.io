@@ -15,10 +15,26 @@
             <pubDate>Wed, 12 Feb 2020 12:11:00 +0400</pubDate>
             
             <guid>https://rizwan-kh.github.io/posts/2020/02/gitlab-ci-kaniko-to-build-docker-images/</guid>
-            <description>You will get N number of blogs on how to use the CI/CD of GitLab; I am creating this document as an easy reference point to extend the file and create CI/CD for Docker Image to be built and stored in the same GitLab registry. This file needs to be created in the individual project in the GitLab using the template available with the name .gitlab-ci.yml.
-Please note, we have stopped using Docker-in-Docker for building Docker images due to security limitations(this blog makes a strong case on why not to use it) and so we use kaniko to build Images on our private hosted GitLab on Kubernetes using CI</description>
-            <content type="html"><![CDATA[<p>You will get <code>N</code> number of blogs on how to use the CI/CD of GitLab; I am creating this document as an easy reference point to extend the file and create CI/CD for Docker Image to be built and stored in the same GitLab registry. This file needs to be created in the individual project in the GitLab using the template available with the name .gitlab-ci.yml.</p>
-<p>Please note, we have stopped using Docker-in-Docker for building Docker images due to security limitations(this <a href="http://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/">blog</a> makes a strong case on why not to use it) and so we use <a href="https://cloud.google.com/blog/products/gcp/introducing-kaniko-build-container-images-in-kubernetes-and-google-container-builder-even-without-root-access">kaniko</a> to build Images on our private hosted GitLab on Kubernetes using CI</p>
+            <description>Introduction You can build container images from a Dockerfile inside a container or a Kubernetes cluster, though Jérôme Petazzoni strongly discourages from doing so. He wrote a detailed blog that can be read here on why not to build container images using Dockerfile inside a container or a Kubernetes cluster.
+ Context You will get N number of blogs on how to use the CI/CD of GitLab; here we will see an easy reference point to extend a file and create CI/CD for Docker Image to be built and stored in the same GitLab registry using kaniko.</description>
+            <content type="html"><![CDATA[<h3 id="introduction">Introduction</h3>
+<p>You can build container images from a Dockerfile inside a container or a Kubernetes cluster, though <em>Jérôme Petazzoni</em> strongly discourages from doing so. He wrote a detailed blog that can be read <a href="http://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/">here</a> on why not to build container images using Dockerfile inside a container or a Kubernetes cluster.</p>
+<hr>
+<h4 id="context">Context</h4>
+<p>You will get <code>N</code> number of blogs on how to use the CI/CD of GitLab; here we will see an easy reference point to extend a file and create CI/CD for Docker Image to be built and stored in the same GitLab registry using <a href="https://cloud.google.com/blog/products/gcp/introducing-kaniko-build-container-images-in-kubernetes-and-google-container-builder-even-without-root-access">kaniko</a>. This file needs to be created in the individual project in the GitLab using the template available with the name .gitlab-ci.yml.</p>
+<hr>
+<h4 id="what-is-kaniko">What is Kaniko?</h4>
+<p><code>Note: Kaniko is not an officially supported Google product</code>
+It is a tool to build container images from a Dockerfile inside a container or a Kubernetes cluster. It doesn&rsquo;t depend on the Docker daemon to run each Dockerfile command.</p>
+<p>It comes with it&rsquo;s own limitations, but we don&rsquo;t run the risk of using Docker-in-Docker</p>
+<hr>
+<h4 id="prerequisites">Prerequisites</h4>
+<ul>
+<li>Access to GitLab (either private self hosted or managed)</li>
+<li>GitLab project with a Dockerfile</li>
+</ul>
+<hr>
+<h4 id="ci-yaml-for-auto-devops">CI YAML for auto-devops</h4>
 <pre><code># .gitlab-ci.yml
 variables:
     GIT_SSL_NO_VERIFY: &quot;true&quot;
@@ -42,12 +58,13 @@ build_image:
     - wget https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem | xargs cat lets-encrypt-x3-cross-signed.pem &gt;&gt; /kaniko/ssl/certs/ca-certificates.crt
     - /kaniko/executor --skip-tls-verify --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME
 
-</code></pre><p><strong>variables</strong>: These are static values which aren&rsquo;t going to change and is used at multiple location in the gitlab-ci.yml file</p>
+</code></pre><hr>
+<p><strong>variables</strong>: These are static values which aren&rsquo;t going to change and is used at multiple location in the gitlab-ci.yml file</p>
 <p><strong>before_script</strong>: Set(s) of commands or echo statement we want to print</p>
-<p><strong>stages</strong>: Stages are block of code for an identical job or set of jobs viz. build, test, cleanup, delete, deploy, etc. This executes in the order it&rsquo;s defined in the yaml. A dot(.) in front of any job(block of code) disables it and it won&rsquo;t be executed or available neither as an automatic or manual job.</p>
-<p><strong>Jobs (Each block of code)</strong>: Each block of individual stage contains of key value pair or set of commands to it. We can define each block of code to point to a particular stage and all the set of commands it requires to perform that function in the script block. It can be made to run automatically and also manual (start the job manually by clicking a button). The variables like password, access/secret key can be defined in the CI/CD settings under secret variables section so it&rsquo;s not available in plain text format.</p>
+<p><strong>stages</strong>: Stages are block of code for an identical job or set of jobs viz. build, test, clean-up, delete, deploy, etc. This executes in the order it&rsquo;s defined in the YAML. A dot(.) in front of any job(block of code) disables it and it won&rsquo;t be executed or available neither as an automatic or manual job.</p>
+<p><strong>Jobs (Each block of code)</strong>: Each block of individual stage contains key-value pair or set of commands to it. We can define each block of code to point to a particular stage and all the set of commands it requires to perform that function in the script block. It can be made to run automatically and also manual (start the job manually by clicking a button). The variables like password, access/secret key can be defined in the CI/CD settings under secret variables section so it&rsquo;s not available in plain text format.</p>
 <hr>
-<p><strong>Note</strong>: If you want to use GitLab docker registry and store docker images in the GitLab project; this by default is disabled and needs to be enabled in the General setting section.</p>
+<p><strong>Note</strong>: If you want to use the GitLab docker registry and store docker images in the GitLab project; this by default is disabled and needs to be enabled in the General setting section.</p>
 ]]></content>
         </item>
         
