@@ -6,8 +6,214 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Wed, 12 Feb 2020 12:11:00 +0400</lastBuildDate>
+        <lastBuildDate>Mon, 14 Sep 2020 17:20:44 +0400</lastBuildDate>
         <atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Docker Vuln Analysis</title>
+            <link>https://rizwan-kh.github.io/posts/2020/09/docker-vuln-analysis/</link>
+            <pubDate>Mon, 14 Sep 2020 17:20:44 +0400</pubDate>
+            
+            <guid>https://rizwan-kh.github.io/posts/2020/09/docker-vuln-analysis/</guid>
+            <description></description>
+            <content type="html"><![CDATA[]]></content>
+        </item>
+        
+        <item>
+            <title>Rizwan Khan</title>
+            <link>https://rizwan-kh.github.io/posts/2020/09/rizwan-khan/</link>
+            <pubDate>Thu, 03 Sep 2020 11:11:11 +0400</pubDate>
+            
+            <guid>https://rizwan-kh.github.io/posts/2020/09/rizwan-khan/</guid>
+            <description>8+ years of professional IT experience working on development, maintenance, support SDLC. My latest experience is as a DevOps Consultant. ❤
+Professional Summary  &amp;laquo; A journey to a thousand miles begins with a single step &amp;raquo;
+Technical Skills   DevOps Tools: Kubernetes, Docker, Terraform, Nexus, Sonarqube, Ansible, Chef, Jira, Confluence, Azure DevOps Cloud Platform: AWS, Microsoft Azure, Google Cloud Platforms, AliBaba Cloud Source Control Management Tools: Gitlab, GitHub, Azure Repo Version Control: Subversion, Git Languages: Python, C++, C Scripting: Shell Scripting, BaSH Monitoring: Nagios, Kibana, Grafana Patching: Spacewalk OS: Linux, CentOS, RHEL, Debian  Certifications, Trainings, Awards   Operate and Manage a Cloud Server - ACLC03 [AliBaba Cloud] (ACLC03200700023910) Rancher Certified Level 1 Operator Microsoft Azure Cloud Fundamentals - AZ-900 Inventor Award Program FY19 (Accenture Solutions Private Limited) Accenture Celebrates Excellence Q3 FY19(ACE) Accenture Celebrates Excellence Q2 FY18(ACE)  Patent   Enriched Self Healing Cloud Platforms (US 10,601,640 B1)  Education   Bachelors of Technology, West Bengal University of Technology, India Higher Secondary, West Bengal Council of Higher Secondary Education, India  </description>
+            <content type="html"><![CDATA[<p>8+ years of professional IT experience working on development, maintenance, support SDLC. My latest experience is as a DevOps Consultant. ❤</p>
+<h2 id="professional-summary">Professional Summary</h2>
+<hr>
+<p>&laquo; A journey  to a thousand miles begins with a single step &raquo;</p>
+<h2 id="technical-skills">Technical Skills</h2>
+<hr>
+<ul>
+<li><strong>DevOps Tools</strong>: Kubernetes, Docker, Terraform, Nexus, Sonarqube, Ansible, Chef, Jira, Confluence, Azure DevOps</li>
+<li><strong>Cloud Platform</strong>: AWS, Microsoft Azure, Google Cloud Platforms, AliBaba Cloud</li>
+<li><strong>Source Control Management Tools</strong>: Gitlab, GitHub, Azure Repo</li>
+<li><strong>Version Control</strong>: Subversion, Git</li>
+<li><strong>Languages</strong>: Python, C++, C</li>
+<li><strong>Scripting</strong>: Shell Scripting, BaSH</li>
+<li><strong>Monitoring</strong>: Nagios, Kibana, Grafana</li>
+<li><strong>Patching</strong>: Spacewalk</li>
+<li><strong>OS</strong>: Linux, CentOS, RHEL, Debian</li>
+</ul>
+<h2 id="certifications-trainings-awards">Certifications, Trainings, Awards</h2>
+<hr>
+<ul>
+<li>Operate and Manage a Cloud Server - ACLC03 [AliBaba Cloud] (<strong>ACLC03200700023910</strong>)</li>
+<li>Rancher Certified Level 1 Operator</li>
+<li>Microsoft Azure Cloud Fundamentals - AZ-900</li>
+<li>Inventor Award Program FY19 (Accenture Solutions Private Limited)</li>
+<li>Accenture Celebrates Excellence Q3 FY19(ACE)</li>
+<li>Accenture Celebrates Excellence Q2 FY18(ACE)</li>
+</ul>
+<h2 id="patent">Patent</h2>
+<hr>
+<ul>
+<li>Enriched Self Healing Cloud Platforms (<strong>US 10,601,640 B1</strong>)</li>
+</ul>
+<h2 id="education">Education</h2>
+<hr>
+<ul>
+<li>Bachelors of Technology, West Bengal University of Technology, India</li>
+<li>Higher Secondary, West Bengal Council of Higher Secondary Education, India</li>
+</ul>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Klar</title>
+            <link>https://rizwan-kh.github.io/posts/2020/03/klar/</link>
+            <pubDate>Sat, 14 Mar 2020 17:20:26 +0400</pubDate>
+            
+            <guid>https://rizwan-kh.github.io/posts/2020/03/klar/</guid>
+            <description>Introduction Klar is a static binary tool to analyze images stored in a private or public Docker registry for security vulnerabilities using Clair. Klar is designed to be used as an integration tool so it relies on environment variables. It&amp;rsquo;s a single binary which requires no dependencies and can be plugged and/or integrated into our CI CD pipelines.
+Klar serves as a client which coordinates the image checks between the Docker registry and Clair.</description>
+            <content type="html"><![CDATA[<h3 id="introduction">Introduction</h3>
+<p><a href="https://github.com/optiopay/klar">Klar</a> is a static binary tool to analyze images stored in a private or public Docker registry for security vulnerabilities using <a href="https://github.com/coreos/clair">Clair</a>. Klar is designed to be used as an integration tool so it relies on environment variables. It&rsquo;s a single binary which requires no dependencies and can be plugged and/or integrated into our CI CD pipelines.</p>
+<p>Klar serves as a client which coordinates the image checks between the Docker registry and Clair. We heavily use klar along with Clair in our internal CI CD pipeline to scan the newly built Docker images.</p>
+<hr>
+<h4 id="installation">Installation</h4>
+<p>Download the latest release (for OSX and Linux) from <a href="https://github.com/optiopay/klar/releases/">https://github.com/optiopay/klar/releases/</a> and put the binary in a directory which is present in your PATH variable (make sure it has execute permission set).</p>
+<hr>
+<h4 id="usage">Usage</h4>
+<p>Klar process returns if 0 if the number of detected high severity vulnerabilities in an image is less than or equal to a threshold (see below) and 1 if there were more. It will return 2 if an error has prevented the image from being analyzed.</p>
+<p>Klar can be configured via the following environment variables:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CLAIR_ADDR</strong></td>
+<td>address of Clair server. It has a form of protocol://host:port - protocol and port default to http and 6060 respectively and may be omitted. You can also specify basic authentication in the URL: protocol://login:password@host:port</td>
+</tr>
+<tr>
+<td><strong>CLAIR_OUTPUT</strong></td>
+<td>severity level threshold, vulnerabilities with severity level higher than or equal to this threshold will be outputted. Supported levels are Unknown, Negligible, Low, Medium, High, Critical, Defcon1. Default is Unknown</td>
+</tr>
+<tr>
+<td><strong>CLAIR_THRESHOLD</strong></td>
+<td>how many outputted vulnerabilities Klar can tolerate before returning 1. Default is 0</td>
+</tr>
+<tr>
+<td><strong>CLAIR_TIMEOUT</strong></td>
+<td>timeout in minutes before Klar cancels the image scanning. Default is 1</td>
+</tr>
+<tr>
+<td><strong>DOCKER_USER</strong></td>
+<td>Docker registry account name</td>
+</tr>
+<tr>
+<td><strong>DOCKER_PASSWORD</strong></td>
+<td>Docker registry account password</td>
+</tr>
+<tr>
+<td><strong>DOCKER_TOKEN</strong></td>
+<td>Docker registry account token. (Can be used in place of DOCKER_USER and DOCKER_PASSWORD)</td>
+</tr>
+<tr>
+<td><strong>DOCKER_INSECURE</strong></td>
+<td>Allow Klar to access registries with bad SSL certificates. Default is false. Clair will need to be booted with -insecure-tls for this to work</td>
+</tr>
+<tr>
+<td><strong>DOCKER_TIMEOUT</strong></td>
+<td>timeout in minutes when trying to fetch layers from a docker registry</td>
+</tr>
+<tr>
+<td><strong>DOCKER_PLATFORM_OS</strong></td>
+<td>The operating system of the Docker image. Default is linux. This only needs to be set if the image specified references a Docker ManifestList instead of a usual manifest</td>
+</tr>
+<tr>
+<td><strong>DOCKER_PLATFORM_ARCH</strong></td>
+<td>The architecture the Docker image is optimized for. Default is amd64. This only needs to be set if the image specified references a Docker ManifestList instead of a usual manifest</td>
+</tr>
+<tr>
+<td><strong>REGISTRY_INSECURE</strong></td>
+<td>Allow Klar to access insecure registries (HTTP only). Default is false</td>
+</tr>
+<tr>
+<td><strong>JSON_OUTPUT</strong></td>
+<td>Output JSON, not plain text. Default is false</td>
+</tr>
+<tr>
+<td><strong>FORMAT_OUTPUT</strong></td>
+<td>Output format of the vulnerabilities. Supported formats are standard, json, table. Default is standard. If JSON_OUTPUT is set to true, this option is ignored</td>
+</tr>
+<tr>
+<td><strong>WHITELIST_FILE</strong></td>
+<td>Path to the YAML file with the CVE whitelist. Look at whitelist-example.yaml for the file format</td>
+</tr>
+<tr>
+<td><strong>IGNORE_UNFIXED</strong></td>
+<td>Do not count vulnerabilities without a fix towards the threshold</td>
+</tr>
+</tbody>
+</table>
+<h4 id="usage-1">Usage:</h4>
+<pre><code>CLAIR_ADDR=localhost;CLAIR_OUTPUT=High;CLAIR_THRESHOLD=10;DOCKER_USER=docker;DOCKER_PASSWORD=secret;
+klar mysql:latest
+</code></pre><h5 id="debug-output">Debug Output</h5>
+<p>You can enable more verbose output but setting KLAR_TRACE to true.</p>
+<p>run <code>export KLAR_TRACE=true</code> to persist between runs.</p>
+<h5 id="gitlab-ci-usage">GitLab CI Usage</h5>
+<p>We have the below job defined in <code>.gitlab-ci.yml</code> post Dockerbuild stage</p>
+<pre><code>image_analysis:
+  stage: analyse
+  image: registry.mycompany.com/ci/kubernetes-deploy:klar
+  script:
+    - export PATH=$PATH:$CI_PROJECT_DIR
+    - export TAG=&quot;$CI_BUILD_REF_NAME&quot;
+    - CLAIR_THRESHOLD=1000 DOCKER_TIMEOUT=5 CLAIR_TIMEOUT=5 CLAIR_ADDR=https://ngclair.mycompany.com:443 DOCKER_USER=gitlab-ci-token DOCKER_PASSWORD=$CI_BUILD_TOKEN klar $CI_REGISTRY_IMAGE:$TAG | tee scan.txt
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/scan.txt
+    expire_in: 1 hour
+  tags:
+    - my_runner
+
+</code></pre><p>This image <code>registry.mycompany.com/ci/kubernetes-deploy:klar</code> contains the klar binary and the clair server is running on <a href="https://ngclair.mycompany.com">https://ngclair.mycompany.com</a>:443</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Vagrant</title>
+            <link>https://rizwan-kh.github.io/posts/2020/03/vagrant/</link>
+            <pubDate>Sat, 14 Mar 2020 17:20:26 +0400</pubDate>
+            
+            <guid>https://rizwan-kh.github.io/posts/2020/03/vagrant/</guid>
+            <description>Introduction  Getting started with Vagrant Download the install the Vagrant from the Download section
+vagrant version Installed Version: 2.2.10 Latest Version: 2.2.10 You&#39;re running an up-to-date version of Vagrant! Download and install VirtualBox
+Now if both Vagrant and VirtualBox are up and running, all we need to do is run the below 3 commands to have a Ubuntu VM up and available for our use in no time.
+vagrant init hashicorp/bionic64 vagrant up vagrant ssh This is a pretty simple way to spin up a new Ubuntu VM, we can do a lot more which I will try to write up in later posts.</description>
+            <content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<hr>
+<h2 id="getting-started-with-vagrant">Getting started with Vagrant</h2>
+<p>Download the install the <a href="https://www.vagrantup.com/downloads">Vagrant</a> from the Download section</p>
+<pre><code>vagrant version
+Installed Version: 2.2.10
+Latest Version: 2.2.10
+
+You're running an up-to-date version of Vagrant!
+</code></pre><p>Download and install <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></p>
+<p>Now if both <strong>Vagrant</strong> and <strong>VirtualBox</strong> are up and running, all we need to do is run the below 3 commands to have a Ubuntu VM up and available for our use in no time.</p>
+<pre><code>vagrant init hashicorp/bionic64
+vagrant up
+vagrant ssh
+</code></pre><p>This is a pretty simple way to spin up a new Ubuntu VM, we can do a lot more which I will try to write up in later posts.</p>
+]]></content>
+        </item>
         
         <item>
             <title>Gitlab CI &amp; Kaniko to build Docker Images</title>

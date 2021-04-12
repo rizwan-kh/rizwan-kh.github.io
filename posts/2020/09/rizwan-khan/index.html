@@ -5,17 +5,18 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="Rizwan Khan ">
-<meta name="description" content="Introduction You can build container images from a Dockerfile inside a container or a Kubernetes cluster, though Jérôme Petazzoni strongly discourages from doing so. He wrote a detailed blog that can be read here on why not to build container images using Dockerfile inside a container or a Kubernetes cluster.
- Context You will get N number of blogs on how to use the CI/CD of GitLab; here we will see an easy reference point to extend a file and create CI/CD for Docker Image to be built and stored in the same GitLab registry using kaniko." />
-<meta name="keywords" content=", gitlab, docker, dind, kaniko" />
+<meta name="description" content="8&#43; years of professional IT experience working on development, maintenance, support SDLC. My latest experience is as a DevOps Consultant. ❤
+Professional Summary  &amp;laquo; A journey to a thousand miles begins with a single step &amp;raquo;
+Technical Skills   DevOps Tools: Kubernetes, Docker, Terraform, Nexus, Sonarqube, Ansible, Chef, Jira, Confluence, Azure DevOps Cloud Platform: AWS, Microsoft Azure, Google Cloud Platforms, AliBaba Cloud Source Control Management Tools: Gitlab, GitHub, Azure Repo Version Control: Subversion, Git Languages: Python, C&#43;&#43;, C Scripting: Shell Scripting, BaSH Monitoring: Nagios, Kibana, Grafana Patching: Spacewalk OS: Linux, CentOS, RHEL, Debian  Certifications, Trainings, Awards   Operate and Manage a Cloud Server - ACLC03 [AliBaba Cloud] (ACLC03200700023910) Rancher Certified Level 1 Operator Microsoft Azure Cloud Fundamentals - AZ-900 Inventor Award Program FY19 (Accenture Solutions Private Limited) Accenture Celebrates Excellence Q3 FY19(ACE) Accenture Celebrates Excellence Q2 FY18(ACE)  Patent   Enriched Self Healing Cloud Platforms (US 10,601,640 B1)  Education   Bachelors of Technology, West Bengal University of Technology, India Higher Secondary, West Bengal Council of Higher Secondary Education, India  " />
+<meta name="keywords" content="" />
 <meta name="robots" content="noodp" />
 <meta name="theme-color" content="#252627" />
-<link rel="canonical" href="https://rizwan-kh.github.io/posts/2020/02/gitlab-ci-kaniko-to-build-docker-images/" />
+<link rel="canonical" href="https://rizwan-kh.github.io/posts/2020/09/rizwan-khan/" />
 
 
     <title>
         
-            Gitlab CI &amp; Kaniko to build Docker Images :: Rizwan Khan👨🏻‍💻 
+            Rizwan Khan :: Rizwan Khan👨🏻‍💻 
         
     </title>
 
@@ -42,42 +43,45 @@
 
 
 
-<meta itemprop="name" content="Gitlab CI &amp; Kaniko to build Docker Images">
-<meta itemprop="description" content="Introduction You can build container images from a Dockerfile inside a container or a Kubernetes cluster, though Jérôme Petazzoni strongly discourages from doing so. He wrote a detailed blog that can be read here on why not to build container images using Dockerfile inside a container or a Kubernetes cluster.
- Context You will get N number of blogs on how to use the CI/CD of GitLab; here we will see an easy reference point to extend a file and create CI/CD for Docker Image to be built and stored in the same GitLab registry using kaniko.">
-<meta itemprop="datePublished" content="2020-02-12T12:11:00+04:00" />
-<meta itemprop="dateModified" content="2020-02-12T12:11:00+04:00" />
-<meta itemprop="wordCount" content="460">
+<meta itemprop="name" content="Rizwan Khan">
+<meta itemprop="description" content="8&#43; years of professional IT experience working on development, maintenance, support SDLC. My latest experience is as a DevOps Consultant. ❤
+Professional Summary  &laquo; A journey to a thousand miles begins with a single step &raquo;
+Technical Skills   DevOps Tools: Kubernetes, Docker, Terraform, Nexus, Sonarqube, Ansible, Chef, Jira, Confluence, Azure DevOps Cloud Platform: AWS, Microsoft Azure, Google Cloud Platforms, AliBaba Cloud Source Control Management Tools: Gitlab, GitHub, Azure Repo Version Control: Subversion, Git Languages: Python, C&#43;&#43;, C Scripting: Shell Scripting, BaSH Monitoring: Nagios, Kibana, Grafana Patching: Spacewalk OS: Linux, CentOS, RHEL, Debian  Certifications, Trainings, Awards   Operate and Manage a Cloud Server - ACLC03 [AliBaba Cloud] (ACLC03200700023910) Rancher Certified Level 1 Operator Microsoft Azure Cloud Fundamentals - AZ-900 Inventor Award Program FY19 (Accenture Solutions Private Limited) Accenture Celebrates Excellence Q3 FY19(ACE) Accenture Celebrates Excellence Q2 FY18(ACE)  Patent   Enriched Self Healing Cloud Platforms (US 10,601,640 B1)  Education   Bachelors of Technology, West Bengal University of Technology, India Higher Secondary, West Bengal Council of Higher Secondary Education, India  ">
+<meta itemprop="datePublished" content="2020-09-03T11:11:11+04:00" />
+<meta itemprop="dateModified" content="2020-09-03T11:11:11+04:00" />
+<meta itemprop="wordCount" content="164">
 <meta itemprop="image" content="https://rizwan-kh.github.io"/>
 
 
 
-<meta itemprop="keywords" content="gitlab,docker,dind,kaniko," />
+<meta itemprop="keywords" content="" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://rizwan-kh.github.io"/>
 
-<meta name="twitter:title" content="Gitlab CI &amp; Kaniko to build Docker Images"/>
-<meta name="twitter:description" content="Introduction You can build container images from a Dockerfile inside a container or a Kubernetes cluster, though Jérôme Petazzoni strongly discourages from doing so. He wrote a detailed blog that can be read here on why not to build container images using Dockerfile inside a container or a Kubernetes cluster.
- Context You will get N number of blogs on how to use the CI/CD of GitLab; here we will see an easy reference point to extend a file and create CI/CD for Docker Image to be built and stored in the same GitLab registry using kaniko."/>
+<meta name="twitter:title" content="Rizwan Khan"/>
+<meta name="twitter:description" content="8&#43; years of professional IT experience working on development, maintenance, support SDLC. My latest experience is as a DevOps Consultant. ❤
+Professional Summary  &laquo; A journey to a thousand miles begins with a single step &raquo;
+Technical Skills   DevOps Tools: Kubernetes, Docker, Terraform, Nexus, Sonarqube, Ansible, Chef, Jira, Confluence, Azure DevOps Cloud Platform: AWS, Microsoft Azure, Google Cloud Platforms, AliBaba Cloud Source Control Management Tools: Gitlab, GitHub, Azure Repo Version Control: Subversion, Git Languages: Python, C&#43;&#43;, C Scripting: Shell Scripting, BaSH Monitoring: Nagios, Kibana, Grafana Patching: Spacewalk OS: Linux, CentOS, RHEL, Debian  Certifications, Trainings, Awards   Operate and Manage a Cloud Server - ACLC03 [AliBaba Cloud] (ACLC03200700023910) Rancher Certified Level 1 Operator Microsoft Azure Cloud Fundamentals - AZ-900 Inventor Award Program FY19 (Accenture Solutions Private Limited) Accenture Celebrates Excellence Q3 FY19(ACE) Accenture Celebrates Excellence Q2 FY18(ACE)  Patent   Enriched Self Healing Cloud Platforms (US 10,601,640 B1)  Education   Bachelors of Technology, West Bengal University of Technology, India Higher Secondary, West Bengal Council of Higher Secondary Education, India  "/>
 
 
 
-    <meta property="og:title" content="Gitlab CI &amp; Kaniko to build Docker Images" />
-<meta property="og:description" content="Introduction You can build container images from a Dockerfile inside a container or a Kubernetes cluster, though Jérôme Petazzoni strongly discourages from doing so. He wrote a detailed blog that can be read here on why not to build container images using Dockerfile inside a container or a Kubernetes cluster.
- Context You will get N number of blogs on how to use the CI/CD of GitLab; here we will see an easy reference point to extend a file and create CI/CD for Docker Image to be built and stored in the same GitLab registry using kaniko." />
+    <meta property="og:title" content="Rizwan Khan" />
+<meta property="og:description" content="8&#43; years of professional IT experience working on development, maintenance, support SDLC. My latest experience is as a DevOps Consultant. ❤
+Professional Summary  &laquo; A journey to a thousand miles begins with a single step &raquo;
+Technical Skills   DevOps Tools: Kubernetes, Docker, Terraform, Nexus, Sonarqube, Ansible, Chef, Jira, Confluence, Azure DevOps Cloud Platform: AWS, Microsoft Azure, Google Cloud Platforms, AliBaba Cloud Source Control Management Tools: Gitlab, GitHub, Azure Repo Version Control: Subversion, Git Languages: Python, C&#43;&#43;, C Scripting: Shell Scripting, BaSH Monitoring: Nagios, Kibana, Grafana Patching: Spacewalk OS: Linux, CentOS, RHEL, Debian  Certifications, Trainings, Awards   Operate and Manage a Cloud Server - ACLC03 [AliBaba Cloud] (ACLC03200700023910) Rancher Certified Level 1 Operator Microsoft Azure Cloud Fundamentals - AZ-900 Inventor Award Program FY19 (Accenture Solutions Private Limited) Accenture Celebrates Excellence Q3 FY19(ACE) Accenture Celebrates Excellence Q2 FY18(ACE)  Patent   Enriched Self Healing Cloud Platforms (US 10,601,640 B1)  Education   Bachelors of Technology, West Bengal University of Technology, India Higher Secondary, West Bengal Council of Higher Secondary Education, India  " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://rizwan-kh.github.io/posts/2020/02/gitlab-ci-kaniko-to-build-docker-images/" />
+<meta property="og:url" content="https://rizwan-kh.github.io/posts/2020/09/rizwan-khan/" />
 <meta property="og:image" content="https://rizwan-kh.github.io"/>
-<meta property="article:published_time" content="2020-02-12T12:11:00+04:00" />
-<meta property="article:modified_time" content="2020-02-12T12:11:00+04:00" />
+<meta property="article:published_time" content="2020-09-03T11:11:11+04:00" />
+<meta property="article:modified_time" content="2020-09-03T11:11:11+04:00" />
 
 
 
 
 
 
-    <meta property="article:published_time" content="2020-02-12 12:11:00 &#43;0400 &#43;04" />
+    <meta property="article:published_time" content="2020-09-03 11:11:11 &#43;0400 &#43;04" />
 
 
 
@@ -143,7 +147,7 @@
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        3 minutes
+        One minute
 
         
       </p>
@@ -151,61 +155,50 @@
 
     <article>
       <h1 class="post-title">
-        <a href="https://rizwan-kh.github.io/posts/2020/02/gitlab-ci-kaniko-to-build-docker-images/">Gitlab CI &amp; Kaniko to build Docker Images</a>
+        <a href="https://rizwan-kh.github.io/posts/2020/09/rizwan-khan/">Rizwan Khan</a>
       </h1>
 
       
 
       <div class="post-content">
-        <p><img src="https://rizwan-kh.github.io/gitlab.jpeg" alt="GitLab"></p>
-<h3 id="introduction">Introduction</h3>
-<p>You can build container images from a Dockerfile inside a container or a Kubernetes cluster, though <em>Jérôme Petazzoni</em> strongly discourages from doing so. He wrote a detailed blog that can be read <a href="http://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/">here</a> on why not to build container images using Dockerfile inside a container or a Kubernetes cluster.</p>
+        <p>8+ years of professional IT experience working on development, maintenance, support SDLC. My latest experience is as a DevOps Consultant. ❤</p>
+<h2 id="professional-summary">Professional Summary</h2>
 <hr>
-<h4 id="context">Context</h4>
-<p>You will get <code>N</code> number of blogs on how to use the CI/CD of GitLab; here we will see an easy reference point to extend a file and create CI/CD for Docker Image to be built and stored in the same GitLab registry using <a href="https://cloud.google.com/blog/products/gcp/introducing-kaniko-build-container-images-in-kubernetes-and-google-container-builder-even-without-root-access">kaniko</a>. This file needs to be created in the individual project in the GitLab using the template available with the name .gitlab-ci.yml.</p>
+<p>&laquo; A journey  to a thousand miles begins with a single step &raquo;</p>
+<h2 id="technical-skills">Technical Skills</h2>
 <hr>
-<h4 id="what-is-kaniko">What is Kaniko?</h4>
-<p><code>Note: Kaniko is not an officially supported Google product</code>
-It is a tool to build container images from a Dockerfile inside a container or a Kubernetes cluster. It doesn&rsquo;t depend on the Docker daemon to run each Dockerfile command.</p>
-<p>It comes with it&rsquo;s own limitations, but we don&rsquo;t run the risk of using Docker-in-Docker</p>
-<hr>
-<h4 id="prerequisites">Prerequisites</h4>
 <ul>
-<li>Access to GitLab (either private self hosted or managed)</li>
-<li>GitLab project with a Dockerfile</li>
+<li><strong>DevOps Tools</strong>: Kubernetes, Docker, Terraform, Nexus, Sonarqube, Ansible, Chef, Jira, Confluence, Azure DevOps</li>
+<li><strong>Cloud Platform</strong>: AWS, Microsoft Azure, Google Cloud Platforms, AliBaba Cloud</li>
+<li><strong>Source Control Management Tools</strong>: Gitlab, GitHub, Azure Repo</li>
+<li><strong>Version Control</strong>: Subversion, Git</li>
+<li><strong>Languages</strong>: Python, C++, C</li>
+<li><strong>Scripting</strong>: Shell Scripting, BaSH</li>
+<li><strong>Monitoring</strong>: Nagios, Kibana, Grafana</li>
+<li><strong>Patching</strong>: Spacewalk</li>
+<li><strong>OS</strong>: Linux, CentOS, RHEL, Debian</li>
 </ul>
+<h2 id="certifications-trainings-awards">Certifications, Trainings, Awards</h2>
 <hr>
-<h4 id="ci-yaml-for-auto-devops">CI YAML for auto-devops</h4>
-<pre><code># .gitlab-ci.yml
-variables:
-    GIT_SSL_NO_VERIFY: &quot;true&quot;
-
-before_script:
-  - echo &quot;Random image creation, user = $GITLABUSER&quot;
-
-stages:
-  - build
-
-build_image:
-  image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [&quot;&quot;]
-  stage: build
-  script:
-    - ls
-    - pwd
-    - export CI_REGISTRY_IMAGE=mygitlab.com/base-project/subproject/project
-    - echo &quot;{\&quot;auths\&quot;:{\&quot;mygitlab.com\&quot;:{\&quot;username\&quot;:\&quot;gitlab-ci-token\&quot;,\&quot;password\&quot;:\&quot;$CI_BUILD_TOKEN\&quot;},\&quot;repository.xyz-company.io\&quot;:{\&quot;username\&quot;:\&quot;user\&quot;,\&quot;password\&quot;:\&quot;123random\&quot;}}}&quot; &gt; /kaniko/.docker/config.json
-    - wget https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem | xargs cat lets-encrypt-x3-cross-signed.pem &gt;&gt; /kaniko/ssl/certs/ca-certificates.crt
-    - /kaniko/executor --skip-tls-verify --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME
-
-</code></pre><hr>
-<p><strong>variables</strong>: These are static values which aren&rsquo;t going to change and is used at multiple location in the gitlab-ci.yml file</p>
-<p><strong>before_script</strong>: Set(s) of commands or echo statement we want to print</p>
-<p><strong>stages</strong>: Stages are block of code for an identical job or set of jobs viz. build, test, clean-up, delete, deploy, etc. This executes in the order it&rsquo;s defined in the YAML. A dot(.) in front of any job(block of code) disables it and it won&rsquo;t be executed or available neither as an automatic or manual job.</p>
-<p><strong>Jobs (Each block of code)</strong>: Each block of individual stage contains key-value pair or set of commands to it. We can define each block of code to point to a particular stage and all the set of commands it requires to perform that function in the script block. It can be made to run automatically and also manual (start the job manually by clicking a button). The variables like password, access/secret key can be defined in the CI/CD settings under secret variables section so it&rsquo;s not available in plain text format.</p>
+<ul>
+<li>Operate and Manage a Cloud Server - ACLC03 [AliBaba Cloud] (<strong>ACLC03200700023910</strong>)</li>
+<li>Rancher Certified Level 1 Operator</li>
+<li>Microsoft Azure Cloud Fundamentals - AZ-900</li>
+<li>Inventor Award Program FY19 (Accenture Solutions Private Limited)</li>
+<li>Accenture Celebrates Excellence Q3 FY19(ACE)</li>
+<li>Accenture Celebrates Excellence Q2 FY18(ACE)</li>
+</ul>
+<h2 id="patent">Patent</h2>
 <hr>
-<p><strong>Note</strong>: If you want to use the GitLab docker registry and store docker images in the GitLab project; this by default is disabled and needs to be enabled in the General setting section.</p>
+<ul>
+<li>Enriched Self Healing Cloud Platforms (<strong>US 10,601,640 B1</strong>)</li>
+</ul>
+<h2 id="education">Education</h2>
+<hr>
+<ul>
+<li>Bachelors of Technology, West Bengal University of Technology, India</li>
+<li>Higher Secondary, West Bengal Council of Higher Secondary Education, India</li>
+</ul>
 
       </div>
     </article>
@@ -213,12 +206,6 @@ build_image:
     <hr />
 
     <div class="post-info">
-        <p>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon">
-            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-            <line x1="7" y1="7" x2="7" y2="7"></line>
-          </svg><span class="tag"><a href="https://rizwan-kh.github.io/tags/gitlab/">gitlab</a></span><span class="tag"><a href="https://rizwan-kh.github.io/tags/docker/">docker</a></span><span class="tag"><a href="https://rizwan-kh.github.io/tags/dind/">dind</a></span><span class="tag"><a href="https://rizwan-kh.github.io/tags/kaniko/">kaniko</a></span>
-        </p>
 
       <p>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
@@ -228,7 +215,7 @@ build_image:
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        460 Words
+        164 Words
       </p>
 
       <p>
@@ -238,14 +225,14 @@ build_image:
           <line x1="8" y1="2" x2="8" y2="6"></line>
           <line x1="3" y1="10" x2="21" y2="10"></line>
         </svg>
-        2020-02-12 12:11 &#43;0400
+        2020-09-03 11:11 &#43;0400
       </p>
     </div>
       <hr />
       <div class="sharing-buttons">
         
 
-<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2frizwan-kh.github.io%2fposts%2f2020%2f02%2fgitlab-ci-kaniko-to-build-docker-images%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
+<a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?url=https%3a%2f%2frizwan-kh.github.io%2fposts%2f2020%2f09%2frizwan-khan%2f" target="_blank" rel="noopener" aria-label="" title="Share on twitter">
   <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small">
       <div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
@@ -255,7 +242,7 @@ build_image:
 
 
 
-<a class="resp-sharing-button__link" href="mailto:?subject=Gitlab%20CI%20%26%20Kaniko%20to%20build%20Docker%20Images&amp;body=https%3a%2f%2frizwan-kh.github.io%2fposts%2f2020%2f02%2fgitlab-ci-kaniko-to-build-docker-images%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
+<a class="resp-sharing-button__link" href="mailto:?subject=Rizwan%20Khan&amp;body=https%3a%2f%2frizwan-kh.github.io%2fposts%2f2020%2f09%2frizwan-khan%2f" target="_self" rel="noopener" aria-label="" title="Share via email">
   <div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
     </div>
@@ -263,7 +250,7 @@ build_image:
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2frizwan-kh.github.io%2fposts%2f2020%2f02%2fgitlab-ci-kaniko-to-build-docker-images%2f&amp;media=https%3a%2f%2frizwan-kh.github.io%2fposts%2f2020%2f02%2fgitlab-ci-kaniko-to-build-docker-images%2f;description=Gitlab%20CI%20%26%20Kaniko%20to%20build%20Docker%20Images" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
+<a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=https%3a%2f%2frizwan-kh.github.io%2fposts%2f2020%2f09%2frizwan-khan%2f&amp;media=https%3a%2f%2frizwan-kh.github.io%2fposts%2f2020%2f09%2frizwan-khan%2f;description=Rizwan%20Khan" target="_blank" rel="noopener" aria-label="" title="Share on pinterest">
   <div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
     </div>
@@ -271,7 +258,7 @@ build_image:
 </a>
 
 
-<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2frizwan-kh.github.io%2fposts%2f2020%2f02%2fgitlab-ci-kaniko-to-build-docker-images%2f&amp;title=Gitlab%20CI%20%26%20Kaniko%20to%20build%20Docker%20Images&amp;summary=Gitlab%20CI%20%26%20Kaniko%20to%20build%20Docker%20Images&amp;source=https%3a%2f%2frizwan-kh.github.io%2fposts%2f2020%2f02%2fgitlab-ci-kaniko-to-build-docker-images%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
+<a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2frizwan-kh.github.io%2fposts%2f2020%2f09%2frizwan-khan%2f&amp;title=Rizwan%20Khan&amp;summary=Rizwan%20Khan&amp;source=https%3a%2f%2frizwan-kh.github.io%2fposts%2f2020%2f09%2frizwan-khan%2f" target="_blank" rel="noopener" aria-label="" title="Share on linkedin">
   <div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
     </div>
@@ -281,7 +268,7 @@ build_image:
 
 
 
-<a class="resp-sharing-button__link" href="whatsapp://send?text=Gitlab%20CI%20%26%20Kaniko%20to%20build%20Docker%20Images%20https%3a%2f%2frizwan-kh.github.io%2fposts%2f2020%2f02%2fgitlab-ci-kaniko-to-build-docker-images%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
+<a class="resp-sharing-button__link" href="whatsapp://send?text=Rizwan%20Khan%20https%3a%2f%2frizwan-kh.github.io%2fposts%2f2020%2f09%2frizwan-khan%2f" target="_blank" rel="noopener" aria-label="" title="Share on whatsapp">
   <div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
     </div>
@@ -290,7 +277,7 @@ build_image:
 
 
 
-<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=Gitlab%20CI%20%26%20Kaniko%20to%20build%20Docker%20Images&amp;url=https%3a%2f%2frizwan-kh.github.io%2fposts%2f2020%2f02%2fgitlab-ci-kaniko-to-build-docker-images%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
+<a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=Rizwan%20Khan&amp;url=https%3a%2f%2frizwan-kh.github.io%2fposts%2f2020%2f09%2frizwan-khan%2f" target="_blank" rel="noopener" aria-label="" title="Share on telegram">
   <div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
     </div>
@@ -309,17 +296,17 @@ build_image:
         <div class="pagination__buttons">
           
             <span class="button previous">
-              <a href="https://rizwan-kh.github.io/posts/2020/03/vagrant/">
+              <a href="https://rizwan-kh.github.io/posts/2020/09/docker-vuln-analysis/">
                 <span class="button__icon">←</span>
-                <span class="button__text">Vagrant</span>
+                <span class="button__text">Docker Vuln Analysis</span>
               </a>
             </span>
           
 
           
             <span class="button next">
-              <a href="https://rizwan-kh.github.io/posts/2020/01/how-to-use-service-accounts-for-kubernetes-imagepullsecrets/">
-                <span class="button__text">How to use service accounts for Kubernetes imagePullSecrets</span>
+              <a href="https://rizwan-kh.github.io/posts/2020/03/klar/">
+                <span class="button__text">Klar</span>
                 <span class="button__icon">→</span>
               </a>
             </span>
