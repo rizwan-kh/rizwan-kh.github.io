@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>templates on Rizwan Khan👨🏻‍💻</title>
+    <link>https://rizwan-kh.github.io/tags/templates/</link>
+    <description>Recent content in templates on Rizwan Khan👨🏻‍💻</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Sun, 03 Jan 2021 00:25:35 +0400</lastBuildDate>
+    
+	<atom:link href="https://rizwan-kh.github.io/tags/templates/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Templating</title>
+      <link>https://rizwan-kh.github.io/azdo/templating/</link>
+      <pubDate>Sun, 03 Jan 2021 00:25:35 +0400</pubDate>
+      
+      <guid>https://rizwan-kh.github.io/azdo/templating/</guid>
+      <description>Use templates in Azure DevOps Pipeline </description>
+    </item>
+    
+  </channel>
+</rss>

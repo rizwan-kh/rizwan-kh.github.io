@@ -3,8 +3,83 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://rizwan-kh.github.io/azdo/</loc>
+    <lastmod>2021-03-03T00:28:21+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/azure-devops/</loc>
+    <lastmod>2021-03-03T00:28:21+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/git-repo/</loc>
+    <lastmod>2021-03-03T00:28:21+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/azdo/az-repo-git/</loc>
+    <lastmod>2021-03-03T00:28:21+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/pipelines/</loc>
+    <lastmod>2021-03-03T00:28:21+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/</loc>
+    <lastmod>2021-03-03T00:28:21+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/</loc>
+    <lastmod>2021-03-03T00:28:21+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/templates/</loc>
+    <lastmod>2021-01-03T00:25:35+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/azdo/templating/</loc>
+    <lastmod>2021-01-03T00:25:35+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/posts/2020/09/docker-vuln-analysis/</loc>
+    <lastmod>2020-09-14T17:20:44+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/posts/</loc>
+    <lastmod>2020-09-14T17:20:44+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/untagged/</loc>
+    <lastmod>2020-09-14T17:20:44+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/posts/2020/09/rizwan-khan/</loc>
+    <lastmod>2020-09-03T11:11:11+04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://rizwan-kh.github.io/about/</loc>
     <lastmod>2020-09-02T16:44:33+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/hugo/</loc>
+    <lastmod>2020-06-12T22:32:01+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/posts/2020/06/hugo-github-setup-static-website-on-github/</loc>
+    <lastmod>2020-06-12T22:32:01+04:00</lastmod>
   </url>
   
   <url>
@@ -23,22 +98,7 @@
   </url>
   
   <url>
-    <loc>https://rizwan-kh.github.io/posts/</loc>
-    <lastmod>2020-03-14T17:20:26+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/</loc>
-    <lastmod>2020-03-14T17:20:26+04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://rizwan-kh.github.io/tags/static-image-analysis/</loc>
-    <lastmod>2020-03-14T17:20:26+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/tags/</loc>
     <lastmod>2020-03-14T17:20:26+04:00</lastmod>
   </url>
   
@@ -95,6 +155,21 @@
   <url>
     <loc>https://rizwan-kh.github.io/posts/2019/10/docker-cheat-sheet/</loc>
     <lastmod>2019-10-11T05:11:13+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/terminal/</loc>
+    <lastmod>2019-06-13T21:53:35+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/tmux/</loc>
+    <lastmod>2019-06-13T21:53:35+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/posts/2019/06/tmux/</loc>
+    <lastmod>2019-06-13T21:53:35+04:00</lastmod>
   </url>
   
   <url>
