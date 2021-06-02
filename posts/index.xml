@@ -6,68 +6,8 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Mon, 14 Sep 2020 17:20:44 +0400</lastBuildDate>
+        <lastBuildDate>Fri, 12 Jun 2020 22:32:01 +0400</lastBuildDate>
         <atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
-        
-        <item>
-            <title>Docker Vuln Analysis</title>
-            <link>https://rizwan-kh.github.io/posts/2020/09/docker-vuln-analysis/</link>
-            <pubDate>Mon, 14 Sep 2020 17:20:44 +0400</pubDate>
-            
-            <guid>https://rizwan-kh.github.io/posts/2020/09/docker-vuln-analysis/</guid>
-            <description></description>
-            <content type="html"><![CDATA[]]></content>
-        </item>
-        
-        <item>
-            <title>Rizwan Khan</title>
-            <link>https://rizwan-kh.github.io/posts/2020/09/rizwan-khan/</link>
-            <pubDate>Thu, 03 Sep 2020 11:11:11 +0400</pubDate>
-            
-            <guid>https://rizwan-kh.github.io/posts/2020/09/rizwan-khan/</guid>
-            <description>8+ years of professional IT experience working on development, maintenance, support SDLC. My latest experience is as a DevOps Consultant. ❤
-Professional Summary  &amp;laquo; A journey to a thousand miles begins with a single step &amp;raquo;
-Technical Skills   DevOps Tools: Kubernetes, Docker, Terraform, Nexus, Sonarqube, Ansible, Chef, Jira, Confluence, Azure DevOps Cloud Platform: AWS, Microsoft Azure, Google Cloud Platforms, AliBaba Cloud Source Control Management Tools: Gitlab, GitHub, Azure Repo Version Control: Subversion, Git Languages: Python, C++, C Scripting: Shell Scripting, BaSH Monitoring: Nagios, Kibana, Grafana Patching: Spacewalk OS: Linux, CentOS, RHEL, Debian  Certifications, Trainings, Awards   Operate and Manage a Cloud Server - ACLC03 [AliBaba Cloud] (ACLC03200700023910) Rancher Certified Level 1 Operator Microsoft Azure Cloud Fundamentals - AZ-900 Inventor Award Program FY19 (Accenture Solutions Private Limited) Accenture Celebrates Excellence Q3 FY19(ACE) Accenture Celebrates Excellence Q2 FY18(ACE)  Patent   Enriched Self Healing Cloud Platforms (US 10,601,640 B1)  Education   Bachelors of Technology, West Bengal University of Technology, India Higher Secondary, West Bengal Council of Higher Secondary Education, India  </description>
-            <content type="html"><![CDATA[<p>8+ years of professional IT experience working on development, maintenance, support SDLC. My latest experience is as a DevOps Consultant. ❤</p>
-<h2 id="professional-summary">Professional Summary</h2>
-<hr>
-<p>&laquo; A journey  to a thousand miles begins with a single step &raquo;</p>
-<h2 id="technical-skills">Technical Skills</h2>
-<hr>
-<ul>
-<li><strong>DevOps Tools</strong>: Kubernetes, Docker, Terraform, Nexus, Sonarqube, Ansible, Chef, Jira, Confluence, Azure DevOps</li>
-<li><strong>Cloud Platform</strong>: AWS, Microsoft Azure, Google Cloud Platforms, AliBaba Cloud</li>
-<li><strong>Source Control Management Tools</strong>: Gitlab, GitHub, Azure Repo</li>
-<li><strong>Version Control</strong>: Subversion, Git</li>
-<li><strong>Languages</strong>: Python, C++, C</li>
-<li><strong>Scripting</strong>: Shell Scripting, BaSH</li>
-<li><strong>Monitoring</strong>: Nagios, Kibana, Grafana</li>
-<li><strong>Patching</strong>: Spacewalk</li>
-<li><strong>OS</strong>: Linux, CentOS, RHEL, Debian</li>
-</ul>
-<h2 id="certifications-trainings-awards">Certifications, Trainings, Awards</h2>
-<hr>
-<ul>
-<li>Operate and Manage a Cloud Server - ACLC03 [AliBaba Cloud] (<strong>ACLC03200700023910</strong>)</li>
-<li>Rancher Certified Level 1 Operator</li>
-<li>Microsoft Azure Cloud Fundamentals - AZ-900</li>
-<li>Inventor Award Program FY19 (Accenture Solutions Private Limited)</li>
-<li>Accenture Celebrates Excellence Q3 FY19(ACE)</li>
-<li>Accenture Celebrates Excellence Q2 FY18(ACE)</li>
-</ul>
-<h2 id="patent">Patent</h2>
-<hr>
-<ul>
-<li>Enriched Self Healing Cloud Platforms (<strong>US 10,601,640 B1</strong>)</li>
-</ul>
-<h2 id="education">Education</h2>
-<hr>
-<ul>
-<li>Bachelors of Technology, West Bengal University of Technology, India</li>
-<li>Higher Secondary, West Bengal Council of Higher Secondary Education, India</li>
-</ul>
-]]></content>
-        </item>
         
         <item>
             <title>Hugo &amp; GitHub - Setup Static Website on GitHub</title>

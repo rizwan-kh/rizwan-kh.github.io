@@ -7,48 +7,10 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 03 Mar 2021 00:28:21 +0400</lastBuildDate>
+    <lastBuildDate>Fri, 12 Jun 2020 22:32:01 +0400</lastBuildDate>
     
 	<atom:link href="https://rizwan-kh.github.io/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>How to commit/push to Azure Git Repository from pipeline</title>
-      <link>https://rizwan-kh.github.io/azdo/az-repo-git/</link>
-      <pubDate>Wed, 03 Mar 2021 00:28:21 +0400</pubDate>
-      
-      <guid>https://rizwan-kh.github.io/azdo/az-repo-git/</guid>
-      <description>Azure Git Repository </description>
-    </item>
-    
-    <item>
-      <title>Templating</title>
-      <link>https://rizwan-kh.github.io/azdo/templating/</link>
-      <pubDate>Sun, 03 Jan 2021 00:25:35 +0400</pubDate>
-      
-      <guid>https://rizwan-kh.github.io/azdo/templating/</guid>
-      <description>Use templates in Azure DevOps Pipeline </description>
-    </item>
-    
-    <item>
-      <title>Docker Vuln Analysis</title>
-      <link>https://rizwan-kh.github.io/posts/2020/09/docker-vuln-analysis/</link>
-      <pubDate>Mon, 14 Sep 2020 17:20:44 +0400</pubDate>
-      
-      <guid>https://rizwan-kh.github.io/posts/2020/09/docker-vuln-analysis/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Rizwan Khan</title>
-      <link>https://rizwan-kh.github.io/posts/2020/09/rizwan-khan/</link>
-      <pubDate>Thu, 03 Sep 2020 11:11:11 +0400</pubDate>
-      
-      <guid>https://rizwan-kh.github.io/posts/2020/09/rizwan-khan/</guid>
-      <description>8+ years of professional IT experience working on development, maintenance, support SDLC. My latest experience is as a DevOps Consultant. ❤
-Professional Summary  &amp;laquo; A journey to a thousand miles begins with a single step &amp;raquo;
-Technical Skills   DevOps Tools: Kubernetes, Docker, Terraform, Nexus, Sonarqube, Ansible, Chef, Jira, Confluence, Azure DevOps Cloud Platform: AWS, Microsoft Azure, Google Cloud Platforms, AliBaba Cloud Source Control Management Tools: Gitlab, GitHub, Azure Repo Version Control: Subversion, Git Languages: Python, C++, C Scripting: Shell Scripting, BaSH Monitoring: Nagios, Kibana, Grafana Patching: Spacewalk OS: Linux, CentOS, RHEL, Debian  Certifications, Trainings, Awards   Operate and Manage a Cloud Server - ACLC03 [AliBaba Cloud] (ACLC03200700023910) Rancher Certified Level 1 Operator Microsoft Azure Cloud Fundamentals - AZ-900 Inventor Award Program FY19 (Accenture Solutions Private Limited) Accenture Celebrates Excellence Q3 FY19(ACE) Accenture Celebrates Excellence Q2 FY18(ACE)  Patent   Enriched Self Healing Cloud Platforms (US 10,601,640 B1)  Education   Bachelors of Technology, West Bengal University of Technology, India Higher Secondary, West Bengal Council of Higher Secondary Education, India  </description>
-    </item>
     
     <item>
       <title>I am Rizwan Khan;</title>
@@ -111,6 +73,35 @@ vagrant init hashicorp/bionic64 vagrant up vagrant ssh This is a pretty simple w
       <description>What are Service Accounts in Kubernetes? As per Kubernetes.io - A service account provides an identity for processes that run in a Pod.
 One can think of service accounts as service users for pods. They help pods authenticate with the api-server and interact with it.
  Many times, we come across a situation where our organization uses a private Docker registry to store the Docker images and to make this available we need to create a docker-registry kubernetes secret and pass as imagePullSecrets in the deployment manifest.</description>
+    </item>
+    
+    <item>
+      <title>Docker Cheat Sheet</title>
+      <link>https://rizwan-kh.github.io/posts/2019/10/docker-cheat-sheet/</link>
+      <pubDate>Fri, 11 Oct 2019 05:11:13 +0400</pubDate>
+      
+      <guid>https://rizwan-kh.github.io/posts/2019/10/docker-cheat-sheet/</guid>
+      <description>Below are few of the main and basic commands used in Docker, an easy pick-up and good-to-go command page for docker troubleshooting.
+Alias  If you are a lazy developer/sysadmin like me, the first thing you should do on your system is to make easy alias of all the long commands, below are the ones I often use on any system I use on a daily basis:
+These can be imported on ~/.</description>
+    </item>
+    
+    <item>
+      <title>tmux</title>
+      <link>https://rizwan-kh.github.io/posts/2019/06/tmux/</link>
+      <pubDate>Thu, 13 Jun 2019 21:53:35 +0400</pubDate>
+      
+      <guid>https://rizwan-kh.github.io/posts/2019/06/tmux/</guid>
+      <description>tmux - Terminal Multiplexer tmux is a terminal multiplexer. It helps switch between multiple programs in one terminal, detach them(they keep running in background) and reattach when needed. I started using tmux as someone recommended me to start using it as it helps with CKA &amp;amp; CKAD (which I have still not attempted) and then later on I was heavily using it for my website(with Hugo). I had previously used mPutty, but mPutty uses mutliple logged in sessions to display on screen, whereas tmux simply multiply the existing sessions on screen.</description>
+    </item>
+    
+    <item>
+      <title>May the force be with you!</title>
+      <link>https://rizwan-kh.github.io/archieve/blank/</link>
+      <pubDate>Thu, 11 Nov 2010 11:11:11 +1100</pubDate>
+      
+      <guid>https://rizwan-kh.github.io/archieve/blank/</guid>
+      <description>I am groot! </description>
     </item>
     
   </channel>

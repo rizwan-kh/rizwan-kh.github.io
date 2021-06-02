@@ -3,71 +3,6 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://rizwan-kh.github.io/azdo/</loc>
-    <lastmod>2021-03-03T00:28:21+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/tags/azure-devops/</loc>
-    <lastmod>2021-03-03T00:28:21+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/tags/git-repo/</loc>
-    <lastmod>2021-03-03T00:28:21+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/azdo/az-repo-git/</loc>
-    <lastmod>2021-03-03T00:28:21+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/tags/pipelines/</loc>
-    <lastmod>2021-03-03T00:28:21+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/</loc>
-    <lastmod>2021-03-03T00:28:21+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/tags/</loc>
-    <lastmod>2021-03-03T00:28:21+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/tags/templates/</loc>
-    <lastmod>2021-01-03T00:25:35+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/azdo/templating/</loc>
-    <lastmod>2021-01-03T00:25:35+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/posts/2020/09/docker-vuln-analysis/</loc>
-    <lastmod>2020-09-14T17:20:44+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/posts/</loc>
-    <lastmod>2020-09-14T17:20:44+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/tags/untagged/</loc>
-    <lastmod>2020-09-14T17:20:44+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/posts/2020/09/rizwan-khan/</loc>
-    <lastmod>2020-09-03T11:11:11+04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://rizwan-kh.github.io/about/</loc>
     <lastmod>2020-09-02T16:44:33+04:00</lastmod>
   </url>
@@ -79,6 +14,21 @@
   
   <url>
     <loc>https://rizwan-kh.github.io/posts/2020/06/hugo-github-setup-static-website-on-github/</loc>
+    <lastmod>2020-06-12T22:32:01+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/posts/</loc>
+    <lastmod>2020-06-12T22:32:01+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/</loc>
+    <lastmod>2020-06-12T22:32:01+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/</loc>
     <lastmod>2020-06-12T22:32:01+04:00</lastmod>
   </url>
   

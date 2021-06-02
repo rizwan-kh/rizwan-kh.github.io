@@ -7,55 +7,10 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 03 Mar 2021 00:28:21 +0400</lastBuildDate>
+    <lastBuildDate>Fri, 12 Jun 2020 22:32:01 +0400</lastBuildDate>
     
 	<atom:link href="https://rizwan-kh.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>azure devops</title>
-      <link>https://rizwan-kh.github.io/tags/azure-devops/</link>
-      <pubDate>Wed, 03 Mar 2021 00:28:21 +0400</pubDate>
-      
-      <guid>https://rizwan-kh.github.io/tags/azure-devops/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>git repo</title>
-      <link>https://rizwan-kh.github.io/tags/git-repo/</link>
-      <pubDate>Wed, 03 Mar 2021 00:28:21 +0400</pubDate>
-      
-      <guid>https://rizwan-kh.github.io/tags/git-repo/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>pipelines</title>
-      <link>https://rizwan-kh.github.io/tags/pipelines/</link>
-      <pubDate>Wed, 03 Mar 2021 00:28:21 +0400</pubDate>
-      
-      <guid>https://rizwan-kh.github.io/tags/pipelines/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>templates</title>
-      <link>https://rizwan-kh.github.io/tags/templates/</link>
-      <pubDate>Sun, 03 Jan 2021 00:25:35 +0400</pubDate>
-      
-      <guid>https://rizwan-kh.github.io/tags/templates/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>untagged</title>
-      <link>https://rizwan-kh.github.io/tags/untagged/</link>
-      <pubDate>Mon, 14 Sep 2020 17:20:44 +0400</pubDate>
-      
-      <guid>https://rizwan-kh.github.io/tags/untagged/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>hugo</title>
@@ -99,6 +54,51 @@
       <pubDate>Sat, 14 Mar 2020 17:20:26 +0400</pubDate>
       
       <guid>https://rizwan-kh.github.io/tags/vm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vulnerabilities</title>
+      <link>https://rizwan-kh.github.io/tags/vulnerabilities/</link>
+      <pubDate>Sat, 14 Mar 2020 17:20:26 +0400</pubDate>
+      
+      <guid>https://rizwan-kh.github.io/tags/vulnerabilities/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dind</title>
+      <link>https://rizwan-kh.github.io/tags/dind/</link>
+      <pubDate>Wed, 12 Feb 2020 12:11:00 +0400</pubDate>
+      
+      <guid>https://rizwan-kh.github.io/tags/dind/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gitlab</title>
+      <link>https://rizwan-kh.github.io/tags/gitlab/</link>
+      <pubDate>Wed, 12 Feb 2020 12:11:00 +0400</pubDate>
+      
+      <guid>https://rizwan-kh.github.io/tags/gitlab/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kaniko</title>
+      <link>https://rizwan-kh.github.io/tags/kaniko/</link>
+      <pubDate>Wed, 12 Feb 2020 12:11:00 +0400</pubDate>
+      
+      <guid>https://rizwan-kh.github.io/tags/kaniko/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubernetes</title>
+      <link>https://rizwan-kh.github.io/tags/kubernetes/</link>
+      <pubDate>Thu, 02 Jan 2020 17:40:27 +0400</pubDate>
+      
+      <guid>https://rizwan-kh.github.io/tags/kubernetes/</guid>
       <description></description>
     </item>
     
