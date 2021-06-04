@@ -28,8 +28,8 @@ I started my career with CMC Limited in Mumbai and used to work on C++ and C for
       <pubDate>Fri, 12 Jun 2020 22:32:01 +0400</pubDate>
       
       <guid>https://rizwan-kh.github.io/posts/2020/06/hugo-github-setup-static-website-on-github/</guid>
-      <description>Hugo and Github Account Here I will write a small write-up on how this site was setup. There are plenty of materials available all over, but this is more of a self-help as it will serve me as a reminder in future to refer back and understand how this was all setup.
- Hugo can be downloaded from the release page GitHub account can be create here and a public repo is required to be setup from here  After installing Hugo, to generate a new site you can run the below commands:</description>
+      <description>Hugo and Github Account A small write-up on how this site was setup. There are plenty of materials available all over the internet, but this is more of a self-help document for myself to refer back in future to understand how this was all setup.
+ Hugo can be downloaded from their official release page A GitHub account needs to be created from this link and a public repo is required to be setup here  After installing Hugo, to generate a new site, run the below command:</description>
     </item>
     
     <item>
