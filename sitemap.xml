@@ -3,6 +3,36 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://rizwan-kh.github.io/azdo/</loc>
+    <lastmod>2021-06-21T11:16:23+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/azure-devops/</loc>
+    <lastmod>2021-06-21T11:16:23+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/azdo/azdo-send-json-request/</loc>
+    <lastmod>2021-06-21T11:16:23+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/pipelines/</loc>
+    <lastmod>2021-06-21T11:16:23+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/</loc>
+    <lastmod>2021-06-21T11:16:23+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/</loc>
+    <lastmod>2021-06-21T11:16:23+04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://rizwan-kh.github.io/about/</loc>
     <lastmod>2020-09-02T16:44:33+04:00</lastmod>
   </url>
@@ -24,16 +54,6 @@
   
   <url>
     <loc>https://rizwan-kh.github.io/posts/</loc>
-    <lastmod>2020-06-12T22:32:01+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/</loc>
-    <lastmod>2020-06-12T22:32:01+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/tags/</loc>
     <lastmod>2020-06-12T22:32:01+04:00</lastmod>
   </url>
   
