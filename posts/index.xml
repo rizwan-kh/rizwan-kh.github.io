@@ -6,8 +6,130 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Fri, 12 Jun 2020 22:32:01 +0400</lastBuildDate>
+        <lastBuildDate>Mon, 21 Jun 2021 11:16:23 +0400</lastBuildDate>
         <atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Azure DevOps - Send Json Request(Parameters)</title>
+            <link>https://rizwan-kh.github.io/posts/2021/06/azure-devops-send-json-requestparameters/</link>
+            <pubDate>Mon, 21 Jun 2021 11:16:23 +0400</pubDate>
+            
+            <guid>https://rizwan-kh.github.io/posts/2021/06/azure-devops-send-json-requestparameters/</guid>
+            <description>Introduction If you&amp;rsquo;ve been using Azure DevOps, you would know that a pipeline can be trigger with runtime parameters in the format key: value pair and this is great for doing almost all of the tasks.
+For our use-case, we had been looking at option to send a JSON based parameter dictionary and I couldn&amp;rsquo;t find any way at the time of writing this article. We came up with a hack to achieve this and I would want to write it up in this blog post.</description>
+            <content type="html"><![CDATA[<h3 id="introduction">Introduction</h3>
+<p>If you&rsquo;ve been using Azure DevOps, you would know that a pipeline can be trigger with runtime parameters in the format <code>key: value</code> pair and this is great for doing almost all of the tasks.</p>
+<p>For our use-case, we had been looking at option to send a JSON based parameter dictionary and I couldn&rsquo;t find any way at the time of writing this article. We came up with a hack to achieve this and I would want to write it up in this blog post.</p>
+<h3 id="flatten-json--operation">Flatten JSON &amp; operation</h3>
+<p>Wee look at the option to use the Flatten JSON Objects extension to convert a nested data layer object into a new object with only one layer of key/value pairs. For this we used the <strong>flatten_json</strong> library</p>
+<p><code>pip install flatten_json</code></p>
+<pre><code>'''
+flatten the json data with a '_' separator; you can use different separator as well
+'''
+# flatten.py
+import flatten_json
+
+data = {
+    &quot;a&quot;: 1,
+    &quot;b&quot;: 2,
+    &quot;c&quot;: [{&quot;d&quot;: [2, 3, 4], &quot;e&quot;: [{&quot;f&quot;: 1, &quot;g&quot;: 2}]}]
+}
+flat_json = flatten_json.flatten(data,'_')
+print(flat_json)
+'''
+the above command gives us below output, which is single layer JSON
+{
+ 'a': 1,
+ 'b': 2,
+ 'c_0_d_0': 2,
+ 'c_0_d_1': 3,
+ 'c_0_d_2': 4,
+ 'c_0_e_0_f': 1,
+ 'c_0_e_0_g': 2
+ }
+'''
+</code></pre><p>Now that we had single layer <code>key: value</code> pair, we added another hack to be able to read these variables properly in Azure DevOps pipeline. We added a prefix (any prefix that&rsquo;s not part of your JSON) <strong>RizwanGotNoChill-</strong></p>
+<pre><code>prefixed_flat_json = {f&quot;RizwanGotNoChill-{key}&quot;: val for key, val in flat_json.items()}
+print(prefixed_flat_json)
+'''
+the above command gives us below output, which is single layer prefixed JSON
+{
+ 'RizwanGotNoChill-a': 1,
+ 'RizwanGotNoChill-b': 2,
+ 'RizwanGotNoChill-c_0_d_0': 2,
+ 'RizwanGotNoChill-c_0_d_1': 3,
+ 'RizwanGotNoChill-c_0_d_2': 4,
+ 'RizwanGotNoChill-c_0_e_0_f': 1,
+ 'RizwanGotNoChill-c_0_e_0_g': 2
+ }
+'''
+</code></pre><p>This part if all we needed, now you could use the Azure DevOps Rest API with above <code>key: value</code> pair to trigger any pipeline and I will show, how we intepreted these at the pipeline and crafted a JSON out.</p>
+<h3 id="trigger-azure-devops-pipeline">Trigger Azure DevOps Pipeline</h3>
+<p>I found the below two ways to trigger a pipeline, you may want to see which one fits your case -</p>
+<ul>
+<li>Using REST API based curl/http command calling the <strong>build API</strong> - <a href="https://dev.azure.com/YOURORG/YOURPROJECT/_apis/build/builds?api-version=6.1-preview.6">https://dev.azure.com/YOURORG/YOURPROJECT/_apis/build/builds?api-version=6.1-preview.6</a>)</li>
+</ul>
+<ol>
+<li>Convert you JSON to an escaped one using this <a href="https://jsonformatter.org/json-escape">link</a></li>
+<li>Create the request param as below and send</li>
+</ol>
+<pre><code># Replace the values for YOURORG, YOURPROJECT, PATTOKEN and the value for id(pipeline ID)
+curl --request POST \
+  --url 'https://dev.azure.com/YOURORG/YOURPROJECT/_apis/build/builds?api-version=6.1-preview.6' \
+  --header 'Authorization: Basic PATTOKEN' \
+  --header 'Content-Type: application/json' \
+
+  --data '{
+    &quot;parameters&quot;: &quot;{\&quot;RizwanGotNoChill-a\&quot;:1,\&quot;RizwanGotNoChill-b\&quot;:2,\&quot;RizwanGotNoChill-c_0_d_0\&quot;:2,\&quot;RizwanGotNoChill-c_0_d_1\&quot;:3,\&quot;RizwanGotNoChill-c_0_d_2\&quot;:4,\&quot;RizwanGotNoChill-c_0_e_0_f\&quot;:1,\&quot;RizwanGotNoChill-c_0_e_0_g\&quot;:2}&quot;,
+    &quot;definition&quot;:  { &quot;id&quot;:  27 }
+}'
+</code></pre><ul>
+<li>The other way to trigger a pipeline is calling the <strong>RunPipeline API</strong>, I wrote a small program</li>
+</ul>
+<script type="application/javascript" src="https://gist.github.com/rizwan-kh/c08955a24bfc1eb3eaa48248acd012e0.js"></script>
+
+<h3 id="unflatten-json--operation">Unflatten JSON &amp; operation</h3>
+<p>Now the baton is at the Azure DevOps end to decode and re-configure this as a JSON, I used a simple job and Python script to achieve this</p>
+<pre><code># azure-pipeline.yml
+- job: install_library
+  steps:
+  - checkout: none
+  - script: |
+      pip3 install flatten_json
+      pip3 freeze
+      displayName: Install python library
+
+- job: generate_files
+  steps:
+  - script: |
+      echo &quot;Here, we will grep the content based on the prefix and store in a file&quot;
+      env | grep RizwanGotNoChill &gt; request.txt
+      sed -i 's/RizwanGotNoChill-//' request.txt
+      echo &quot;utils.py first creates a dict based on request.txt and then unflattens the files and write to request.json&quot;
+      python3 utils.py
+      cat request.json | jq .
+</code></pre><pre><code># utils.py
+import os, sys
+import json
+import flatten_json
+
+dict_from_file = {}
+with open(&quot;request.txt&quot;) as fp:
+    for line in fp:
+        (key, val) = line.split(&quot;=&quot;)
+        dict_from_file[key.lower()] = val.rstrip(&quot;\n&quot;)
+print(dict_from_file)
+
+request_json = flatten_json.unflatten(dict_from_file, '-')
+print(request_json)
+
+with open('request.json', 'w') as fp:
+     fp.write(json.dumps(request_json))
+
+</code></pre><p>Here our <code>request.json</code> is a proper JSON file ready to be used by any application/program in our Azure Pipeline;
+We noticed one issue though, the conversion process, converts all other data types to string data-type, so might be you would need to change that or add some logic to create json/dict with type safe.</p>
+]]></content>
+        </item>
         
         <item>
             <title>Hugo &amp; GitHub - Setup Static Website on GitHub</title>

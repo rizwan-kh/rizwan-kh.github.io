@@ -3,22 +3,22 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://rizwan-kh.github.io/azdo/</loc>
-    <lastmod>2021-06-21T11:16:23+04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://rizwan-kh.github.io/tags/azure-devops/</loc>
     <lastmod>2021-06-21T11:16:23+04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://rizwan-kh.github.io/azdo/azdo-send-json-request/</loc>
+    <loc>https://rizwan-kh.github.io/posts/2021/06/azure-devops-send-json-requestparameters/</loc>
     <lastmod>2021-06-21T11:16:23+04:00</lastmod>
   </url>
   
   <url>
     <loc>https://rizwan-kh.github.io/tags/pipelines/</loc>
+    <lastmod>2021-06-21T11:16:23+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/posts/</loc>
     <lastmod>2021-06-21T11:16:23+04:00</lastmod>
   </url>
   
@@ -49,11 +49,6 @@
   
   <url>
     <loc>https://rizwan-kh.github.io/posts/2020/06/hugo-github-setup-static-website-on-github/</loc>
-    <lastmod>2020-06-12T22:32:01+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/posts/</loc>
     <lastmod>2020-06-12T22:32:01+04:00</lastmod>
   </url>
   

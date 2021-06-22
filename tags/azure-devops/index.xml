@@ -13,11 +13,11 @@
     
     
     <item>
-      <title>Azure DevOps - Send Json Request/Parameter</title>
-      <link>https://rizwan-kh.github.io/azdo/azdo-send-json-request/</link>
+      <title>Azure DevOps - Send Json Request(Parameters)</title>
+      <link>https://rizwan-kh.github.io/posts/2021/06/azure-devops-send-json-requestparameters/</link>
       <pubDate>Mon, 21 Jun 2021 11:16:23 +0400</pubDate>
       
-      <guid>https://rizwan-kh.github.io/azdo/azdo-send-json-request/</guid>
+      <guid>https://rizwan-kh.github.io/posts/2021/06/azure-devops-send-json-requestparameters/</guid>
       <description>Introduction If you&amp;rsquo;ve been using Azure DevOps, you would know that a pipeline can be trigger with runtime parameters in the format key: value pair and this is great for doing almost all of the tasks.
 For our use-case, we had been looking at option to send a JSON based parameter dictionary and I couldn&amp;rsquo;t find any way at the time of writing this article. We came up with a hack to achieve this and I would want to write it up in this blog post.</description>
     </item>
