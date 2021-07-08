@@ -10,14 +10,15 @@
         <atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
         
         <item>
-            <title>Azure DevOps - Send Json Request(Parameters)</title>
-            <link>https://rizwan-kh.github.io/posts/2021/06/azure-devops-send-json-requestparameters/</link>
+            <title>(Azure DevOps) Send Json Request(Parameters) to Azure Pipelines</title>
+            <link>https://rizwan-kh.github.io/posts/2021/06/azure-devops-send-json-requestparameters-to-azure-pipelines/</link>
             <pubDate>Mon, 21 Jun 2021 11:16:23 +0400</pubDate>
             
-            <guid>https://rizwan-kh.github.io/posts/2021/06/azure-devops-send-json-requestparameters/</guid>
+            <guid>https://rizwan-kh.github.io/posts/2021/06/azure-devops-send-json-requestparameters-to-azure-pipelines/</guid>
             <description>Introduction If you&amp;rsquo;ve been using Azure DevOps, you would know that a pipeline can be trigger with runtime parameters in the format key: value pair and this is great for doing almost all of the tasks.
 For our use-case, we had been looking at option to send a JSON based parameter dictionary and I couldn&amp;rsquo;t find any way at the time of writing this article. We came up with a hack to achieve this and I would want to write it up in this blog post.</description>
-            <content type="html"><![CDATA[<h3 id="introduction">Introduction</h3>
+            <content type="html"><![CDATA[<p><img src="/azure-pipelines.png" alt="azure"></p>
+<h3 id="introduction">Introduction</h3>
 <p>If you&rsquo;ve been using Azure DevOps, you would know that a pipeline can be trigger with runtime parameters in the format <code>key: value</code> pair and this is great for doing almost all of the tasks.</p>
 <p>For our use-case, we had been looking at option to send a JSON based parameter dictionary and I couldn&rsquo;t find any way at the time of writing this article. We came up with a hack to achieve this and I would want to write it up in this blog post.</p>
 <h3 id="flatten-json--operation">Flatten JSON &amp; operation</h3>
@@ -97,7 +98,7 @@ curl --request POST \
   - script: |
       pip3 install flatten_json
       pip3 freeze
-      displayName: Install python library
+    displayName: Install python library
 
 - job: generate_files
   steps:
@@ -108,6 +109,7 @@ curl --request POST \
       echo &quot;utils.py first creates a dict based on request.txt and then unflattens the files and write to request.json&quot;
       python3 utils.py
       cat request.json | jq .
+    displayName: Produce JSON
 </code></pre><pre><code># utils.py
 import os, sys
 import json
@@ -439,19 +441,9 @@ Below are few of the main and basic commands used in Docker, an easy pick-up and
 <hr>
 <p>If you are a lazy developer/sysadmin like me, the first thing you should do on your system is to make easy alias of all the long commands, below are the ones I often use on any system I use on a  daily basis:</p>
 <p>These can be imported on ~/.bashrc (if you use bash) or ~/.zshrc (if you are a MAC user and use ZSH)</p>
-<pre><code>alias docker='sudo docker'
-alias dock='sudo docker'
-alias di='sudo docker images'
-alias drun='sudo docker run -ti'
-alias dbuild='sudo docker build'
-alias dexec='sudo docker exec -ti'
-alias dps='sudo docker ps -a'
-alias dpsq='sudo docker ps -a -q'
-alias drm='sudo docker rm'
-alias drmi='sudo docker rmi'
-alias dstop='sudo docker stop'
+<script type="application/javascript" src="https://gist.github.com/rizwan-kh/032e587751e54a2fd26f44c0267ea5c5.js"></script>
 
-</code></pre><h3 id="commands-and-their-usage">Commands and their usage</h3>
+<h3 id="commands-and-their-usage">Commands and their usage</h3>
 <p>Mostly used commands are aliased above, but to explain what each does, please read on</p>
 <pre><code># to build a docker image with a certain name and certain tag, use the below Docker build comamnd
 docker build --tag imagename:tagname --file /path/to/Dockerfile
