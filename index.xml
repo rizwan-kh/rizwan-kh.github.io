@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 21 Jun 2021 11:16:23 +0400</lastBuildDate>
+    <lastBuildDate>Wed, 28 Jul 2021 17:40:27 +0400</lastBuildDate>
     
 	<atom:link href="https://rizwan-kh.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Traefik on Kubernetes with Let&#39;s Encrypt &amp; Route53</title>
+      <link>https://rizwan-kh.github.io/posts/2021/07/traefik-on-kubernetes-with-lets-encrypt-route53/</link>
+      <pubDate>Wed, 28 Jul 2021 17:40:27 +0400</pubDate>
+      
+      <guid>https://rizwan-kh.github.io/posts/2021/07/traefik-on-kubernetes-with-lets-encrypt-route53/</guid>
+      <description>Why Traefik? Traefik is a modern dynamic load balancer and reverse proxy, its easy to setup, control and provides lots of options which sits right with our use-cases. It integrates with Lets Encrypt to provide SSL termination along with support for service discovery, tracing, metrics out of the box running on Kubernetes as a small pod.
+Since when We have been using Traefik since early 2017 on 2 of our cluster as a daemonset Kubernetes object with externalDNS to update the worker nodes IP with our DNS provider and used to manually generate and update Lets Encrypt certificate on a Kubernetes secret object.</description>
+    </item>
     
     <item>
       <title>(Azure DevOps) Send Json Request(Parameters) to Azure Pipelines</title>
@@ -103,15 +113,6 @@ These can be imported on ~/.</description>
       
       <guid>https://rizwan-kh.github.io/posts/2019/06/tmux/</guid>
       <description>tmux - Terminal Multiplexer tmux is a terminal multiplexer. It helps switch between multiple programs in one terminal, detach them(they keep running in background) and reattach when needed. I started using tmux as someone recommended me to start using it as it helps with CKA &amp;amp; CKAD (which I have still not attempted) and then later on I was heavily using it for my website(with Hugo). I had previously used mPutty, but mPutty uses mutliple logged in sessions to display on screen, whereas tmux simply multiply the existing sessions on screen.</description>
-    </item>
-    
-    <item>
-      <title>May the force be with you!</title>
-      <link>https://rizwan-kh.github.io/archieve/blank/</link>
-      <pubDate>Thu, 11 Nov 2010 11:11:11 +1100</pubDate>
-      
-      <guid>https://rizwan-kh.github.io/archieve/blank/</guid>
-      <description>I am groot! </description>
     </item>
     
   </channel>
