@@ -7,11 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 21 Jun 2021 11:16:23 +0400</lastBuildDate>
-    
-	<atom:link href="https://rizwan-kh.github.io/tags/azure-devops/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 21 Jun 2021 11:16:23 +0400</lastBuildDate><atom:link href="https://rizwan-kh.github.io/tags/azure-devops/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>(Azure DevOps) Send Json Request(Parameters) to Azure Pipelines</title>
       <link>https://rizwan-kh.github.io/posts/2021/06/azure-devops-send-json-requestparameters-to-azure-pipelines/</link>
