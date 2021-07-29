@@ -3,36 +3,6 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://rizwan-kh.github.io/tags/kubernetes/</loc>
-    <lastmod>2021-07-28T17:40:27+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/posts/</loc>
-    <lastmod>2021-07-28T17:40:27+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/</loc>
-    <lastmod>2021-07-28T17:40:27+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/tags/</loc>
-    <lastmod>2021-07-28T17:40:27+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/tags/traefik/</loc>
-    <lastmod>2021-07-28T17:40:27+04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://rizwan-kh.github.io/posts/2021/07/traefik-on-kubernetes-with-lets-encrypt-route53/</loc>
-    <lastmod>2021-07-28T17:40:27+04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://rizwan-kh.github.io/posts/2021/06/azure-devops-send-json-requestparameters-to-azure-pipelines/</loc>
     <lastmod>2021-06-21T11:16:23+04:00</lastmod>
   </url>
@@ -44,6 +14,21 @@
   
   <url>
     <loc>https://rizwan-kh.github.io/tags/pipelines/</loc>
+    <lastmod>2021-06-21T11:16:23+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/posts/</loc>
+    <lastmod>2021-06-21T11:16:23+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/</loc>
+    <lastmod>2021-06-21T11:16:23+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/</loc>
     <lastmod>2021-06-21T11:16:23+04:00</lastmod>
   </url>
   
@@ -124,6 +109,11 @@
   
   <url>
     <loc>https://rizwan-kh.github.io/posts/2020/01/how-to-use-service-accounts-for-kubernetes-imagepullsecrets/</loc>
+    <lastmod>2020-01-02T17:40:27+04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://rizwan-kh.github.io/tags/kubernetes/</loc>
     <lastmod>2020-01-02T17:40:27+04:00</lastmod>
   </url>
   
