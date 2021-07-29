@@ -713,7 +713,7 @@ klar mysql:latest
   tags:
     - my_runner
 
-</code></pre><p>This image <code>registry.mycompany.com/ci/kubernetes-deploy:klar</code> contains the klar binary and the clair server is running on <a href="https://ngclair.mycompany.com">https://ngclair.mycompany.com</a>:443</p>
+</code></pre><p>This image <code>registry.mycompany.com/ci/kubernetes-deploy:klar</code> contains the klar binary and the clair server is running on <a href="https://ngclair.mycompany.com:443">https://ngclair.mycompany.com:443</a></p>
 ]]></content>
         </item>
         
@@ -938,34 +938,34 @@ docker logs CONTAINERNAME/CONTAINERID
 <table>
 <thead>
 <tr>
-<th align="left">Command</th>
-<th align="left">Description</th>
+<th style="text-align:left">Command</th>
+<th style="text-align:left">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">tmux</td>
-<td align="left">start a new session</td>
+<td style="text-align:left">tmux</td>
+<td style="text-align:left">start a new session</td>
 </tr>
 <tr>
-<td align="left">tmux new -s my-kube-session</td>
-<td align="left">start a new session with name</td>
+<td style="text-align:left">tmux new -s my-kube-session</td>
+<td style="text-align:left">start a new session with name</td>
 </tr>
 <tr>
-<td align="left">tmux a</td>
-<td align="left">attach</td>
+<td style="text-align:left">tmux a</td>
+<td style="text-align:left">attach</td>
 </tr>
 <tr>
-<td align="left">tmux a  -t my-kube-session</td>
-<td align="left">attach to a named session</td>
+<td style="text-align:left">tmux a  -t my-kube-session</td>
+<td style="text-align:left">attach to a named session</td>
 </tr>
 <tr>
-<td align="left">tmux ls</td>
-<td align="left">list all tmux sessions</td>
+<td style="text-align:left">tmux ls</td>
+<td style="text-align:left">list all tmux sessions</td>
 </tr>
 <tr>
-<td align="left">tmux kill-session -t my-kube-session</td>
-<td align="left">kill the session named my-kube-session</td>
+<td style="text-align:left">tmux kill-session -t my-kube-session</td>
+<td style="text-align:left">kill the session named my-kube-session</td>
 </tr>
 </tbody>
 </table>
@@ -973,42 +973,42 @@ docker logs CONTAINERNAME/CONTAINERID
 <table>
 <thead>
 <tr>
-<th align="left">Keystroke</th>
-<th align="left">Description</th>
+<th style="text-align:left">Keystroke</th>
+<th style="text-align:left">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">ctrl+b -&gt; c</td>
-<td align="left">create new shell</td>
+<td style="text-align:left">ctrl+b -&gt; c</td>
+<td style="text-align:left">create new shell</td>
 </tr>
 <tr>
-<td align="left">ctrl+b -&gt; n</td>
-<td align="left">next shell</td>
+<td style="text-align:left">ctrl+b -&gt; n</td>
+<td style="text-align:left">next shell</td>
 </tr>
 <tr>
-<td align="left">ctrl+b -&gt; p</td>
-<td align="left">previous shell</td>
+<td style="text-align:left">ctrl+b -&gt; p</td>
+<td style="text-align:left">previous shell</td>
 </tr>
 <tr>
-<td align="left">ctrl+b -&gt; d</td>
-<td align="left">detach session</td>
+<td style="text-align:left">ctrl+b -&gt; d</td>
+<td style="text-align:left">detach session</td>
 </tr>
 <tr>
-<td align="left">ctrl+b -&gt; %</td>
-<td align="left">vertical split</td>
+<td style="text-align:left">ctrl+b -&gt; %</td>
+<td style="text-align:left">vertical split</td>
 </tr>
 <tr>
-<td align="left">ctrl+b -&gt; &quot;</td>
-<td align="left">horizontal split</td>
+<td style="text-align:left">ctrl+b -&gt; &quot;</td>
+<td style="text-align:left">horizontal split</td>
 </tr>
 <tr>
-<td align="left">ctrl+b -&gt; [arrow keys]</td>
-<td align="left">to switch between the vertical/horizontal panes</td>
+<td style="text-align:left">ctrl+b -&gt; [arrow keys]</td>
+<td style="text-align:left">to switch between the vertical/horizontal panes</td>
 </tr>
 <tr>
-<td align="left">ctrl+b -&gt; z</td>
-<td align="left">zoom in and zoom out between split panes</td>
+<td style="text-align:left">ctrl+b -&gt; z</td>
+<td style="text-align:left">zoom in and zoom out between split panes</td>
 </tr>
 </tbody>
 </table>
