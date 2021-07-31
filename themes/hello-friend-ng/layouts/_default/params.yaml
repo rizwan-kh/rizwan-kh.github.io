@@ -1,0 +1,18 @@
+comments:
+  provider: 'utterances'
+  commentable:
+    post: true
+    book: true
+    project: true
+    publication: true
+    event: true
+  disqus:
+    shortname: 'rizwan-kh'
+    show_count: true
+  commento:
+    url: ''
+  utterances:
+    repo: 'rizwan-kh/rizwan-kh.github.io'
+    issue_term: 'title'
+    label: 'web page comment'
+    theme: 'github-light'
