@@ -87,32 +87,32 @@ Hugo & GitHub - Setup Static Website on GitHub :: Rizwan Khan👨🏻‍💻
 <li>A GitHub account needs to be created from <a href=https://github.com/join>this link</a> and a public repo is required to be setup <a href=https://github.com/new>here</a></li>
 </ul>
 <p>After installing <strong>Hugo</strong>, to generate a new site, run the below command:</p>
-<pre><code>hugo new site rizwan-blogs
+<pre tabindex=0><code>hugo new site rizwan-blogs
 </code></pre><p>This will automatically create a directory named <em>rizwan-blogs</em> which will contain the necessary sub-directories and files required for our new hugo-based static website.</p>
 <p>The <code>config.toml</code> file is the main configuration file where we can add/change the theme or add additional settings like title, author, etc. Sample <strong>config.toml</strong> looks like below</p>
-<pre><code>baseURL = &quot;https://rizwan-kh.github.io&quot;
+<pre tabindex=0><code>baseURL = &quot;https://rizwan-kh.github.io&quot;
 title = &quot;Rizwan Khan👨🏻‍💻&quot;
 languageCode = &quot;en-us&quot;
 theme = &quot;hello-friend-ng&quot;
 
 </code></pre><p>Replace the above 4 values as you want to in the config.toml and you are good to go.</p>
 <p>To add content/pages, we run the below command, this will create a markdown page with the post marked as <code>draft: true</code> and we can keep it as true until we want to publish the post.</p>
-<pre><code>huge new posts/my-post.md
+<pre tabindex=0><code>huge new posts/my-post.md
 </code></pre><p>Fire up your favorite editor and it&rsquo;s all <a href=https://www.markdownguide.org/cheat-sheet/>markdown</a> from there.
 Then we can start the hugo server in build drafts enabled mode (or as I think of it as development mode) with the below command and it will let you browse the site on address <a href=http://localhost:1313/>localhost:1313</a> with auto-refresh mode on.</p>
-<pre><code>hugo server -D
+<pre tabindex=0><code>hugo server -D
 </code></pre><p>When the pages/posts are ready to be published, simply run the server in publish mode and hugo will take care of generating the required files in <code>./public</code> directory,
 <em>Note: Make sure to clean up the public directory, as the directory will contain drafts pages as well from the previous run</em></p>
-<pre><code>hugo
+<pre tabindex=0><code>hugo
 </code></pre><h4 id=deploy-your-website>Deploy your website</h4>
 <p>The final production content in stored in the public directory and we just need to copy the directory in the production server either on <strong>AWS S3</strong>, or on <strong>GitHub Pages</strong></p>
 <hr>
 <p>Now for the publishing the website, Go to <a href=https://github.com>GitHub</a> and create a <a href=https://github.com/new>new public repository</a> named <em><strong>username.github.io</strong></em>, where <em><strong>username</strong></em> is your username (or organization name) on GitHub.</p>
 <p>Use any <strong>git</strong> client to clone the repo, copy over the entire <em>public</em> directory</p>
-<pre><code>git clone https://github.com/username/username.github.io
+<pre tabindex=0><code>git clone https://github.com/username/username.github.io
 cd username.github.io
 </code></pre><p>copy over the entire content of the <code>public</code> directory <code>username.github.io</code> and use git to commit and push the content over to <em>GitHub</em></p>
-<pre><code>git add --all
+<pre tabindex=0><code>git add --all
 git commit -m &quot;initial commit&quot;
 git push origin main
 </code></pre><p>open your browser and type up the URL <a href=https://username.github.io>username.github.io</a> and voila your static website content is up and ready for free.</p>

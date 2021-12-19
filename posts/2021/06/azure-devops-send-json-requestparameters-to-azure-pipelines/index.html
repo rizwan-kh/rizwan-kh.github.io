@@ -86,7 +86,7 @@ For our use-case, we had been looking at option to send a JSON based parameter d
 <h3 id=flatten-json--operation>Flatten JSON & operation</h3>
 <p>Wee look at the option to use the Flatten JSON Objects extension to convert a nested data layer object into a new object with only one layer of key/value pairs. For this we used the <strong>flatten_json</strong> library</p>
 <p><code>pip install flatten_json</code></p>
-<pre><code>'''
+<pre tabindex=0><code>'''
 flatten the json data with a '_' separator; you can use different separator as well
 '''
 # flatten.py
@@ -112,7 +112,7 @@ the above command gives us below output, which is single layer JSON
  }
 '''
 </code></pre><p>Now that we had single layer <code>key: value</code> pair, we added another hack to be able to read these variables properly in Azure DevOps pipeline. We added a prefix (any prefix that&rsquo;s not part of your JSON) <strong>RizwanGotNoChill-</strong></p>
-<pre><code>prefixed_flat_json = {f&quot;RizwanGotNoChill-{key}&quot;: val for key, val in flat_json.items()}
+<pre tabindex=0><code>prefixed_flat_json = {f&quot;RizwanGotNoChill-{key}&quot;: val for key, val in flat_json.items()}
 print(prefixed_flat_json)
 '''
 the above command gives us below output, which is single layer prefixed JSON
@@ -136,7 +136,7 @@ the above command gives us below output, which is single layer prefixed JSON
 <li>Convert you JSON to an escaped one using this <a href=https://jsonformatter.org/json-escape>link</a></li>
 <li>Create the request param as below and send</li>
 </ol>
-<pre><code># Replace the values for YOURORG, YOURPROJECT, PATTOKEN and the value for id(pipeline ID)
+<pre tabindex=0><code># Replace the values for YOURORG, YOURPROJECT, PATTOKEN and the value for id(pipeline ID)
 curl --request POST \
   --url 'https://dev.azure.com/YOURORG/YOURPROJECT/_apis/build/builds?api-version=6.1-preview.6' \
   --header 'Authorization: Basic PATTOKEN' \
@@ -152,7 +152,7 @@ curl --request POST \
 <script type=application/javascript src=https://gist.github.com/rizwan-kh/c08955a24bfc1eb3eaa48248acd012e0.js></script>
 <h3 id=unflatten-json--operation>Unflatten JSON & operation</h3>
 <p>Now the baton is at the Azure DevOps end to decode and re-configure this as a JSON, I used a simple job and Python script to achieve this</p>
-<pre><code># azure-pipeline.yml
+<pre tabindex=0><code># azure-pipeline.yml
 - job: install_library
   steps:
   - checkout: none
@@ -171,7 +171,7 @@ curl --request POST \
       python3 utils.py
       cat request.json | jq .
     displayName: Produce JSON
-</code></pre><pre><code># utils.py
+</code></pre><pre tabindex=0><code># utils.py
 import os, sys
 import json
 import flatten_json

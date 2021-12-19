@@ -1,4 +1,37 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Rizwan Khan👨🏻‍💻</title><link>https://rizwan-kh.github.io/posts/</link><description>Recent content in Posts on Rizwan Khan👨🏻‍💻</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Wed, 28 Jul 2021 17:40:27 +0400</lastBuildDate><atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Traefik on Kubernetes with Let's Encrypt &amp; Route53</title><link>https://rizwan-kh.github.io/posts/2021/07/traefik-on-kubernetes-with-lets-encrypt-route53/</link><pubDate>Wed, 28 Jul 2021 17:40:27 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/07/traefik-on-kubernetes-with-lets-encrypt-route53/</guid><description>Why Traefik? Traefik is a modern dynamic load balancer and reverse proxy, its easy to setup, control and provides lots of options which sits right with our use-cases. It integrates with Lets Encrypt to provide SSL termination along with support for service discovery, tracing, metrics out of the box running on Kubernetes as a small pod.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Rizwan Khan👨🏻‍💻</title><link>https://rizwan-kh.github.io/posts/</link><description>Recent content in Posts on Rizwan Khan👨🏻‍💻</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Tue, 14 Dec 2021 23:10:21 +0400</lastBuildDate><atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Trivy</title><link>https://rizwan-kh.github.io/posts/2021/12/trivy/</link><pubDate>Tue, 14 Dec 2021 23:10:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/12/trivy/</guid><description>Trivy Trivy is a scanner for vulnerabilities in container images, file systems, git repositories and configuration. It&amp;rsquo;s an Aqua Security open source project that can be easily used to integrate with our existing CI CD pipeline or used as an stand alone tool to scan container images deployed on Kubernetes cluster.
+We were using Clair previous to our switch to Trivy as we analyzed both the tools and found Trivy to be more helpful for the longer run - it was faster, had more CVE database updates as compared to Clair and didn&amp;rsquo;t depend on external clients to interact/scan.</description><content type="html"><![CDATA[<p><img src="/trivy.png" alt="trivy"></p>
+<h2 id="trivy">Trivy</h2>
+<p><a href="https://github.com/aquasecurity/trivy">Trivy</a> is a scanner for vulnerabilities in container images, file systems, git repositories and configuration. It&rsquo;s an <a href="https://aquasec.com/">Aqua Security</a> open source project that can be easily used to integrate with our existing CI CD pipeline or used as an stand alone tool to scan container images deployed on Kubernetes cluster.</p>
+<p>We were using <a href="https://github.com/coreos/clair">Clair</a> previous to our switch to Trivy as we analyzed both the tools and found Trivy to be more helpful for the longer run - it was faster, had more CVE database updates as compared to Clair and didn&rsquo;t depend on external clients to interact/scan.</p>
+<h2 id="usage">Usage</h2>
+<p>For stand-alone usage, simply <a href="https://github.com/aquasecurity/trivy/releases">download the binary</a> on your Mac/Linux system and scan images or file systems or configuration as below</p>
+<pre tabindex="0"><code># for scaning images
+trivy image [image-name]
+trivy image alpine:latest
+
+# for scanning file system
+trivy fs --security-checks vuln,config [YOUR_PROJECT_DIR]
+trivy fs --security-checks vuln,config my_project/
+
+# for scanning configuration
+trivy config [YOUR_IAC_DIR]
+trivy config terraform/src
+
+</code></pre><p>Trivy is a <a href="https://github.com/aquasecurity/trivy#features">feature rich tool</a> and once you start using the same, you will recommend to everyone who isn&rsquo;t using it due to its simplicity.</p>
+<h2 id="use-case">Use-case</h2>
+<p>We scan the images in our build CI pipeline, but once deployed on the Kubernetes cluster, we were trying to find a tool which would scan the deployed images, we found Trivy can be used as an alternative, if you don&rsquo;t have run-time scanners like Palo Alto Twistlock Defender which does more than just scanning.</p>
+<p>We basically were re-scanning the images from our registry, but only the ones which are already running on our cluster.</p>
+<p>We get the list of images using the below <code>kubectl</code> API call and then iterate over those images to generate either HTML or JSON format reports as per the need.</p>
+<pre tabindex="0"><code># to get the list of images running on the cluster
+kubectl get pods --all-namespaces -o jsonpath=&quot;{.items[*].spec.containers[*].image}&quot; |tr -s '[[:space:]]' '\n' |sort |uniq -c
+
+# then we use the output list from above command to iterate over each image to get the desired output
+# to get only critical vulnerability on library layer
+trivy image -s CRITICAL --vuln-type library --ignore-unfixed --format json -o my-app-1.4.3.json registry.mycompany.com/containers/my-app:1.4.3
+
+# to get all vulnerability in HTML format
+trivy image --format template &quot;@contrib/template.html&quot; -o my-app-1.4.3.html registry.mycompany.com/containers/my-app:1.4.3
+</code></pre>]]></content></item><item><title>Traefik on Kubernetes with Let's Encrypt &amp; Route53</title><link>https://rizwan-kh.github.io/posts/2021/07/traefik-on-kubernetes-with-lets-encrypt-route53/</link><pubDate>Wed, 28 Jul 2021 17:40:27 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/07/traefik-on-kubernetes-with-lets-encrypt-route53/</guid><description>Why Traefik? Traefik is a modern dynamic load balancer and reverse proxy, its easy to setup, control and provides lots of options which sits right with our use-cases. It integrates with Lets Encrypt to provide SSL termination along with support for service discovery, tracing, metrics out of the box running on Kubernetes as a small pod.
 Since when We have been using Traefik since early 2017 on 2 of our cluster as a daemonset Kubernetes object with externalDNS to update the worker nodes IP with our DNS provider and used to manually generate and update Lets Encrypt certificate on a Kubernetes secret object.</description><content type="html"><![CDATA[<p><img src="/k8s-traefik-le-route53.svg" alt="k8s-traefik-le-route53"></p>
 <h2 id="why-traefik">Why Traefik?</h2>
 <p><a href="https://traefik.io/traefik/"><strong>Traefik</strong></a> is a modern dynamic load balancer and reverse proxy, its easy to setup, control and provides lots of options which sits right with our use-cases. It integrates with Lets Encrypt to provide SSL termination along with support for service discovery, tracing, metrics out of the box running on Kubernetes as a small pod.</p>
@@ -18,7 +51,7 @@ Since when We have been using Traefik since early 2017 on 2 of our cluster as a 
 <h4 id="lets-start-with-traefik-deployment">Lets Start with Traefik Deployment</h4>
 <p>Deploy the below traefik-crd-sa-cr-crb.yaml file with <code>kubectl apply -f traefik-crd-sa-cr-crb.yaml</code> as-is.</p>
 <p><a href="https://doc.traefik.io/traefik/user-guides/crd-acme/#cluster-resources">The below CRD&rsquo;s and supporting manifest is taken from this Traefik official documentation</a></p>
-<pre><code># traefik-crd-sa-cr-crb.yaml
+<pre tabindex="0"><code># traefik-crd-sa-cr-crb.yaml
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -210,7 +243,7 @@ metadata:
 
 </code></pre><p>Now save the below manifest and deploy it on your cluster with few amendments like replacing proper values for AWS Route53 hosted zone and IAM keys, storageClassName, acme email address, your sub-domain in the initContainer args section</p>
 <p>ℹ️ - you can use Instance profile as well if you don&rsquo;t want to use IAM keys</p>
-<pre><code># create pvc to store the Lets Encrypt cert to persist between Traefik restarts
+<pre tabindex="0"><code># create pvc to store the Lets Encrypt cert to persist between Traefik restarts
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -385,7 +418,7 @@ spec:
 <h4 id="is-this-even-working">Is this even working?</h4>
 <p>Ofcourse, if we have done all this, how do we validate, for that we will deploy a service and ingressRoute CRD with the manifest provided below</p>
 <p><code>kubectl apply -f traefik-ir.yaml</code></p>
-<pre><code># traefik-ir.yaml
+<pre tabindex="0"><code># traefik-ir.yaml
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
@@ -414,7 +447,7 @@ For our use-case, we had been looking at option to send a JSON based parameter d
 <h3 id="flatten-json--operation">Flatten JSON &amp; operation</h3>
 <p>Wee look at the option to use the Flatten JSON Objects extension to convert a nested data layer object into a new object with only one layer of key/value pairs. For this we used the <strong>flatten_json</strong> library</p>
 <p><code>pip install flatten_json</code></p>
-<pre><code>'''
+<pre tabindex="0"><code>'''
 flatten the json data with a '_' separator; you can use different separator as well
 '''
 # flatten.py
@@ -440,7 +473,7 @@ the above command gives us below output, which is single layer JSON
  }
 '''
 </code></pre><p>Now that we had single layer <code>key: value</code> pair, we added another hack to be able to read these variables properly in Azure DevOps pipeline. We added a prefix (any prefix that&rsquo;s not part of your JSON) <strong>RizwanGotNoChill-</strong></p>
-<pre><code>prefixed_flat_json = {f&quot;RizwanGotNoChill-{key}&quot;: val for key, val in flat_json.items()}
+<pre tabindex="0"><code>prefixed_flat_json = {f&quot;RizwanGotNoChill-{key}&quot;: val for key, val in flat_json.items()}
 print(prefixed_flat_json)
 '''
 the above command gives us below output, which is single layer prefixed JSON
@@ -464,7 +497,7 @@ the above command gives us below output, which is single layer prefixed JSON
 <li>Convert you JSON to an escaped one using this <a href="https://jsonformatter.org/json-escape">link</a></li>
 <li>Create the request param as below and send</li>
 </ol>
-<pre><code># Replace the values for YOURORG, YOURPROJECT, PATTOKEN and the value for id(pipeline ID)
+<pre tabindex="0"><code># Replace the values for YOURORG, YOURPROJECT, PATTOKEN and the value for id(pipeline ID)
 curl --request POST \
   --url 'https://dev.azure.com/YOURORG/YOURPROJECT/_apis/build/builds?api-version=6.1-preview.6' \
   --header 'Authorization: Basic PATTOKEN' \
@@ -481,7 +514,7 @@ curl --request POST \
 
 <h3 id="unflatten-json--operation">Unflatten JSON &amp; operation</h3>
 <p>Now the baton is at the Azure DevOps end to decode and re-configure this as a JSON, I used a simple job and Python script to achieve this</p>
-<pre><code># azure-pipeline.yml
+<pre tabindex="0"><code># azure-pipeline.yml
 - job: install_library
   steps:
   - checkout: none
@@ -500,7 +533,7 @@ curl --request POST \
       python3 utils.py
       cat request.json | jq .
     displayName: Produce JSON
-</code></pre><pre><code># utils.py
+</code></pre><pre tabindex="0"><code># utils.py
 import os, sys
 import json
 import flatten_json
@@ -529,32 +562,32 @@ Hugo can be downloaded from their official release page A GitHub account needs t
 <li>A GitHub account needs to be created from <a href="https://github.com/join">this link</a> and a public repo is required to be setup <a href="https://github.com/new">here</a></li>
 </ul>
 <p>After installing <strong>Hugo</strong>, to generate a new site, run the below command:</p>
-<pre><code>hugo new site rizwan-blogs
+<pre tabindex="0"><code>hugo new site rizwan-blogs
 </code></pre><p>This will automatically create a directory named <em>rizwan-blogs</em> which will contain the necessary sub-directories and files required for our new hugo-based static website.</p>
 <p>The <code>config.toml</code> file is the main configuration file where we can add/change the theme or add additional settings like title, author, etc. Sample <strong>config.toml</strong> looks like below</p>
-<pre><code>baseURL = &quot;https://rizwan-kh.github.io&quot;
+<pre tabindex="0"><code>baseURL = &quot;https://rizwan-kh.github.io&quot;
 title = &quot;Rizwan Khan👨🏻‍💻&quot;
 languageCode = &quot;en-us&quot;
 theme = &quot;hello-friend-ng&quot;
 
 </code></pre><p>Replace the above 4 values as you want to in the config.toml and you are good to go.</p>
 <p>To add content/pages, we run the below command, this will create a markdown page with the post marked as <code>draft: true</code> and we can keep it as true until we want to publish the post.</p>
-<pre><code>huge new posts/my-post.md
+<pre tabindex="0"><code>huge new posts/my-post.md
 </code></pre><p>Fire up your favorite editor and it&rsquo;s all <a href="https://www.markdownguide.org/cheat-sheet/">markdown</a> from there.
 Then we can start the hugo server in build drafts enabled mode (or as I think of it as development mode) with the below command and it will let you browse the site on address <a href="http://localhost:1313/">localhost:1313</a> with auto-refresh mode on.</p>
-<pre><code>hugo server -D
+<pre tabindex="0"><code>hugo server -D
 </code></pre><p>When the pages/posts are ready to be published, simply run the server in publish mode and hugo will take care of generating the required files in <code>./public</code> directory,
 <em>Note: Make sure to clean up the public directory, as the directory will contain drafts pages as well from the previous run</em></p>
-<pre><code>hugo
+<pre tabindex="0"><code>hugo
 </code></pre><h4 id="deploy-your-website">Deploy your website</h4>
 <p>The final production content in stored in the public directory and we just need to copy the directory in the production server either on <strong>AWS S3</strong>, or on <strong>GitHub Pages</strong></p>
 <hr>
 <p>Now for the publishing the website, Go to <a href="https://github.com">GitHub</a> and create a <a href="https://github.com/new">new public repository</a> named <em><strong>username.github.io</strong></em>, where <em><strong>username</strong></em> is your username (or organization name) on GitHub.</p>
 <p>Use any <strong>git</strong> client to clone the repo, copy over the entire <em>public</em> directory</p>
-<pre><code>git clone https://github.com/username/username.github.io
+<pre tabindex="0"><code>git clone https://github.com/username/username.github.io
 cd username.github.io
 </code></pre><p>copy over the entire content of the <code>public</code> directory <code>username.github.io</code> and use git to commit and push the content over to <em>GitHub</em></p>
-<pre><code>git add --all
+<pre tabindex="0"><code>git add --all
 git commit -m &quot;initial commit&quot;
 git push origin main
 </code></pre><p>open your browser and type up the URL <a href="https://username.github.io">username.github.io</a> and voila your static website content is up and ready for free.</p>
@@ -644,14 +677,14 @@ Klar serves as a client which coordinates the image checks between the Docker re
 </tbody>
 </table>
 <h4 id="usage-1">Usage:</h4>
-<pre><code>CLAIR_ADDR=localhost;CLAIR_OUTPUT=High;CLAIR_THRESHOLD=10;DOCKER_USER=docker;DOCKER_PASSWORD=secret;
+<pre tabindex="0"><code>CLAIR_ADDR=localhost;CLAIR_OUTPUT=High;CLAIR_THRESHOLD=10;DOCKER_USER=docker;DOCKER_PASSWORD=secret;
 klar mysql:latest
 </code></pre><h5 id="debug-output">Debug Output</h5>
 <p>You can enable more verbose output but setting KLAR_TRACE to true.</p>
 <h2 id="run-export-klar_tracetrue-to-persist-between-runs">run <code>export KLAR_TRACE=true</code> to persist between runs.</h2>
 <h4 id="gitlab-ci-usage">GitLab CI Usage</h4>
 <p>We have the below job defined in <code>.gitlab-ci.yml</code> post Dockerbuild stage</p>
-<pre><code>image_analysis:
+<pre tabindex="0"><code>image_analysis:
   stage: analyse
   image: registry.mycompany.com/ci/kubernetes-deploy:klar
   script:
@@ -673,14 +706,14 @@ vagrant init hashicorp/bionic64 vagrant up vagrant ssh This is a pretty simple w
 <hr>
 <h2 id="getting-started-with-vagrant">Getting started with Vagrant</h2>
 <p>Download the install the <a href="https://www.vagrantup.com/downloads">Vagrant</a> from the Download section</p>
-<pre><code>vagrant version
+<pre tabindex="0"><code>vagrant version
 Installed Version: 2.2.10
 Latest Version: 2.2.10
 
 You're running an up-to-date version of Vagrant!
 </code></pre><p>Download and install <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></p>
 <p>Now if both <strong>Vagrant</strong> and <strong>VirtualBox</strong> are up and running, all we need to do is run the below 3 commands to have a Ubuntu VM up and available for our use in no time.</p>
-<pre><code>vagrant init hashicorp/bionic64
+<pre tabindex="0"><code>vagrant init hashicorp/bionic64
 vagrant up
 vagrant ssh
 </code></pre><p>This is a pretty simple way to spin up a new Ubuntu VM, we can do a lot more which I will try to write up in later posts.</p>
@@ -704,7 +737,7 @@ It is a tool to build container images from a Dockerfile inside a container or a
 </ul>
 <hr>
 <h4 id="ci-yaml-for-auto-devops">CI YAML for auto-devops</h4>
-<pre><code># .gitlab-ci.yml
+<pre tabindex="0"><code># .gitlab-ci.yml
 variables:
     GIT_SSL_NO_VERIFY: &quot;true&quot;
 
@@ -742,13 +775,13 @@ Many times, we come across a situation where our organization uses a private Doc
 <p>One can think of service accounts as service users for pods. They help pods authenticate with the api-server and interact with it.</p>
 <h2 id="heading"></h2>
 <p>Many times, we come across a situation where our organization uses a private Docker registry to store the Docker images and to make this available we need to create a <code>docker-registry</code> kubernetes secret and pass as <code>imagePullSecrets</code> in the deployment manifest.</p>
-<pre><code>kubectl create secret docker-registry registry-cred \
+<pre tabindex="0"><code>kubectl create secret docker-registry registry-cred \
  --docker-server=my.private-registry.com \
  --docker-username=my_username \
  --docker-password=&quot;my_superr_strong_password&quot; \
  --docker-email=my.email@mycompany.com -n my-namespace
 </code></pre><p>Then, we pass this secret in the deployment manifest as below.</p>
-<pre><code>...
+<pre tabindex="0"><code>...
       imagePullSecrets:
       - name: registry-cred
 ...
@@ -761,7 +794,7 @@ Many times, we come across a situation where our organization uses a private Doc
 </ul>
 <h2 id="the-solution">The solution</h2>
 <p><code>serviceAccounts</code> - your Kubernetes administrator can just patch serviceAccounts with the registry credential secret and you don&rsquo;t need to worry about replacing or adding it in your manifest yaml each time.</p>
-<pre><code>kubectl patch serviceaccount default \
+<pre tabindex="0"><code>kubectl patch serviceaccount default \
 -p '{&quot;imagePullSecrets&quot;: [{&quot;name&quot;: &quot;registry-cred&quot;}]}' -n my-namespace
 </code></pre>]]></content></item><item><title>Docker Cheat Sheet</title><link>https://rizwan-kh.github.io/posts/2019/10/docker-cheat-sheet/</link><pubDate>Fri, 11 Oct 2019 05:11:13 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2019/10/docker-cheat-sheet/</guid><description>Below are few of the main and basic commands used in Docker, an easy pick-up and good-to-go command page for docker troubleshooting.
 Alias If you are a lazy developer/sysadmin like me, the first thing you should do on your system is to make easy alias of all the long commands, below are the ones I often use on any system I use on a daily basis:
@@ -775,7 +808,7 @@ Below are few of the main and basic commands used in Docker, an easy pick-up and
 
 <h3 id="commands-and-their-usage">Commands and their usage</h3>
 <p>Mostly used commands are aliased above, but to explain what each does, please read on</p>
-<pre><code># to build a docker image with a certain name and certain tag, use the below Docker build comamnd
+<pre tabindex="0"><code># to build a docker image with a certain name and certain tag, use the below Docker build comamnd
 docker build --tag imagename:tagname --file /path/to/Dockerfile
 
 

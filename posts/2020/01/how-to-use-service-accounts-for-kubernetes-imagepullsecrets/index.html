@@ -89,13 +89,13 @@ One can think of service accounts as service users for pods. They help pods auth
 <p>One can think of service accounts as service users for pods. They help pods authenticate with the api-server and interact with it.</p>
 <h2 id=heading></h2>
 <p>Many times, we come across a situation where our organization uses a private Docker registry to store the Docker images and to make this available we need to create a <code>docker-registry</code> kubernetes secret and pass as <code>imagePullSecrets</code> in the deployment manifest.</p>
-<pre><code>kubectl create secret docker-registry registry-cred \
+<pre tabindex=0><code>kubectl create secret docker-registry registry-cred \
  --docker-server=my.private-registry.com \
  --docker-username=my_username \
  --docker-password=&quot;my_superr_strong_password&quot; \
  --docker-email=my.email@mycompany.com -n my-namespace
 </code></pre><p>Then, we pass this secret in the deployment manifest as below.</p>
-<pre><code>...
+<pre tabindex=0><code>...
       imagePullSecrets:
       - name: registry-cred
 ...
@@ -108,7 +108,7 @@ One can think of service accounts as service users for pods. They help pods auth
 </ul>
 <h2 id=the-solution>The solution</h2>
 <p><code>serviceAccounts</code> - your Kubernetes administrator can just patch serviceAccounts with the registry credential secret and you don&rsquo;t need to worry about replacing or adding it in your manifest yaml each time.</p>
-<pre><code>kubectl patch serviceaccount default \
+<pre tabindex=0><code>kubectl patch serviceaccount default \
 -p '{&quot;imagePullSecrets&quot;: [{&quot;name&quot;: &quot;registry-cred&quot;}]}' -n my-namespace
 </code></pre>
 </div>

@@ -164,14 +164,14 @@ Klar serves as a client which coordinates the image checks between the Docker re
 </tbody>
 </table>
 <h4 id=usage-1>Usage:</h4>
-<pre><code>CLAIR_ADDR=localhost;CLAIR_OUTPUT=High;CLAIR_THRESHOLD=10;DOCKER_USER=docker;DOCKER_PASSWORD=secret;
+<pre tabindex=0><code>CLAIR_ADDR=localhost;CLAIR_OUTPUT=High;CLAIR_THRESHOLD=10;DOCKER_USER=docker;DOCKER_PASSWORD=secret;
 klar mysql:latest
 </code></pre><h5 id=debug-output>Debug Output</h5>
 <p>You can enable more verbose output but setting KLAR_TRACE to true.</p>
 <h2 id=run-export-klar_tracetrue-to-persist-between-runs>run <code>export KLAR_TRACE=true</code> to persist between runs.</h2>
 <h4 id=gitlab-ci-usage>GitLab CI Usage</h4>
 <p>We have the below job defined in <code>.gitlab-ci.yml</code> post Dockerbuild stage</p>
-<pre><code>image_analysis:
+<pre tabindex=0><code>image_analysis:
   stage: analyse
   image: registry.mycompany.com/ci/kubernetes-deploy:klar
   script:

@@ -98,7 +98,7 @@ Since when We have been using Traefik since early 2017 on 2 of our cluster as a 
 <h4 id=lets-start-with-traefik-deployment>Lets Start with Traefik Deployment</h4>
 <p>Deploy the below traefik-crd-sa-cr-crb.yaml file with <code>kubectl apply -f traefik-crd-sa-cr-crb.yaml</code> as-is.</p>
 <p><a href=https://doc.traefik.io/traefik/user-guides/crd-acme/#cluster-resources>The below CRD&rsquo;s and supporting manifest is taken from this Traefik official documentation</a></p>
-<pre><code># traefik-crd-sa-cr-crb.yaml
+<pre tabindex=0><code># traefik-crd-sa-cr-crb.yaml
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -290,7 +290,7 @@ metadata:
 
 </code></pre><p>Now save the below manifest and deploy it on your cluster with few amendments like replacing proper values for AWS Route53 hosted zone and IAM keys, storageClassName, acme email address, your sub-domain in the initContainer args section</p>
 <p>ℹ️ - you can use Instance profile as well if you don&rsquo;t want to use IAM keys</p>
-<pre><code># create pvc to store the Lets Encrypt cert to persist between Traefik restarts
+<pre tabindex=0><code># create pvc to store the Lets Encrypt cert to persist between Traefik restarts
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -465,7 +465,7 @@ spec:
 <h4 id=is-this-even-working>Is this even working?</h4>
 <p>Ofcourse, if we have done all this, how do we validate, for that we will deploy a service and ingressRoute CRD with the manifest provided below</p>
 <p><code>kubectl apply -f traefik-ir.yaml</code></p>
-<pre><code># traefik-ir.yaml
+<pre tabindex=0><code># traefik-ir.yaml
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
@@ -567,6 +567,12 @@ spec:
 <hr>
 </div>
 <div class=pagination__buttons>
+<span class="button previous">
+<a href=https://rizwan-kh.github.io/posts/2021/12/trivy/>
+<span class=button__icon>←</span>
+<span class=button__text>Trivy</span>
+</a>
+</span>
 <span class="button next">
 <a href=https://rizwan-kh.github.io/posts/2021/06/azure-devops-send-json-requestparameters-to-azure-pipelines/>
 <span class=button__text>(Azure DevOps) Send Json Request(Parameters) to Azure Pipelines</span>
