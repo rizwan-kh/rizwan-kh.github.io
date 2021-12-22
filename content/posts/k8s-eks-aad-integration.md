@@ -30,7 +30,7 @@ After the app is created, there are couple of configuration that needs to be per
 ---
 - check if platform needs to be added and if yes, then add a platform of type Web with redirect URI as `http://localhost/red` and select `ID tokens (used for implicit and hybrid flows)`
 ---
-- If you want group to be part of your OIDC token, under Token configuration click Add groups claim. Select Security groups and Group ID. Groups created in AAD can only be included by their ObjectID and not name.
+- If you want group to be part of your OIDC, under Token configuration click Add groups claim. Select Security groups and Group ID. Groups created in AAD can only be included by their ObjectID and not name.
 
 - Copy the `Application (client) ID` and `Directory (tenant) ID` to be used later.
 
@@ -40,7 +40,8 @@ Amazon provides a way to configure OIDC compatible identity provider via the man
 - Click on `Associate Identity Provider`
     - Issuer URL: `https://sts.windows.net/[Directory (tenant) ID]`
     - Client ID: `[Application (client) ID]`
-    - Username claim: `email` #this will be `upn` if you want to authenticate direct member users of Azure AD and not guest users
+    - Username claim: `email` 
+        - (this will be `upn` if you want to authenticate direct member users of Azure AD and not guest users)
     - Groups claim: `groups`
     - Username prefix: `aad:`
     - Groups prefix: `aad:`
@@ -69,7 +70,7 @@ rm -r kubelogin*
 ```
 
 #### Configure kubectl
-Below config contains sample garbage value, please replace the below fields with proper value
+Below kubeconfig contains sample garbage value, please replace the below fields with proper value
 - certificate-authority-data
 - server
 - value for server-id
@@ -176,4 +177,4 @@ subjects:
 
 ```
 
-After these RBAC are set, I added my user and couple of other is those group and voila, we were all set!
+After these RBAC are set, I added my user and couple of other is those group and voila, we were all set and good to go.
