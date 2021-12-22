@@ -1,5 +1,5 @@
 ---
-title: "Trivy"
+title: "Trivy - Scan Container Images"
 date: 2021-12-14T23:10:21+04:00
 draft: false
 toc: false
