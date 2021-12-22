@@ -1,4 +1,164 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Rizwan Khan👨🏻‍💻</title><link>https://rizwan-kh.github.io/posts/</link><description>Recent content in Posts on Rizwan Khan👨🏻‍💻</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Tue, 14 Dec 2021 23:10:21 +0400</lastBuildDate><atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Trivy</title><link>https://rizwan-kh.github.io/posts/2021/12/trivy/</link><pubDate>Tue, 14 Dec 2021 23:10:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/12/trivy/</guid><description>Trivy Trivy is a scanner for vulnerabilities in container images, file systems, git repositories and configuration. It&amp;rsquo;s an Aqua Security open source project that can be easily used to integrate with our existing CI CD pipeline or used as an stand alone tool to scan container images deployed on Kubernetes cluster.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Rizwan Khan👨🏻‍💻</title><link>https://rizwan-kh.github.io/posts/</link><description>Recent content in Posts on Rizwan Khan👨🏻‍💻</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Wed, 22 Dec 2021 23:40:21 +0400</lastBuildDate><atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Integration of Azure AD as OIDC identity provider for AWS EKS</title><link>https://rizwan-kh.github.io/posts/2021/12/integration-of-azure-ad-as-oidc-identity-provider-for-aws-eks/</link><pubDate>Wed, 22 Dec 2021 23:40:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/12/integration-of-azure-ad-as-oidc-identity-provider-for-aws-eks/</guid><description>Introduction In my project we are using many flavours of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these cluster are managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the cluster on Rancher to manage all Kubernetes cluster.
+I had a requirement where we couldn&amp;rsquo;t onboard the users to our Active Directory, and the plan was to give them access to Amazon EKS via an Azure AD external users(or guest users).</description><content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<p>In my project we are using many flavours of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these cluster are managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the cluster on Rancher to manage all Kubernetes cluster.</p>
+<p>I had a requirement where we couldn&rsquo;t onboard the users to our Active Directory, and the plan was to give them access to Amazon EKS via an Azure AD external users(or guest users).</p>
+<p>Since now, <a href="https://aws.amazon.com/about-aws/whats-new/2021/02/amazon-eks-clusters-support-user-authentication-oidc-compatible-identity-providers/">Amazon supports user authentication with OIDC compatible identity provider</a>, I tried my hands at integrating AAD guest users to access this EKS.</p>
+<h2 id="setup">Setup</h2>
+<h3 id="setup-azure-ad-app-registration">Setup Azure AD App registration</h3>
+<ul>
+<li>Click on New Registration</li>
+<li>Provide a name viz. <code>eks-auth-app</code></li>
+<li>Select <code>Accounts in this organizational directory only (LubanDevOps only - Single tenant)</code></li>
+<li>Click <code>Register</code></li>
+</ul>
+<p>After the app is created, there are couple of configuration that needs to be performed.</p>
+<ul>
+<li>Click on <code>Authentication</code> and under <code>Advance settings</code> and check the <code>Allow public client flows</code> and save it</li>
+</ul>
+<hr>
+<ul>
+<li>check if platform needs to be added and if yes, then add a platform of type Web with redirect URI as <code>http://localhost/red</code> and select <code>ID tokens (used for implicit and hybrid flows)</code></li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>If you want group to be part of your OIDC token, under Token configuration click Add groups claim. Select Security groups and Group ID. Groups created in AAD can only be included by their ObjectID and not name.</p>
+</li>
+<li>
+<p>Copy the <code>Application (client) ID</code> and <code>Directory (tenant) ID</code> to be used later.</p>
+</li>
+</ul>
+<h3 id="configure-amazon-eks">Configure Amazon EKS</h3>
+<p>Amazon provides a way to configure OIDC compatible identity provider via the management console. Navigate to Authentication under Configuration in the EKS cluster panel when you select your cluster.</p>
+<ul>
+<li>Click on <code>Associate Identity Provider</code>
+<ul>
+<li>Issuer URL: <code>https://sts.windows.net/[Directory (tenant) ID]</code></li>
+<li>Client ID: <code>[Application (client) ID]</code></li>
+<li>Username claim: <code>email</code> #this will be <code>upn</code> if you want to authenticate direct member users of Azure AD and not guest users</li>
+<li>Groups claim: <code>groups</code></li>
+<li>Username prefix: <code>aad:</code></li>
+<li>Groups prefix: <code>aad:</code></li>
+</ul>
+</li>
+<li>If you want to add tags to identify the service principal or any other detail, you can add tags and save.</li>
+<li>This will update your OIDC identity provider in the API server and this takes sometime.(For me it took almost 40-50 minutes on each trial)</li>
+</ul>
+<p>Now the server configuration is completed. We will proceed with configuring clients</p>
+<h3 id="client-configuration">Client configuration</h3>
+<p>Since mostly, we use <code>kubectl</code> to interact with Kubernetes, we will configure kubectl to use <a href="https://github.com/Azure/kubelogin">kubelogin</a> which is a <a href="https://kubernetes.io/docs/reference/access-authn-authz/authentication/#client-go-credential-plugins">client-go credential (exec) plugin</a> implementing azure authentication. This plugin provides features that are not available in kubectl. It is supported on kubectl v1.11+</p>
+<h4 id="install-azurekubelogin">Install Azure/kubelogin</h4>
+<p>I followed the installation instructions from <a href="https://github.com/Azure/kubelogin">https://github.com/Azure/kubelogin</a>:</p>
+<p>Install using homebrew:</p>
+<pre tabindex="0"><code>brew install Azure/kubelogin/kubelogin
+</code></pre><p>Install directly from Github</p>
+<pre tabindex="0"><code>wget https://github.com/Azure/kubelogin/releases/latest/download/kubelogin-linux-amd64.zip
+unzip kubelogin-linux-amd64.zip -d kubelogin
+mv kubelogin/bin/linux_amd64/kubelogin /usr/local/bin/
+rm -r kubelogin*
+</code></pre><h4 id="configure-kubectl">Configure kubectl</h4>
+<p>Below config contains sample garbage value, please replace the below fields with proper value</p>
+<ul>
+<li>certificate-authority-data</li>
+<li>server</li>
+<li>value for server-id</li>
+<li>value for client-id</li>
+<li>value for tenant-id</li>
+</ul>
+<pre tabindex="0"><code>apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tC ...REDACTED STRING
+    server: https://34DA2A37GFSDXY7GFYWGE7ABA34Q11R0.gr7.us-east-1.eks.amazonaws.com
+  name: aws-eks-aad
+contexts:
+- context:
+    cluster: aws-eks-aad
+    user: azure-user
+  name: aws-eks-azure-user
+current-context: aws-eks-azure-user
+kind: Config
+preferences: {}
+users:
+- name: azure-user
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - get-token
+      - --environment
+      - AzurePublicCloud
+      - --server-id
+      - a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210
+      - --client-id
+      - a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210
+      - --tenant-id
+      - 67xxx5c-xxxx-xxxx-xxxx-254xxxxx9ccf
+      command: kubelogin
+      env: null
+</code></pre><h3 id="authentication">Authentication</h3>
+<p>Post completion of this setup, issue <code>kubectl</code> command to get the instruction to authenticate yourself; Note this will only authenticate you, you would need to configure RBAC to allow the users to interact with cluster.</p>
+<pre tabindex="0"><code>kubectl get pods
+To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code EJQH9Q8LS to authenticate.
+</code></pre><h3 id="authorization">Authorization</h3>
+<p>We would need to setup RBAC for different users and group as per our need, for that I created 3 Azure AD groups and mapped then as below</p>
+<ol>
+<li>eks-admins</li>
+<li>eks-editors</li>
+<li>eks-viewers</li>
+</ol>
+<pre tabindex="0"><code>kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  annotations:
+    for.ref.AAD.Group: https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/abe95a71-b52a-43f2-9095-fecd4f6ef58d
+  name: aad-cluster-admins
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: aad:abe95a71-b52a-43f2-9095-fecd4f6ef58d  # group ID setup
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: aad:rizwan.khan@mycontoso.com  # user setup
+  
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    for.ref.AAD.Group: https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/0bec3baa-511d-4816-ae62-2758d6023cf1
+  name: aad-cluster-editors
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: aad:0bec3baa-511d-4816-ae62-2758d6023cf1
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  annotations:
+    for.ref.AAD.Group: https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/03e95a71-b92a-4cf2-9895-fecd3f6ef58d
+  name: aad-cluster-viewers
+roleRef:
+  kind: ClusterRole
+  name: view
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: Group
+  name: aad:03e95a71-b92a-4cf2-9895-fecd3f6ef58d
+  apiGroup: rbac.authorization.k8s.io
+
+</code></pre><p>After these RBAC are set, I added my user and couple of other is those group and voila, we were all set!</p>
+]]></content></item><item><title>Trivy - Scan Container Images</title><link>https://rizwan-kh.github.io/posts/2021/12/trivy-scan-container-images/</link><pubDate>Tue, 14 Dec 2021 23:10:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/12/trivy-scan-container-images/</guid><description>Trivy Trivy is a scanner for vulnerabilities in container images, file systems, git repositories and configuration. It&amp;rsquo;s an Aqua Security open source project that can be easily used to integrate with our existing CI CD pipeline or used as an stand alone tool to scan container images deployed on Kubernetes cluster.
 We were using Clair previous to our switch to Trivy as we analyzed both the tools and found Trivy to be more helpful for the longer run - it was faster, had more CVE database updates as compared to Clair and didn&amp;rsquo;t depend on external clients to interact/scan.</description><content type="html"><![CDATA[<p><img src="/trivy.png" alt="trivy"></p>
 <h2 id="trivy">Trivy</h2>
 <p><a href="https://github.com/aquasecurity/trivy">Trivy</a> is a scanner for vulnerabilities in container images, file systems, git repositories and configuration. It&rsquo;s an <a href="https://aquasec.com/">Aqua Security</a> open source project that can be easily used to integrate with our existing CI CD pipeline or used as an stand alone tool to scan container images deployed on Kubernetes cluster.</p>
