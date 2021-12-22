@@ -22,7 +22,7 @@ Since now, [Amazon supports user authentication with OIDC compatible identity pr
 ### Setup Azure AD App registration
 - Click on New Registration
 - Provide a name viz. `eks-auth-app`
-- Select `Accounts in this organizational directory only (LubanDevOps only - Single tenant)`
+- Select `Accounts in this organizational directory only (MyAccount only - Single tenant)`
 - Click `Register`
 
 After the app is created, there are couple of configuration that needs to be performed.
