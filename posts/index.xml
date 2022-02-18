@@ -1,4 +1,88 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Rizwan Khan👨🏻‍💻</title><link>https://rizwan-kh.github.io/posts/</link><description>Recent content in Posts on Rizwan Khan👨🏻‍💻</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Wed, 22 Dec 2021 23:40:21 +0400</lastBuildDate><atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Integration of Azure AD as OIDC identity provider for AWS EKS</title><link>https://rizwan-kh.github.io/posts/2021/12/integration-of-azure-ad-as-oidc-identity-provider-for-aws-eks/</link><pubDate>Wed, 22 Dec 2021 23:40:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/12/integration-of-azure-ad-as-oidc-identity-provider-for-aws-eks/</guid><description>Introduction In my project we are using many flavours of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these cluster are managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the cluster on Rancher to manage all Kubernetes cluster.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Rizwan Khan👨🏻‍💻</title><link>https://rizwan-kh.github.io/posts/</link><description>Recent content in Posts on Rizwan Khan👨🏻‍💻</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Tue, 15 Feb 2022 19:31:58 +0400</lastBuildDate><atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Hashicorp Vault &amp; Azure AD Identity Integration</title><link>https://rizwan-kh.github.io/posts/2022/02/hashicorp-vault-azure-ad-identity-integration/</link><pubDate>Tue, 15 Feb 2022 19:31:58 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2022/02/hashicorp-vault-azure-ad-identity-integration/</guid><description>Introduction In this post, we will be implementing Hashicorp Vault authentication with Microsoft Azure AD as an identity provider using OIDC(OpenID Connect). The default token authentication is always enabled.
+Configuration There are two configurations that we had to do to achieve this with Azure AD, one is for app registration in the Azure Portal and the other one is on Vault - enabling the OIDC based auth. Steps for both are described below.</description><content type="html"><![CDATA[<p><img src="/vault-auth-basic.webp" alt="OIDC"></p>
+<h2 id="introduction">Introduction</h2>
+<p>In this post, we will be implementing Hashicorp Vault authentication with Microsoft Azure AD as an identity provider using OIDC(OpenID Connect). The default <strong>token</strong> authentication is always enabled.</p>
+<h2 id="configuration">Configuration</h2>
+<p>There are two configurations that we had to do to achieve this with Azure AD, one is for app registration in the Azure Portal and the other one is on Vault - enabling the OIDC based auth. Steps for both are described below.</p>
+<h3 id="azure-ad-app-registration">Azure AD App Registration</h3>
+<p>Navigate to Azure AD in the Azure portal and initiate a new registration under &lsquo;App Registration&rsquo;. Give a name to the app and select web under Redirect URI and add http://localhost:8250/oidc/callback and Register. We need to add more Redirect URI which we will do once the app is created. Copy the Tenant ID and Client ID(we will need those later). Under Authentication, we need to add Redirect URI based on the Vault URL. Create a secret and copy it for later use. We will also need to give permission for Microsoft Graph API Permission for &ldquo;Group.Read.All&rdquo;.</p>
+<p>In short, we need the below from Microsoft Azure:</p>
+<ul>
+<li>Register 1 App under App registration in Azure AD with name vault-aad-auth</li>
+<li>web-based Redirect URI for the below URLs
+<ul>
+<li>http://localhost:8250/oidc/callback</li>
+<li>https://localhost:8250/oidc/callback</li>
+<li><a href="https://vault.x-ops.com:8200/ui/vault/auth/oidc/oidc/callback">https://vault.x-ops.com:8200/ui/vault/auth/oidc/oidc/callback</a></li>
+<li><a href="https://vault.x-ops.com/ui/vault/auth/oidc/oidc/callbac">https://vault.x-ops.com/ui/vault/auth/oidc/oidc/callbac</a></li>
+</ul>
+</li>
+<li>Create a secret and copy the value</li>
+<li>Copy the Directory(tenant) ID and Application(client) ID</li>
+<li>Microsoft Graph API Permission for Group.Read.All</li>
+</ul>
+<h3 id="vault-configurations">Vault Configurations</h3>
+<h4 id="enable-oidc">enable OIDC</h4>
+<p>Enabling the OIDC based auth is the first thing we need to do, if you want to configure multiple OIDC, we can change the path on which OIDC is initialized.  Go to the Access tab at top of the Vault UI page and click on &lsquo;Enable new method +&rsquo; under Auth methods, alternatively, you can use Vault CLI to enable this using the below command</p>
+<pre tabindex="0"><code>vault auth enable oidc
+</code></pre><h4 id="configure-oidc">configure OIDC</h4>
+<p>Post initializing the OIDC authentication, we need to configure OIDC using the below OIDC command, here we will need the Tenant ID, client ID, and secret that we created in the Azure AD App registration step. Replace the values in the below command before applying.</p>
+<pre tabindex="0"><code>vault write auth/oidc/config \
+oidc_discovery_url=&quot;https://login.microsoftonline.com/TENANT_ID/v2.0&quot; \
+oidc_client_id=&quot;CLIENT_ID&quot; \
+oidc_client_secret=&quot;SECRET_REDACTED&quot;
+</code></pre><h4 id="configure-role">configure role</h4>
+<p>Replace the vault URL in the below <em>allowed_redirect_uris</em> as applicable</p>
+<pre tabindex="0"><code>vault write auth/oidc/role/aad \
+  user_claim=&quot;email&quot; \
+  oidc_scopes=&quot;https://graph.microsoft.com/.default&quot; \
+  groups_claim=&quot;groups&quot; \
+  policies=default \
+  ttl=1h \
+  allowed_redirect_uris=&quot;http://localhost:8250/oidc/callback&quot; \
+  allowed_redirect_uris=&quot;https://localhost:8250/oidc/callback&quot; \
+  allowed_redirect_uris=&quot;https://vault.x-ops.com:8200/ui/vault/auth/oidc/oidc/callback&quot; \
+  allowed_redirect_uris=&quot;https://vault.x-ops.com/ui/vault/auth/oidc/oidc/callback&quot;
+
+</code></pre><h4 id="verify-oidc-login-with-above-role">verify OIDC login with above role</h4>
+<p>You can now try to log in using the above role via the below command or use the Vault UI with the OIDC method and role <code>aad</code>.</p>
+<pre tabindex="0"><code>vault login -method=oidc role=aad
+</code></pre><p>You will be authenticated to login but won&rsquo;t be able to see any credentials yet as policies are not yet set, which will be completed as below</p>
+<h4 id="create-two-policy-per-team---read-only-and-readwritedelete">create two policy per team - read-only and read/write/delete</h4>
+<pre tabindex="0"><code># admin policy for kv backend at path kv/
+path &quot;kv/*&quot; {
+    capabilities = [&quot;create&quot;, &quot;read&quot;, &quot;update&quot;, &quot;list&quot;, &quot;delete&quot;]
+}
+</code></pre><pre tabindex="0"><code># read-only policy for kv backend at path kv/
+path &quot;kv/*&quot; {
+    capabilities = [&quot;read&quot;, &quot;list&quot;]
+}
+</code></pre><p>Save the two policies in two files named - <code>devops-admin-policy.hcl</code> and <code>devops-ro-policy.hcl</code>. Use the below command to write these policies</p>
+<pre tabindex="0"><code>vault policy write team-devops-admin-policy &quot;devops-admin-policy.hcl&quot;
+vault policy write team-devops-ro-policy &quot;devops-ro-policy.hcl&quot;
+</code></pre><h4 id="create-or-select-azure-ad-groups-mapped-to-the-two-policies-per-team">create or select azure AD groups mapped to the two policies per team</h4>
+<p>Create two Azure AD groups and map the corresponding users as applicable and note down the <strong>Object(Group) ID</strong> for both the groups - one will be used for admin users and one for read-only users</p>
+<h4 id="create-group-mapping">create group mapping</h4>
+<p>Post group creation, we need to perform two tasks</p>
+<ul>
+<li>create groups in Vault and attach policies</li>
+<li>create identity mapping between the AAD and vault groups</li>
+</ul>
+<h5 id="internal-vault-group">internal vault group</h5>
+<pre tabindex="0"><code>vault write identity/group name=&quot;devops-admins&quot; type=&quot;external&quot; policies=&quot;team-devops-admin-policy&quot;
+vault write identity/group name=&quot;devops-ro&quot; type=&quot;external&quot; policies=&quot;team-devops-ro-policy&quot;
+</code></pre><p>Post execution, note down the canonical ID for both the groups which will be used in mapping with</p>
+<h5 id="external-aad-group-mapping">external AAD group mapping</h5>
+<pre tabindex="0"><code># vault write identity/group-alias name=&quot;&lt;azuread-group-object-id&gt;&quot; mount_accessor=&quot;oidc_mount_accessor&quot; canonical_id=&quot;&lt;canonical-id&gt;&quot;
+
+# for admin group
+vault write identity/group-alias name=&quot;7f8a791a-45ac-49a7-8883-406k2pfq844a&quot; mount_accessor=&quot;auth_oidc_a26f03c3&quot; canonical_id=&quot;383344sf-88x5-19s5-da01-9e0011foe9x3&quot;
+
+# for read-only users group
+vault write identity/group-alias name=&quot;7f8a791a-3222-cc33-8899-4061122b334a&quot; mount_accessor=&quot;auth_oidc_a26f03c3&quot; canonical_id=&quot;3883336f-8555-1aa5-dww1-9e1122xae9b3&quot;
+
+</code></pre><p>Now you can try to log in with the OIDC and role as <code>aad</code>; Provide you Azure credentials and you will be authentication and if authorized will able to login and view the authorized credentials.</p>
+]]></content></item><item><title>Integration of Azure AD as OIDC identity provider for AWS EKS</title><link>https://rizwan-kh.github.io/posts/2021/12/integration-of-azure-ad-as-oidc-identity-provider-for-aws-eks/</link><pubDate>Wed, 22 Dec 2021 23:40:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/12/integration-of-azure-ad-as-oidc-identity-provider-for-aws-eks/</guid><description>Introduction In my project we are using many flavours of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these cluster are managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the cluster on Rancher to manage all Kubernetes cluster.
 I had a requirement where we couldn&amp;rsquo;t onboard the users to our Active Directory, and the plan was to give them access to Amazon EKS via an Azure AD external users(or guest users).</description><content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
 <p>In my project we are using many flavours of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these cluster are managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the cluster on Rancher to manage all Kubernetes cluster.</p>
 <p>I had a requirement where we couldn&rsquo;t onboard the users to our Active Directory, and the plan was to give them access to Amazon EKS via an Azure AD external users(or guest users).</p>
