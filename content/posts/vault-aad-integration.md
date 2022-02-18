@@ -1,7 +1,7 @@
 ---
 title: "Hashicorp Vault & Azure AD Identity Integration"
 date: 2022-02-15T19:31:58+04:00
-draft: true
+draft: false
 toc: false
 images:
 tags:
