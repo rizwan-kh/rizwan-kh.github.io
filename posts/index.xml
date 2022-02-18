@@ -66,7 +66,7 @@ vault policy write team-devops-ro-policy &quot;devops-ro-policy.hcl&quot;
 <p>Post group creation, we need to perform two tasks</p>
 <ul>
 <li>create groups in Vault and attach policies</li>
-<li>create identity mapping between the AAD and vault groups</li>
+<li>create identity mapping between the AAD groups and vault groups</li>
 </ul>
 <h5 id="internal-vault-group">internal vault group</h5>
 <pre tabindex="0"><code>vault write identity/group name=&quot;devops-admins&quot; type=&quot;external&quot; policies=&quot;team-devops-admin-policy&quot;
