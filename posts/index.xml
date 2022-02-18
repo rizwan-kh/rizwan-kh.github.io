@@ -32,7 +32,7 @@ oidc_discovery_url=&quot;https://login.microsoftonline.com/TENANT_ID/v2.0&quot; 
 oidc_client_id=&quot;CLIENT_ID&quot; \
 oidc_client_secret=&quot;SECRET_REDACTED&quot;
 </code></pre><h4 id="configure-role">configure role</h4>
-<p>Replace the vault URL in the below <em>allowed_redirect_uris</em> as applicable</p>
+<p>Replace the vault URL in the below <em>allowed_redirect_uris</em> as applicable and only keep one among the last twos depending on which port vault is exposed.</p>
 <pre tabindex="0"><code>vault write auth/oidc/role/aad \
   user_claim=&quot;email&quot; \
   oidc_scopes=&quot;https://graph.microsoft.com/.default&quot; \
