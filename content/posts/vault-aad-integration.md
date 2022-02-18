@@ -101,7 +101,7 @@ Create two Azure AD groups and map the corresponding users as applicable and not
 #### create group mapping
 Post group creation, we need to perform two tasks
 - create groups in Vault and attach policies
-- create identity mapping between the AAD and vault groups
+- create identity mapping between the AAD groups and vault groups
 
 ##### internal vault group
 ```
