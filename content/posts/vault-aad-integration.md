@@ -51,7 +51,7 @@ oidc_client_secret="SECRET_REDACTED"
 ```
 
 #### configure role
-Replace the vault URL in the below *allowed_redirect_uris* as applicable
+Replace the vault URL in the below *allowed_redirect_uris* as applicable and only keep one among the last twos depending on which port vault is exposed.
 ```
 vault write auth/oidc/role/aad \
   user_claim="email" \
