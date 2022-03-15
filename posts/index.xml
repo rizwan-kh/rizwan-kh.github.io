@@ -1,4 +1,194 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Rizwan Khan👨🏻‍💻</title><link>https://rizwan-kh.github.io/posts/</link><description>Recent content in Posts on Rizwan Khan👨🏻‍💻</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Tue, 15 Feb 2022 19:31:58 +0400</lastBuildDate><atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Hashicorp Vault &amp; Azure AD Identity Integration</title><link>https://rizwan-kh.github.io/posts/2022/02/hashicorp-vault-azure-ad-identity-integration/</link><pubDate>Tue, 15 Feb 2022 19:31:58 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2022/02/hashicorp-vault-azure-ad-identity-integration/</guid><description>Introduction In this post, we will be implementing Hashicorp Vault authentication with Microsoft Azure AD as an identity provider using OIDC(OpenID Connect). The default token authentication is always enabled.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Rizwan Khan👨🏻‍💻</title><link>https://rizwan-kh.github.io/posts/</link><description>Recent content in Posts on Rizwan Khan👨🏻‍💻</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Mon, 14 Mar 2022 18:23:08 +0400</lastBuildDate><atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Integration of Azure AD as OIDC identity provider for Kubernetes</title><link>https://rizwan-kh.github.io/posts/2022/03/integration-of-azure-ad-as-oidc-identity-provider-for-kubernetes/</link><pubDate>Mon, 14 Mar 2022 18:23:08 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2022/03/integration-of-azure-ad-as-oidc-identity-provider-for-kubernetes/</guid><description>Introduction In my project, we are using many flavors of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these clusters is managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the clusters on Rancher to manage all Kubernetes clusters.
+I had a requirement where we couldn&amp;rsquo;t onboard the users to our Active Directory, and the plan was to give them access to the Kubernetes cluster via Azure AD external users(or guest users).</description><content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<p>In my project, we are using many flavors of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these clusters is managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the clusters on Rancher to manage all Kubernetes clusters.</p>
+<p>I had a requirement where we couldn&rsquo;t onboard the users to our Active Directory, and the plan was to give them access to the Kubernetes cluster via Azure AD external users(or guest users).</p>
+<p>OIDC based authentication is natively supported by Kubernetes and we will be taking advantage of this to set up authentication and authorization using Azure AD.</p>
+<h2 id="setup">Setup</h2>
+<h3 id="setup-azure-ad-app-registration">Setup Azure AD App registration</h3>
+<ul>
+<li>Click on New Registration</li>
+<li>Provide a name viz. <code>k8s-auth-app</code></li>
+<li>Select <code>Accounts in this organizational directory only (MyAccount only - Single tenant)</code></li>
+<li>Click <code>Register</code></li>
+</ul>
+<p>After the app is created, there is a couple of configuration that needs to be performed.</p>
+<ul>
+<li>Click on <code>Authentication</code> and under <code>Advance settings</code> and check the <code>Allow public client flows</code> and save it</li>
+</ul>
+<hr>
+<ul>
+<li>check if platform needs to be added and if yes, then add a platform of type Web with redirect URI as <code>http://localhost/red</code> and select <code>ID tokens (used for implicit and hybrid flows)</code></li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>If you want group to be part of your OIDC, under Token configuration click Add groups claim. Select Security groups and Group ID. Groups created in AAD can only be included by their ObjectID and not name.</p>
+</li>
+<li>
+<p>Copy the <code>Application (client) ID</code> and <code>Directory (tenant) ID</code> to be used later.</p>
+</li>
+</ul>
+<h3 id="configure-kubernetes-api-server">Configure Kubernetes API Server</h3>
+<p>Kubernetes provides a way to configure OIDC compatible identity providers via flags passed to the kube-apiserver component. We need to the below flags while starting the kube-apiserver</p>
+<pre tabindex="0"><code>--oidc-client-id=&#34;spn:&lt;application id&gt;&#34; \
+--oidc-issuer-url=&#34;https://sts.windows.net/&lt;azure AD tenant&gt;/&#34;
+--oidc-username-claim=&#34;email&#34; # this will be `upn` if you want to authenticate direct member users of Azure AD and not guest users
+</code></pre><p>If you have created your cluster using <a href="https://kops.sigs.k8s.io/">KOPS</a>, you can add the below in the cluster configuration and perform an update and rolling-update to re-create the master nodes to enable the authentication</p>
+<pre tabindex="0"><code>spec:
+    kubeAPIServer:
+        oidcClientID: spn:&lt;application ID&gt;
+        oidcIssuerURL: https://sts.windows.net/&lt;azure AD tenant&gt;/
+        oidcUsernameClaim: upn
+        oidcUsernamePrefix: &#39;aad:&#39;
+</code></pre><p>After the master nodes are up and running, the server configuration is completed. We will proceed with configuring clients</p>
+<h3 id="client-configuration">Client configuration</h3>
+<p>Since mostly, we use <code>kubectl</code> to interact with Kubernetes, we will configure kubectl to use - <a href="https://github.com/Azure/kubelogin">kubelogin</a> which is a <a href="https://kubernetes.io/docs/reference/access-authn-authz/authentication/#client-go-credential-plugins">client-go credential (exec) plugin</a> implementing azure authentication. This plugin provides features that are not available in kubectl. It is supported on kubectl v1.11+</p>
+<ul>
+<li>azure cli</li>
+</ul>
+<p>We will explain below on how to configure both</p>
+<h4 id="install-azurekubelogin">Install Azure/kubelogin</h4>
+<p>I followed the installation instructions from <a href="https://github.com/Azure/kubelogin">https://github.com/Azure/kubelogin</a>:</p>
+<p>Install using homebrew:</p>
+<pre tabindex="0"><code>brew install Azure/kubelogin/kubelogin
+</code></pre><p>Install directly from Github</p>
+<pre tabindex="0"><code>wget https://github.com/Azure/kubelogin/releases/latest/download/kubelogin-linux-amd64.zip
+unzip kubelogin-linux-amd64.zip -d kubelogin
+mv kubelogin/bin/linux_amd64/kubelogin /usr/local/bin/
+rm -r kubelogin*
+</code></pre><h4 id="install-azure-cli">Install Azure cli</h4>
+<p>Install using homebrew</p>
+<pre tabindex="0"><code>brew update &amp;&amp; brew install azure-cli
+</code></pre><p>Although not preferred by many, using the script we can install as per below</p>
+<pre tabindex="0"><code>curl -L https://aka.ms/InstallAzureCli | bash
+</code></pre><h4 id="configure-kubectl">Configure kubectl</h4>
+<p>Below kubeconfig contains sample garbage value, please replace the below fields with proper value</p>
+<ul>
+<li>certificate-authority-data</li>
+<li>server</li>
+<li>value for server-id</li>
+<li>value for client-id</li>
+<li>value for tenant-id</li>
+</ul>
+<pre tabindex="0"><code># using kubelogin
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tC ...REDACTED STRING
+    server: https://34DA2A37GFSDXY7GFYWGE7ABA34Q11R0.myk8s.com
+  name: k8s-aad
+contexts:
+- context:
+    cluster: k8s-aad
+    user: azure-user
+  name: k8s-azure-user
+current-context: k8s-azure-user
+kind: Config
+preferences: {}
+users:
+- name: azure-user
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args:
+      - get-token
+      - --environment
+      - AzurePublicCloud
+      - --server-id
+      - a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210
+      - --client-id
+      - a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210
+      - --tenant-id
+      - 67xxx5c-xxxx-xxxx-xxxx-254xxxxx9ccf
+      command: kubelogin
+      env: null
+</code></pre><pre tabindex="0"><code># using azure cli
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tC ...REDACTED STRING
+    server: https://34DA2A37GFSDXY7GFYWGE7ABA34Q11R0.myk8s.com
+  name: k8s-aad
+contexts:
+- context:
+    cluster: k8s-aad
+    user: azure-user
+  name: k8s-azure-user
+current-context: k8s-azure-user
+kind: Config
+preferences: {}
+users:
+- name: azure-user
+  user:
+    auth-provider:
+      config:
+        apiserver-id: a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210
+        client-id: a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210
+        environment: AzurePublicCloud
+        tenant-id: 67xxx5c-xxxx-xxxx-xxxx-254xxxxx9ccf
+      name: azure
+</code></pre><h3 id="authentication">Authentication</h3>
+<p>Post completion of this setup, issue <code>kubectl</code> command to get the instruction to authenticate yourself; Note this will only authenticate you, you would need to configure RBAC to allow the users to interact with the cluster.</p>
+<pre tabindex="0"><code>kubectl get pods
+To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code EJQH9Q8LS to authenticate.
+</code></pre><h3 id="authorization">Authorization</h3>
+<p>We would need to setup RBAC for different users and group as per our need, for that I created 3 Azure AD groups and mapped then as below</p>
+<ol>
+<li>k8s-admins</li>
+<li>k8s-editors</li>
+<li>k8s-viewers</li>
+</ol>
+<pre tabindex="0"><code>kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  annotations:
+    for.ref.AAD.Group: https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/abe95a71-b52a-43f2-9095-fecd4f6ef58d
+  name: aad-cluster-admins
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: aad:abe95a71-b52a-43f2-9095-fecd4f6ef58d  # group ID setup
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: aad:rizwan.khan@mycontoso.com  # user setup
+  
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    for.ref.AAD.Group: https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/0bec3baa-511d-4816-ae62-2758d6023cf1
+  name: aad-cluster-editors
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: Group
+  name: aad:0bec3baa-511d-4816-ae62-2758d6023cf1
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  annotations:
+    for.ref.AAD.Group: https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/03e95a71-b92a-4cf2-9895-fecd3f6ef58d
+  name: aad-cluster-viewers
+roleRef:
+  kind: ClusterRole
+  name: view
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: Group
+  name: aad:03e95a71-b92a-4cf2-9895-fecd3f6ef58d
+  apiGroup: rbac.authorization.k8s.io
+</code></pre><p>After these RBAC are set, I added my user and a couple of others in those groups and voila, we were all set and good to go. We can also set up RoleBindings per namespace and access level as per requirement.</p>
+]]></content></item><item><title>Hashicorp Vault &amp; Azure AD Identity Integration</title><link>https://rizwan-kh.github.io/posts/2022/02/hashicorp-vault-azure-ad-identity-integration/</link><pubDate>Tue, 15 Feb 2022 19:31:58 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2022/02/hashicorp-vault-azure-ad-identity-integration/</guid><description>Introduction In this post, we will be implementing Hashicorp Vault authentication with Microsoft Azure AD as an identity provider using OIDC(OpenID Connect). The default token authentication is always enabled.
 Configuration There are two configurations that we had to do to achieve this with Azure AD, one is for app registration in the Azure Portal and the other one is on Vault - enabling the OIDC based auth. Steps for both are described below.</description><content type="html"><![CDATA[<p><img src="/vault-auth-basic.webp" alt="OIDC"></p>
 <h2 id="introduction">Introduction</h2>
 <p>In this post, we will be implementing Hashicorp Vault authentication with Microsoft Azure AD as an identity provider using OIDC(OpenID Connect). The default <strong>token</strong> authentication is always enabled.</p>
@@ -28,38 +218,37 @@ Configuration There are two configurations that we had to do to achieve this wit
 </code></pre><h4 id="configure-oidc">configure OIDC</h4>
 <p>Post initializing the OIDC authentication, we need to configure OIDC using the below OIDC command, here we will need the Tenant ID, client ID, and secret that we created in the Azure AD App registration step. Replace the values in the below command before applying.</p>
 <pre tabindex="0"><code>vault write auth/oidc/config \
-oidc_discovery_url=&quot;https://login.microsoftonline.com/TENANT_ID/v2.0&quot; \
-oidc_client_id=&quot;CLIENT_ID&quot; \
-oidc_client_secret=&quot;SECRET_REDACTED&quot;
+oidc_discovery_url=&#34;https://login.microsoftonline.com/TENANT_ID/v2.0&#34; \
+oidc_client_id=&#34;CLIENT_ID&#34; \
+oidc_client_secret=&#34;SECRET_REDACTED&#34;
 </code></pre><h4 id="configure-role">configure role</h4>
 <p>Replace the vault URL in the below <em>allowed_redirect_uris</em> as applicable and only keep one among the last twos depending on which port vault is exposed.</p>
 <pre tabindex="0"><code>vault write auth/oidc/role/aad \
-  user_claim=&quot;email&quot; \
-  oidc_scopes=&quot;https://graph.microsoft.com/.default&quot; \
-  groups_claim=&quot;groups&quot; \
+  user_claim=&#34;email&#34; \
+  oidc_scopes=&#34;https://graph.microsoft.com/.default&#34; \
+  groups_claim=&#34;groups&#34; \
   policies=default \
   ttl=1h \
-  allowed_redirect_uris=&quot;http://localhost:8250/oidc/callback&quot; \
-  allowed_redirect_uris=&quot;https://localhost:8250/oidc/callback&quot; \
-  allowed_redirect_uris=&quot;https://vault.x-ops.com:8200/ui/vault/auth/oidc/oidc/callback&quot; \
-  allowed_redirect_uris=&quot;https://vault.x-ops.com/ui/vault/auth/oidc/oidc/callback&quot;
-
+  allowed_redirect_uris=&#34;http://localhost:8250/oidc/callback&#34; \
+  allowed_redirect_uris=&#34;https://localhost:8250/oidc/callback&#34; \
+  allowed_redirect_uris=&#34;https://vault.x-ops.com:8200/ui/vault/auth/oidc/oidc/callback&#34; \
+  allowed_redirect_uris=&#34;https://vault.x-ops.com/ui/vault/auth/oidc/oidc/callback&#34;
 </code></pre><h4 id="verify-oidc-login-with-above-role">verify OIDC login with above role</h4>
 <p>You can now try to log in using the above role via the below command or use the Vault UI with the OIDC method and role <code>aad</code>.</p>
 <pre tabindex="0"><code>vault login -method=oidc role=aad
 </code></pre><p>You will be authenticated to login but won&rsquo;t be able to see any credentials yet as policies are not yet set, which will be completed as below</p>
 <h4 id="create-two-policy-per-team---read-only-and-readwritedelete">create two policy per team - read-only and read/write/delete</h4>
 <pre tabindex="0"><code># admin policy for kv backend at path kv/
-path &quot;kv/*&quot; {
-    capabilities = [&quot;create&quot;, &quot;read&quot;, &quot;update&quot;, &quot;list&quot;, &quot;delete&quot;]
+path &#34;kv/*&#34; {
+    capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;list&#34;, &#34;delete&#34;]
 }
 </code></pre><pre tabindex="0"><code># read-only policy for kv backend at path kv/
-path &quot;kv/*&quot; {
-    capabilities = [&quot;read&quot;, &quot;list&quot;]
+path &#34;kv/*&#34; {
+    capabilities = [&#34;read&#34;, &#34;list&#34;]
 }
 </code></pre><p>Save the two policies in two files named - <code>devops-admin-policy.hcl</code> and <code>devops-ro-policy.hcl</code>. Use the below command to write these policies</p>
-<pre tabindex="0"><code>vault policy write team-devops-admin-policy &quot;devops-admin-policy.hcl&quot;
-vault policy write team-devops-ro-policy &quot;devops-ro-policy.hcl&quot;
+<pre tabindex="0"><code>vault policy write team-devops-admin-policy &#34;devops-admin-policy.hcl&#34;
+vault policy write team-devops-ro-policy &#34;devops-ro-policy.hcl&#34;
 </code></pre><h4 id="create-or-select-azure-ad-groups-mapped-to-the-two-policies-per-team">create or select azure AD groups mapped to the two policies per team</h4>
 <p>Create two Azure AD groups and map the corresponding users as applicable and note down the <strong>Object(Group) ID</strong> for both the groups - one will be used for admin users and one for read-only users</p>
 <h4 id="create-group-mapping">create group mapping</h4>
@@ -69,18 +258,17 @@ vault policy write team-devops-ro-policy &quot;devops-ro-policy.hcl&quot;
 <li>create identity mapping between the AAD groups and vault groups</li>
 </ul>
 <h5 id="internal-vault-group">internal vault group</h5>
-<pre tabindex="0"><code>vault write identity/group name=&quot;devops-admins&quot; type=&quot;external&quot; policies=&quot;team-devops-admin-policy&quot;
-vault write identity/group name=&quot;devops-ro&quot; type=&quot;external&quot; policies=&quot;team-devops-ro-policy&quot;
+<pre tabindex="0"><code>vault write identity/group name=&#34;devops-admins&#34; type=&#34;external&#34; policies=&#34;team-devops-admin-policy&#34;
+vault write identity/group name=&#34;devops-ro&#34; type=&#34;external&#34; policies=&#34;team-devops-ro-policy&#34;
 </code></pre><p>Post execution, note down the canonical ID for both the groups which will be used in mapping with</p>
 <h5 id="external-aad-group-mapping">external AAD group mapping</h5>
-<pre tabindex="0"><code># vault write identity/group-alias name=&quot;&lt;azuread-group-object-id&gt;&quot; mount_accessor=&quot;oidc_mount_accessor&quot; canonical_id=&quot;&lt;canonical-id&gt;&quot;
+<pre tabindex="0"><code># vault write identity/group-alias name=&#34;&lt;azuread-group-object-id&gt;&#34; mount_accessor=&#34;oidc_mount_accessor&#34; canonical_id=&#34;&lt;canonical-id&gt;&#34;
 
 # for admin group
-vault write identity/group-alias name=&quot;7f8a791a-45ac-49a7-8883-406k2pfq844a&quot; mount_accessor=&quot;auth_oidc_a26f03c3&quot; canonical_id=&quot;383344sf-88x5-19s5-da01-9e0011foe9x3&quot;
+vault write identity/group-alias name=&#34;7f8a791a-45ac-49a7-8883-406k2pfq844a&#34; mount_accessor=&#34;auth_oidc_a26f03c3&#34; canonical_id=&#34;383344sf-88x5-19s5-da01-9e0011foe9x3&#34;
 
 # for read-only users group
-vault write identity/group-alias name=&quot;7f8a791a-3222-cc33-8899-4061122b334a&quot; mount_accessor=&quot;auth_oidc_a26f03c3&quot; canonical_id=&quot;3883336f-8555-1aa5-dww1-9e1122xae9b3&quot;
-
+vault write identity/group-alias name=&#34;7f8a791a-3222-cc33-8899-4061122b334a&#34; mount_accessor=&#34;auth_oidc_a26f03c3&#34; canonical_id=&#34;3883336f-8555-1aa5-dww1-9e1122xae9b3&#34;
 </code></pre><p>Now you can try to log in with the OIDC and role as <code>aad</code>; Provide you Azure credentials and you will be authentication and if authorized will able to login and view the authorized credentials.</p>
 ]]></content></item><item><title>Integration of Azure AD as OIDC identity provider for AWS EKS</title><link>https://rizwan-kh.github.io/posts/2021/12/integration-of-azure-ad-as-oidc-identity-provider-for-aws-eks/</link><pubDate>Wed, 22 Dec 2021 23:40:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/12/integration-of-azure-ad-as-oidc-identity-provider-for-aws-eks/</guid><description>Introduction In my project we are using many flavours of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these cluster are managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the cluster on Rancher to manage all Kubernetes cluster.
 I had a requirement where we couldn&amp;rsquo;t onboard the users to our Active Directory, and the plan was to give them access to Amazon EKS via an Azure AD external users(or guest users).</description><content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
@@ -244,7 +432,6 @@ subjects:
 - kind: Group
   name: aad:03e95a71-b92a-4cf2-9895-fecd3f6ef58d
   apiGroup: rbac.authorization.k8s.io
-
 </code></pre><p>After these RBAC are set, I added my user and couple of other is those group and voila, we were all set and good to go.</p>
 ]]></content></item><item><title>Trivy - Scan Container Images</title><link>https://rizwan-kh.github.io/posts/2021/12/trivy-scan-container-images/</link><pubDate>Tue, 14 Dec 2021 23:10:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/12/trivy-scan-container-images/</guid><description>Trivy Trivy is a scanner for vulnerabilities in container images, file systems, git repositories and configuration. It&amp;rsquo;s an Aqua Security open source project that can be easily used to integrate with our existing CI CD pipeline or used as an stand alone tool to scan container images deployed on Kubernetes cluster.
 We were using Clair previous to our switch to Trivy as we analyzed both the tools and found Trivy to be more helpful for the longer run - it was faster, had more CVE database updates as compared to Clair and didn&amp;rsquo;t depend on external clients to interact/scan.</description><content type="html"><![CDATA[<p><img src="/trivy.png" alt="trivy"></p>
@@ -264,21 +451,20 @@ trivy fs --security-checks vuln,config my_project/
 # for scanning configuration
 trivy config [YOUR_IAC_DIR]
 trivy config terraform/src
-
 </code></pre><p>Trivy is a <a href="https://github.com/aquasecurity/trivy#features">feature rich tool</a> and once you start using the same, you will recommend to everyone who isn&rsquo;t using it due to its simplicity.</p>
 <h2 id="use-case">Use-case</h2>
 <p>We scan the images in our build CI pipeline, but once deployed on the Kubernetes cluster, we were trying to find a tool which would scan the deployed images, we found Trivy can be used as an alternative, if you don&rsquo;t have run-time scanners like Palo Alto Twistlock Defender which does more than just scanning.</p>
 <p>We basically were re-scanning the images from our registry, but only the ones which are already running on our cluster.</p>
 <p>We get the list of images using the below <code>kubectl</code> API call and then iterate over those images to generate either HTML or JSON format reports as per the need.</p>
 <pre tabindex="0"><code># to get the list of images running on the cluster
-kubectl get pods --all-namespaces -o jsonpath=&quot;{.items[*].spec.containers[*].image}&quot; |tr -s '[[:space:]]' '\n' |sort |uniq -c
+kubectl get pods --all-namespaces -o jsonpath=&#34;{.items[*].spec.containers[*].image}&#34; |tr -s &#39;[[:space:]]&#39; &#39;\n&#39; |sort |uniq -c
 
 # then we use the output list from above command to iterate over each image to get the desired output
 # to get only critical vulnerability on library layer
 trivy image -s CRITICAL --vuln-type library --ignore-unfixed --format json -o my-app-1.4.3.json registry.mycompany.com/containers/my-app:1.4.3
 
 # to get all vulnerability in HTML format
-trivy image --format template &quot;@contrib/template.html&quot; -o my-app-1.4.3.html registry.mycompany.com/containers/my-app:1.4.3
+trivy image --format template &#34;@contrib/template.html&#34; -o my-app-1.4.3.html registry.mycompany.com/containers/my-app:1.4.3
 </code></pre>]]></content></item><item><title>Traefik on Kubernetes with Let's Encrypt &amp; Route53</title><link>https://rizwan-kh.github.io/posts/2021/07/traefik-on-kubernetes-with-lets-encrypt-route53/</link><pubDate>Wed, 28 Jul 2021 17:40:27 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/07/traefik-on-kubernetes-with-lets-encrypt-route53/</guid><description>Why Traefik? Traefik is a modern dynamic load balancer and reverse proxy, its easy to setup, control and provides lots of options which sits right with our use-cases. It integrates with Lets Encrypt to provide SSL termination along with support for service discovery, tracing, metrics out of the box running on Kubernetes as a small pod.
 Since when We have been using Traefik since early 2017 on 2 of our cluster as a daemonset Kubernetes object with externalDNS to update the worker nodes IP with our DNS provider and used to manually generate and update Lets Encrypt certificate on a Kubernetes secret object.</description><content type="html"><![CDATA[<p><img src="/k8s-traefik-le-route53.svg" alt="k8s-traefik-le-route53"></p>
 <h2 id="why-traefik">Why Traefik?</h2>
@@ -427,7 +613,7 @@ metadata:
 
 rules:
   - apiGroups:
-      - &quot;&quot;
+      - &#34;&#34;
     resources:
       - services
       - endpoints
@@ -488,7 +674,6 @@ kind: ServiceAccount
 metadata:
   namespace: default
   name: traefik-ingress-controller
-
 </code></pre><p>Now save the below manifest and deploy it on your cluster with few amendments like replacing proper values for AWS Route53 hosted zone and IAM keys, storageClassName, acme email address, your sub-domain in the initContainer args section</p>
 <p>ℹ️ - you can use Instance profile as well if you don&rsquo;t want to use IAM keys</p>
 <pre tabindex="0"><code># create pvc to store the Lets Encrypt cert to persist between Traefik restarts
@@ -520,7 +705,7 @@ metadata:
   namespace: default
 type: Opaque
 ---
-# create Traefik clusterIP service, note we won't be using the web as we avoid using port 80 for all Production purposes
+# create Traefik clusterIP service, note we won&#39;t be using the web as we avoid using port 80 for all Production purposes
 apiVersion: v1
 kind: Service
 metadata:
@@ -622,13 +807,13 @@ spec:
       dnsPolicy: ClusterFirst
       initContainers:
       - args:
-        - 'apt-get install awscli -y;HOSTED_ZONE_ID=&quot;Z34G65AEDEDE&quot;;INPUT=&quot;{\&quot;ChangeBatch\&quot;: { \&quot;Comment\&quot;:
-          \&quot;Update the A record set\&quot;, \&quot;Changes\&quot;:[ {\&quot;Action\&quot;: \&quot;UPSERT\&quot;, \&quot;ResourceRecordSet\&quot;:
-          { \&quot;Name\&quot;: \&quot;*.k8s.mydomain.com\&quot;, \&quot;Type\&quot;: \&quot;A\&quot;, \&quot;TTL\&quot;:
-          300, \&quot;ResourceRecords\&quot;: [ { \&quot;Value\&quot;: \&quot;HOSTIP\&quot;}]}}]}}&quot;; HOSTIP=`curl
+        - &#39;apt-get install awscli -y;HOSTED_ZONE_ID=&#34;Z34G65AEDEDE&#34;;INPUT=&#34;{\&#34;ChangeBatch\&#34;: { \&#34;Comment\&#34;:
+          \&#34;Update the A record set\&#34;, \&#34;Changes\&#34;:[ {\&#34;Action\&#34;: \&#34;UPSERT\&#34;, \&#34;ResourceRecordSet\&#34;:
+          { \&#34;Name\&#34;: \&#34;*.k8s.mydomain.com\&#34;, \&#34;Type\&#34;: \&#34;A\&#34;, \&#34;TTL\&#34;:
+          300, \&#34;ResourceRecords\&#34;: [ { \&#34;Value\&#34;: \&#34;HOSTIP\&#34;}]}}]}}&#34;; HOSTIP=`curl
           http://169.254.169.254/latest/meta-data/local-ipv4`;INPUT_JSON=`echo $INPUT
-          | sed &quot;s/HOSTIP/$HOSTIP/&quot;`; echo $INPUT_JSON;aws route53 change-resource-record-sets
-          --hosted-zone-id &quot;$HOSTED_ZONE_ID&quot; --cli-input-json &quot;$INPUT_JSON&quot;'
+          | sed &#34;s/HOSTIP/$HOSTIP/&#34;`; echo $INPUT_JSON;aws route53 change-resource-record-sets
+          --hosted-zone-id &#34;$HOSTED_ZONE_ID&#34; --cli-input-json &#34;$INPUT_JSON&#34;&#39;
         command:
         - /bin/sh
         - -c
@@ -695,46 +880,46 @@ For our use-case, we had been looking at option to send a JSON based parameter d
 <h3 id="flatten-json--operation">Flatten JSON &amp; operation</h3>
 <p>Wee look at the option to use the Flatten JSON Objects extension to convert a nested data layer object into a new object with only one layer of key/value pairs. For this we used the <strong>flatten_json</strong> library</p>
 <p><code>pip install flatten_json</code></p>
-<pre tabindex="0"><code>'''
-flatten the json data with a '_' separator; you can use different separator as well
-'''
+<pre tabindex="0"><code>&#39;&#39;&#39;
+flatten the json data with a &#39;_&#39; separator; you can use different separator as well
+&#39;&#39;&#39;
 # flatten.py
 import flatten_json
 
 data = {
-    &quot;a&quot;: 1,
-    &quot;b&quot;: 2,
-    &quot;c&quot;: [{&quot;d&quot;: [2, 3, 4], &quot;e&quot;: [{&quot;f&quot;: 1, &quot;g&quot;: 2}]}]
+    &#34;a&#34;: 1,
+    &#34;b&#34;: 2,
+    &#34;c&#34;: [{&#34;d&#34;: [2, 3, 4], &#34;e&#34;: [{&#34;f&#34;: 1, &#34;g&#34;: 2}]}]
 }
-flat_json = flatten_json.flatten(data,'_')
+flat_json = flatten_json.flatten(data,&#39;_&#39;)
 print(flat_json)
-'''
+&#39;&#39;&#39;
 the above command gives us below output, which is single layer JSON
 {
- 'a': 1,
- 'b': 2,
- 'c_0_d_0': 2,
- 'c_0_d_1': 3,
- 'c_0_d_2': 4,
- 'c_0_e_0_f': 1,
- 'c_0_e_0_g': 2
+ &#39;a&#39;: 1,
+ &#39;b&#39;: 2,
+ &#39;c_0_d_0&#39;: 2,
+ &#39;c_0_d_1&#39;: 3,
+ &#39;c_0_d_2&#39;: 4,
+ &#39;c_0_e_0_f&#39;: 1,
+ &#39;c_0_e_0_g&#39;: 2
  }
-'''
+&#39;&#39;&#39;
 </code></pre><p>Now that we had single layer <code>key: value</code> pair, we added another hack to be able to read these variables properly in Azure DevOps pipeline. We added a prefix (any prefix that&rsquo;s not part of your JSON) <strong>RizwanGotNoChill-</strong></p>
-<pre tabindex="0"><code>prefixed_flat_json = {f&quot;RizwanGotNoChill-{key}&quot;: val for key, val in flat_json.items()}
+<pre tabindex="0"><code>prefixed_flat_json = {f&#34;RizwanGotNoChill-{key}&#34;: val for key, val in flat_json.items()}
 print(prefixed_flat_json)
-'''
+&#39;&#39;&#39;
 the above command gives us below output, which is single layer prefixed JSON
 {
- 'RizwanGotNoChill-a': 1,
- 'RizwanGotNoChill-b': 2,
- 'RizwanGotNoChill-c_0_d_0': 2,
- 'RizwanGotNoChill-c_0_d_1': 3,
- 'RizwanGotNoChill-c_0_d_2': 4,
- 'RizwanGotNoChill-c_0_e_0_f': 1,
- 'RizwanGotNoChill-c_0_e_0_g': 2
+ &#39;RizwanGotNoChill-a&#39;: 1,
+ &#39;RizwanGotNoChill-b&#39;: 2,
+ &#39;RizwanGotNoChill-c_0_d_0&#39;: 2,
+ &#39;RizwanGotNoChill-c_0_d_1&#39;: 3,
+ &#39;RizwanGotNoChill-c_0_d_2&#39;: 4,
+ &#39;RizwanGotNoChill-c_0_e_0_f&#39;: 1,
+ &#39;RizwanGotNoChill-c_0_e_0_g&#39;: 2
  }
-'''
+&#39;&#39;&#39;
 </code></pre><p>This part if all we needed, now you could use the Azure DevOps Rest API with above <code>key: value</code> pair to trigger any pipeline and I will show, how we intepreted these at the pipeline and crafted a JSON out.</p>
 <h3 id="trigger-azure-devops-pipeline">Trigger Azure DevOps Pipeline</h3>
 <p>I found the below two ways to trigger a pipeline, you may want to see which one fits your case -</p>
@@ -747,14 +932,14 @@ the above command gives us below output, which is single layer prefixed JSON
 </ol>
 <pre tabindex="0"><code># Replace the values for YOURORG, YOURPROJECT, PATTOKEN and the value for id(pipeline ID)
 curl --request POST \
-  --url 'https://dev.azure.com/YOURORG/YOURPROJECT/_apis/build/builds?api-version=6.1-preview.6' \
-  --header 'Authorization: Basic PATTOKEN' \
-  --header 'Content-Type: application/json' \
+  --url &#39;https://dev.azure.com/YOURORG/YOURPROJECT/_apis/build/builds?api-version=6.1-preview.6&#39; \
+  --header &#39;Authorization: Basic PATTOKEN&#39; \
+  --header &#39;Content-Type: application/json&#39; \
 
-  --data '{
-    &quot;parameters&quot;: &quot;{\&quot;RizwanGotNoChill-a\&quot;:1,\&quot;RizwanGotNoChill-b\&quot;:2,\&quot;RizwanGotNoChill-c_0_d_0\&quot;:2,\&quot;RizwanGotNoChill-c_0_d_1\&quot;:3,\&quot;RizwanGotNoChill-c_0_d_2\&quot;:4,\&quot;RizwanGotNoChill-c_0_e_0_f\&quot;:1,\&quot;RizwanGotNoChill-c_0_e_0_g\&quot;:2}&quot;,
-    &quot;definition&quot;:  { &quot;id&quot;:  27 }
-}'
+  --data &#39;{
+    &#34;parameters&#34;: &#34;{\&#34;RizwanGotNoChill-a\&#34;:1,\&#34;RizwanGotNoChill-b\&#34;:2,\&#34;RizwanGotNoChill-c_0_d_0\&#34;:2,\&#34;RizwanGotNoChill-c_0_d_1\&#34;:3,\&#34;RizwanGotNoChill-c_0_d_2\&#34;:4,\&#34;RizwanGotNoChill-c_0_e_0_f\&#34;:1,\&#34;RizwanGotNoChill-c_0_e_0_g\&#34;:2}&#34;,
+    &#34;definition&#34;:  { &#34;id&#34;:  27 }
+}&#39;
 </code></pre><ul>
 <li>The other way to trigger a pipeline is calling the <strong>RunPipeline API</strong>, I wrote a small program</li>
 </ul>
@@ -774,10 +959,10 @@ curl --request POST \
 - job: generate_files
   steps:
   - script: |
-      echo &quot;Here, we will grep the content based on the prefix and store in a file&quot;
+      echo &#34;Here, we will grep the content based on the prefix and store in a file&#34;
       env | grep RizwanGotNoChill &gt; request.txt
-      sed -i 's/RizwanGotNoChill-//' request.txt
-      echo &quot;utils.py first creates a dict based on request.txt and then unflattens the files and write to request.json&quot;
+      sed -i &#39;s/RizwanGotNoChill-//&#39; request.txt
+      echo &#34;utils.py first creates a dict based on request.txt and then unflattens the files and write to request.json&#34;
       python3 utils.py
       cat request.json | jq .
     displayName: Produce JSON
@@ -787,18 +972,17 @@ import json
 import flatten_json
 
 dict_from_file = {}
-with open(&quot;request.txt&quot;) as fp:
+with open(&#34;request.txt&#34;) as fp:
     for line in fp:
-        (key, val) = line.split(&quot;=&quot;)
-        dict_from_file[key.lower()] = val.rstrip(&quot;\n&quot;)
+        (key, val) = line.split(&#34;=&#34;)
+        dict_from_file[key.lower()] = val.rstrip(&#34;\n&#34;)
 print(dict_from_file)
 
-request_json = flatten_json.unflatten(dict_from_file, '-')
+request_json = flatten_json.unflatten(dict_from_file, &#39;-&#39;)
 print(request_json)
 
-with open('request.json', 'w') as fp:
+with open(&#39;request.json&#39;, &#39;w&#39;) as fp:
      fp.write(json.dumps(request_json))
-
 </code></pre><p>Here our <code>request.json</code> is a proper JSON file ready to be used by any application/program in our Azure Pipeline;
 We noticed one issue though, the conversion process, converts all other data types to string data-type, so might be you would need to change that or add some logic to create json/dict with type safe.</p>
 ]]></content></item><item><title>Hugo &amp; GitHub - Setup Static Website on GitHub</title><link>https://rizwan-kh.github.io/posts/2020/06/hugo-github-setup-static-website-on-github/</link><pubDate>Fri, 12 Jun 2020 22:32:01 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2020/06/hugo-github-setup-static-website-on-github/</guid><description>Hugo and Github Account A small write-up on how this site was setup. There are plenty of materials available all over the internet, but this is more of a self-help document for myself to refer back in future to understand how this was all setup.
@@ -813,11 +997,10 @@ Hugo can be downloaded from their official release page A GitHub account needs t
 <pre tabindex="0"><code>hugo new site rizwan-blogs
 </code></pre><p>This will automatically create a directory named <em>rizwan-blogs</em> which will contain the necessary sub-directories and files required for our new hugo-based static website.</p>
 <p>The <code>config.toml</code> file is the main configuration file where we can add/change the theme or add additional settings like title, author, etc. Sample <strong>config.toml</strong> looks like below</p>
-<pre tabindex="0"><code>baseURL = &quot;https://rizwan-kh.github.io&quot;
-title = &quot;Rizwan Khan👨🏻‍💻&quot;
-languageCode = &quot;en-us&quot;
-theme = &quot;hello-friend-ng&quot;
-
+<pre tabindex="0"><code>baseURL = &#34;https://rizwan-kh.github.io&#34;
+title = &#34;Rizwan Khan👨🏻‍💻&#34;
+languageCode = &#34;en-us&#34;
+theme = &#34;hello-friend-ng&#34;
 </code></pre><p>Replace the above 4 values as you want to in the config.toml and you are good to go.</p>
 <p>To add content/pages, we run the below command, this will create a markdown page with the post marked as <code>draft: true</code> and we can keep it as true until we want to publish the post.</p>
 <pre tabindex="0"><code>huge new posts/my-post.md
@@ -836,7 +1019,7 @@ Then we can start the hugo server in build drafts enabled mode (or as I think of
 cd username.github.io
 </code></pre><p>copy over the entire content of the <code>public</code> directory <code>username.github.io</code> and use git to commit and push the content over to <em>GitHub</em></p>
 <pre tabindex="0"><code>git add --all
-git commit -m &quot;initial commit&quot;
+git commit -m &#34;initial commit&#34;
 git push origin main
 </code></pre><p>open your browser and type up the URL <a href="https://username.github.io">username.github.io</a> and voila your static website content is up and ready for free.</p>
 ]]></content></item><item><title>Klar</title><link>https://rizwan-kh.github.io/posts/2020/03/klar/</link><pubDate>Sat, 14 Mar 2020 17:20:26 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2020/03/klar/</guid><description>Introduction Klar is a static binary tool to analyze images stored in a private or public Docker registry for security vulnerabilities using Clair. Klar is designed to be used as an integration tool so it relies on environment variables. It&amp;rsquo;s a single binary which requires no dependencies and can be plugged and/or integrated into our CI CD pipelines.
@@ -937,7 +1120,7 @@ klar mysql:latest
   image: registry.mycompany.com/ci/kubernetes-deploy:klar
   script:
     - export PATH=$PATH:$CI_PROJECT_DIR
-    - export TAG=&quot;$CI_BUILD_REF_NAME&quot;
+    - export TAG=&#34;$CI_BUILD_REF_NAME&#34;
     - CLAIR_THRESHOLD=1000 DOCKER_TIMEOUT=5 CLAIR_TIMEOUT=5 CLAIR_ADDR=https://ngclair.mycompany.com:443 DOCKER_USER=gitlab-ci-token DOCKER_PASSWORD=$CI_BUILD_TOKEN klar $CI_REGISTRY_IMAGE:$TAG | tee scan.txt
   artifacts:
     paths:
@@ -945,10 +1128,9 @@ klar mysql:latest
     expire_in: 1 hour
   tags:
     - my_runner
-
 </code></pre><p>This image <code>registry.mycompany.com/ci/kubernetes-deploy:klar</code> contains the klar binary and the clair server is running on <a href="https://ngclair.mycompany.com:443">https://ngclair.mycompany.com:443</a></p>
 ]]></content></item><item><title>Vagrant</title><link>https://rizwan-kh.github.io/posts/2020/03/vagrant/</link><pubDate>Sat, 14 Mar 2020 17:20:26 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2020/03/vagrant/</guid><description>Introduction Getting started with Vagrant Download the install the Vagrant from the Download section
-vagrant version Installed Version: 2.2.10 Latest Version: 2.2.10 You're running an up-to-date version of Vagrant! Download and install VirtualBox
+vagrant version Installed Version: 2.2.10 Latest Version: 2.2.10 You&amp;#39;re running an up-to-date version of Vagrant! Download and install VirtualBox
 Now if both Vagrant and VirtualBox are up and running, all we need to do is run the below 3 commands to have a Ubuntu VM up and available for our use in no time.
 vagrant init hashicorp/bionic64 vagrant up vagrant ssh This is a pretty simple way to spin up a new Ubuntu VM, we can do a lot more which I will try to write up in later posts.</description><content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
 <hr>
@@ -958,7 +1140,7 @@ vagrant init hashicorp/bionic64 vagrant up vagrant ssh This is a pretty simple w
 Installed Version: 2.2.10
 Latest Version: 2.2.10
 
-You're running an up-to-date version of Vagrant!
+You&#39;re running an up-to-date version of Vagrant!
 </code></pre><p>Download and install <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></p>
 <p>Now if both <strong>Vagrant</strong> and <strong>VirtualBox</strong> are up and running, all we need to do is run the below 3 commands to have a Ubuntu VM up and available for our use in no time.</p>
 <pre tabindex="0"><code>vagrant init hashicorp/bionic64
@@ -987,10 +1169,10 @@ It is a tool to build container images from a Dockerfile inside a container or a
 <h4 id="ci-yaml-for-auto-devops">CI YAML for auto-devops</h4>
 <pre tabindex="0"><code># .gitlab-ci.yml
 variables:
-    GIT_SSL_NO_VERIFY: &quot;true&quot;
+    GIT_SSL_NO_VERIFY: &#34;true&#34;
 
 before_script:
-  - echo &quot;Random image creation, user = $GITLABUSER&quot;
+  - echo &#34;Random image creation, user = $GITLABUSER&#34;
 
 stages:
   - build
@@ -998,16 +1180,15 @@ stages:
 build_image:
   image:
     name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [&quot;&quot;]
+    entrypoint: [&#34;&#34;]
   stage: build
   script:
     - ls
     - pwd
     - export CI_REGISTRY_IMAGE=mygitlab.com/base-project/subproject/project
-    - echo &quot;{\&quot;auths\&quot;:{\&quot;mygitlab.com\&quot;:{\&quot;username\&quot;:\&quot;gitlab-ci-token\&quot;,\&quot;password\&quot;:\&quot;$CI_BUILD_TOKEN\&quot;},\&quot;repository.xyz-company.io\&quot;:{\&quot;username\&quot;:\&quot;user\&quot;,\&quot;password\&quot;:\&quot;123random\&quot;}}}&quot; &gt; /kaniko/.docker/config.json
+    - echo &#34;{\&#34;auths\&#34;:{\&#34;mygitlab.com\&#34;:{\&#34;username\&#34;:\&#34;gitlab-ci-token\&#34;,\&#34;password\&#34;:\&#34;$CI_BUILD_TOKEN\&#34;},\&#34;repository.xyz-company.io\&#34;:{\&#34;username\&#34;:\&#34;user\&#34;,\&#34;password\&#34;:\&#34;123random\&#34;}}}&#34; &gt; /kaniko/.docker/config.json
     - wget https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem | xargs cat lets-encrypt-x3-cross-signed.pem &gt;&gt; /kaniko/ssl/certs/ca-certificates.crt
     - /kaniko/executor --skip-tls-verify --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME
-
 </code></pre><hr>
 <p><strong>variables</strong>: These are static values which aren&rsquo;t going to change and is used at multiple location in the gitlab-ci.yml file</p>
 <p><strong>before_script</strong>: Set(s) of commands or echo statement we want to print</p>
@@ -1026,14 +1207,13 @@ Many times, we come across a situation where our organization uses a private Doc
 <pre tabindex="0"><code>kubectl create secret docker-registry registry-cred \
  --docker-server=my.private-registry.com \
  --docker-username=my_username \
- --docker-password=&quot;my_superr_strong_password&quot; \
+ --docker-password=&#34;my_superr_strong_password&#34; \
  --docker-email=my.email@mycompany.com -n my-namespace
 </code></pre><p>Then, we pass this secret in the deployment manifest as below.</p>
 <pre tabindex="0"><code>...
       imagePullSecrets:
       - name: registry-cred
 ...
-
 </code></pre><h2 id="the-problem-with-this-approach">The problem with this approach?</h2>
 <p>Not many that I can think of, except below ones:</p>
 <ul>
@@ -1043,7 +1223,7 @@ Many times, we come across a situation where our organization uses a private Doc
 <h2 id="the-solution">The solution</h2>
 <p><code>serviceAccounts</code> - your Kubernetes administrator can just patch serviceAccounts with the registry credential secret and you don&rsquo;t need to worry about replacing or adding it in your manifest yaml each time.</p>
 <pre tabindex="0"><code>kubectl patch serviceaccount default \
--p '{&quot;imagePullSecrets&quot;: [{&quot;name&quot;: &quot;registry-cred&quot;}]}' -n my-namespace
+-p &#39;{&#34;imagePullSecrets&#34;: [{&#34;name&#34;: &#34;registry-cred&#34;}]}&#39; -n my-namespace
 </code></pre>]]></content></item><item><title>Docker Cheat Sheet</title><link>https://rizwan-kh.github.io/posts/2019/10/docker-cheat-sheet/</link><pubDate>Fri, 11 Oct 2019 05:11:13 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2019/10/docker-cheat-sheet/</guid><description>Below are few of the main and basic commands used in Docker, an easy pick-up and good-to-go command page for docker troubleshooting.
 Alias If you are a lazy developer/sysadmin like me, the first thing you should do on your system is to make easy alias of all the long commands, below are the ones I often use on any system I use on a daily basis:
 These can be imported on ~/.</description><content type="html"><![CDATA[<p><img src="/docker.png" alt="docker">
