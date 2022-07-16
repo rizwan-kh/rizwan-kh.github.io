@@ -1376,21 +1376,4 @@ docker logs CONTAINERNAME/CONTAINERID
 </tbody>
 </table>
 <p>That&rsquo;s all more or less the keystroke you need to know; It comes of naturally when you start using it after a few days but until then - you can refer these as needed.</p>
-]]></content></item><item><title>Working with dead container</title><link>https://rizwan-kh.github.io/posts/1/01/working-with-dead-container/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://rizwan-kh.github.io/posts/1/01/working-with-dead-container/</guid><description>I came across this question from a team member where they wanted to troubleshoot a dead container. I use the below process and I thought why not do a small write up to help wider audience.
-Usage Process is very simple - to save/commit the dead container to a new image and then start a new container with a sh entrypoint and debug the container. I consider you&amp;rsquo;re using docker, although similar equivalent commands for other container runtime alternatives like podman, ctr, etc.</description><content type="html"><![CDATA[<p><img src="/docker.png" alt="docker">
-I came across this question from a team member where they wanted to troubleshoot a dead container. I use the below process and I thought why not do a small write up to help wider audience.</p>
-<h2 id="usage">Usage</h2>
-<p>Process is very simple - to save/commit the dead container to a new image and then start a new container with a <code>sh</code> entrypoint and debug the container. I consider you&rsquo;re using docker, although similar equivalent commands for other container runtime alternatives like podman, ctr, etc. can also be found, but the process will be similar.</p>
-<pre tabindex="0"><code># commit the stopped container to a new image
-docker commit 25836caaa158 dead/test
-
-# run docker images to see the image in the list of images present on the host
-docker images
-REPOSITORY    TAG     IMAGE ID       CREATED         SIZE  
-dead/test     latest  cc9db32dcc2d   2 seconds ago   280.7MB
-
-# start a new container with shell entrypoint to debug
-docker run -it --rm --entrypoint sh dead/test
-</code></pre><p>After you debugging is completed, feel free to delete the image</p>
-<pre tabindex="0"><code>docker rmi dead/test
-</code></pre>]]></content></item></channel></rss>
+]]></content></item></channel></rss>
