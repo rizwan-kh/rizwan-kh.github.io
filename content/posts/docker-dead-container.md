@@ -1,6 +1,6 @@
 ---
 title: "Working with dead container"
-date: 2022-16-07T11:39:13-05:00
+date: 2022-07-16T11:39:13-05:00
 draft: false
 
 tags:
