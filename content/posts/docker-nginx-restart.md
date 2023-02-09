@@ -1,5 +1,5 @@
 ---
-title: "Restart nginx without restarting the container/pod"
+title: "Reload nginx without restarting the container/pod"
 date: 2023-02-08T20:04:03-04:00
 draft: false
 toc: false
@@ -22,10 +22,12 @@ We went ahead with the second approach as it was the more time-saving option.
 Reload the nginx process on the pod using kubectl exec
 ```
 kubectl exec -ti app-nginx-ifbsdy -n ui -- nginx -s reload
+2023/02/09 01:39:02 [notice] 3269#3269: signal process started
 ```
 
 If you're running a docker container, exec inside the container
 
 ```
 docker exec -it app-nginx nginx -s reload
+2023/02/09 01:39:02 [notice] 3269#3269: signal process started
 ```
