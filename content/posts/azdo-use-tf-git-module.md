@@ -17,22 +17,21 @@ This small post gives us information on how to use git modules in Terraform. Thi
 
 ### Setup
 
-We need to setup SSH Keys using `InstallSSHKey` task, for this we need to create private key, public key and known host value of ssh.dev.azure.com host and add them as secure files and variables.
+We need to set up SSH Keys using `InstallSSHKey` task, for this, we need to create a private key, public key and known host value of ssh.dev.azure.com host and add them as secure files and variables.
 
 Keys can be created on Mac, Linux or Windows using OpenSSH.
 
 `ssh-keygen -C "user-email-address"`
 
 This will generate the below two files
-
 - id_rsa - your private key
 - id_rsa.pub - your public key. 
 
 We need to add the `id_rsa.pub` file to SSH Public Keys under User Settings and upload `id_rsa` file under Pipelines -> Library -> Secure files
 
-For Known Host file, we need to run the below command and get the output and save it under known_host variable. `ssh-keyscan ssh.dev.azure.com`
+For the Known Host file, we need to run the below command and get the output and save it under known_host variable. `ssh-keyscan ssh.dev.azure.com`
 
-Now, under Pipeline, we need to use the task as below to use the SSH keys to fetch or perform git operations.
+Now, under Pipeline, we need to use the task below to use the SSH keys to fetch or perform git operations.
 
 ```
 #azure-pipeline.yml

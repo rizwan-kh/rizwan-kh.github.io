@@ -11,11 +11,11 @@ tags:
 ---
 
 ## Introduction
-In my project we are using many flavours of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these cluster are managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the cluster on Rancher to manage all Kubernetes cluster.
+In my project, we are using many flavours of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these clusters are managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the cluster on Rancher to manage all Kubernetes cluster.
 
 I had a requirement where we couldn't onboard the users to our Active Directory, and the plan was to give them access to Amazon EKS via an Azure AD external users(or guest users).
 
-Since now, [Amazon supports user authentication with OIDC compatible identity provider](https://aws.amazon.com/about-aws/whats-new/2021/02/amazon-eks-clusters-support-user-authentication-oidc-compatible-identity-providers/), I tried my hands at integrating AAD guest users to access this EKS.
+Now, [Amazon supports user authentication with OIDC compatible identity providers](https://aws.amazon.com/about-aws/whats-new/2021/02/amazon-eks-clusters-support-user-authentication-oidc-compatible-identity-providers/), I tried my hands at integrating AAD guest users to access this EKS.
 
 ## Setup
 
@@ -25,7 +25,7 @@ Since now, [Amazon supports user authentication with OIDC compatible identity pr
 - Select `Accounts in this organizational directory only (MyAccount only - Single tenant)`
 - Click `Register`
 
-After the app is created, there are couple of configuration that needs to be performed.
+After the app is created, there is a couple of configuration that needs to be performed.
 - Click on `Authentication` and under `Advance settings` and check the `Allow public client flows` and save it
 ---
 - check if platform needs to be added and if yes, then add a platform of type Web with redirect URI as `http://localhost/red` and select `ID tokens (used for implicit and hybrid flows)`
@@ -35,7 +35,7 @@ After the app is created, there are couple of configuration that needs to be per
 - Copy the `Application (client) ID` and `Directory (tenant) ID` to be used later.
 
 ### Configure Amazon EKS
-Amazon provides a way to configure OIDC compatible identity provider via the management console. Navigate to Authentication under Configuration in the EKS cluster panel when you select your cluster.
+Amazon provides a way to configure OIDC-compatible identity providers via the management console. Navigate to Authentication under Configuration in the EKS cluster panel when you select your cluster.
 
 - Click on `Associate Identity Provider`
     - Issuer URL: `https://sts.windows.net/[Directory (tenant) ID]`
@@ -46,7 +46,7 @@ Amazon provides a way to configure OIDC compatible identity provider via the man
     - Username prefix: `aad:`
     - Groups prefix: `aad:`
 - If you want to add tags to identify the service principal or any other detail, you can add tags and save.
-- This will update your OIDC identity provider in the API server and this takes sometime.(For me it took almost 40-50 minutes on each trial)
+- This will update your OIDC identity provider in the API server and this takes some time.(For me it took almost 40-50 minutes on each trial)
 
 Now the server configuration is completed. We will proceed with configuring clients
 
@@ -70,7 +70,7 @@ rm -r kubelogin*
 ```
 
 #### Configure kubectl
-Below kubeconfig contains sample garbage value, please replace the below fields with proper value
+The below kubeconfig contains sample garbage value, please replace the below fields with the proper value
 - certificate-authority-data
 - server
 - value for server-id
@@ -112,7 +112,7 @@ users:
 ```
 
 ### Authentication
-Post completion of this setup, issue `kubectl` command to get the instruction to authenticate yourself; Note this will only authenticate you, you would need to configure RBAC to allow the users to interact with cluster.
+Post completion of this setup, issue `kubectl` command to get the instruction to authenticate yourself; Note this will only authenticate you, you would need to configure RBAC to allow the users to interact with the cluster.
 
 ```
 kubectl get pods
@@ -120,7 +120,7 @@ To sign in, use a web browser to open the page https://microsoft.com/devicelogin
 ```
 
 ### Authorization
-We would need to setup RBAC for different users and group as per our need, for that I created 3 Azure AD groups and mapped then as below
+We would need to setup RBAC for different users and groups as per our needs, for that I created 3 Azure AD groups and mapped them below
 1. eks-admins
 2. eks-editors
 3. eks-viewers
@@ -177,4 +177,4 @@ subjects:
 
 ```
 
-After these RBAC are set, I added my user and couple of other is those group and voila, we were all set and good to go.
+After these RBAC are set, I added my user and a couple of others in those groups and voila, we were all set and good to go.

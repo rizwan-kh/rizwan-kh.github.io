@@ -37,8 +37,8 @@ Then, we pass this secret in the deployment manifest as below.
 
 
 ## The problem with this approach?
-Not many that I can think of, except below ones:
-* The deployment yaml are generally developed by Developers who doesn't need to know about this credentials
+Not many that I can think of, except the below ones:
+* The deployment yaml is generally developed by Developers who don't need to know about these credentials
 * If there are a large number of pods in the namespace, then each manifest needs to be updated, whenever the password is rotated
 
 

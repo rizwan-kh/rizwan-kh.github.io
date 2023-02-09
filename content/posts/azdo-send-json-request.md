@@ -10,19 +10,19 @@ tags:
 ---
 ![azure](/azure-pipelines.png)
 ### Introduction
-If you've been using Azure DevOps, you would know that a pipeline can be trigger with runtime parameters in the format `key: value` pair and this is great for doing almost all of the tasks. 
+If you've been using Azure DevOps, you would know that a pipeline can be triggered with runtime parameters in the format `key: value` pair and this is great for doing almost all of the tasks. 
 
-For our use-case, we had been looking at option to send a JSON based parameter dictionary and I couldn't find any way at the time of writing this article. We came up with a hack to achieve this and I would want to write it up in this blog post.
+For our use case, we had been looking at an option to send a JSON-based parameter dictionary and I couldn't find any way at the time of writing this article. We came up with a hack to achieve this and I would want to write it up in this blog post.
 
 ### Flatten JSON & operation
-Wee look at the option to use the Flatten JSON Objects extension to convert a nested data layer object into a new object with only one layer of key/value pairs. For this we used the **flatten_json** library
+We look at the option to use the Flatten JSON Objects extension to convert a nested data layer object into a new object with only one layer of key/value pairs. For this, we used the **flatten_json** library
 
 `pip install flatten_json`
 
 
 ```
 '''
-flatten the json data with a '_' separator; you can use different separator as well
+flatten the JSON data with a '_' separator; you can use different separators as well
 '''
 # flatten.py
 import flatten_json
@@ -35,7 +35,7 @@ data = {
 flat_json = flatten_json.flatten(data,'_')
 print(flat_json)
 '''
-the above command gives us below output, which is single layer JSON
+the above command gives us the below output, which is single layer of JSON
 {
  'a': 1,
  'b': 2,
@@ -48,13 +48,13 @@ the above command gives us below output, which is single layer JSON
 '''
 ```
 
-Now that we had single layer `key: value` pair, we added another hack to be able to read these variables properly in Azure DevOps pipeline. We added a prefix (any prefix that's not part of your JSON) **RizwanGotNoChill-**
+Now that we had a single layer `key: value` pair, we added another hack to be able to read these variables properly in the Azure DevOps pipeline. We added a prefix (any prefix that's not part of your JSON) **RizwanGotNoChill-**
 
 ```
 prefixed_flat_json = {f"RizwanGotNoChill-{key}": val for key, val in flat_json.items()}
 print(prefixed_flat_json)
 '''
-the above command gives us below output, which is single layer prefixed JSON
+the above command gives us the below output, which is single layer prefixed JSON
 {
  'RizwanGotNoChill-a': 1,
  'RizwanGotNoChill-b': 2,
@@ -67,14 +67,14 @@ the above command gives us below output, which is single layer prefixed JSON
 '''
 ```
 
-This part if all we needed, now you could use the Azure DevOps Rest API with above `key: value` pair to trigger any pipeline and I will show, how we intepreted these at the pipeline and crafted a JSON out.
+This part is all we needed, now you could use the Azure DevOps Rest API with the above `key: value` pair to trigger any pipeline and I will show, how we interpreted these in the pipeline and crafted a JSON out.
 
 ### Trigger Azure DevOps Pipeline
 
 I found the below two ways to trigger a pipeline, you may want to see which one fits your case - 
 
-- Using REST API based curl/http command calling the **build API** - https://dev.azure.com/YOURORG/YOURPROJECT/_apis/build/builds?api-version=6.1-preview.6)
-1. Convert you JSON to an escaped one using this [link](https://jsonformatter.org/json-escape)
+- Using REST API-based curl/HTTP command calling the **build API** - https://dev.azure.com/YOURORG/YOURPROJECT/_apis/build/builds?api-version=6.1-preview.6)
+1. Convert your JSON to an escaped one using this [link](https://jsonformatter.org/json-escape)
 2. Create the request param as below and send 
 ```
 # Replace the values for YOURORG, YOURPROJECT, PATTOKEN and the value for id(pipeline ID)
@@ -89,7 +89,7 @@ curl --request POST \
 }'
 ```
 
-- The other way to trigger a pipeline is calling the **RunPipeline API**, I wrote a small program 
+- The other way to trigger a pipeline is by calling the **RunPipeline API**, I wrote a small program 
 
 {{< gist rizwan-kh c08955a24bfc1eb3eaa48248acd012e0 >}}
 
@@ -140,5 +140,5 @@ with open('request.json', 'w') as fp:
 
 ```
 
-Here our `request.json` is a proper JSON file ready to be used by any application/program in our Azure Pipeline; 
-We noticed one issue though, the conversion process, converts all other data types to string data-type, so might be you would need to change that or add some logic to create json/dict with type safe.
+Here, the `request.json` is a proper JSON file ready to be used by any application/program in the Azure Pipeline; 
+We noticed one issue though, the conversion process, converts all other data types to string datatype, so may be you would need to change that or add some logic to create json/dict with type-safe.

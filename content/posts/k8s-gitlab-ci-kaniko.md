@@ -11,7 +11,7 @@ tags:
 ---
 ![GitLab](/gitlab.jpeg)
 ### Introduction
-You can build container images from a Dockerfile inside a container or a Kubernetes cluster, though *Jérôme Petazzoni* strongly discourages from doing so. He wrote a detailed blog that can be read [here](http://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/) on why not to build container images using Dockerfile inside a container or a Kubernetes cluster.
+You can build container images from a Dockerfile inside a container or a Kubernetes cluster, though *Jérôme Petazzoni* strongly discourages doing so. He wrote a detailed blog that can be read [here](http://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/) on why not to build container images using Dockerfile inside a container or a Kubernetes cluster.
 
 ---
 #### Context
@@ -22,11 +22,11 @@ You will get ```N``` number of blogs on how to use the CI/CD of GitLab; here we 
 ```Note: Kaniko is not an officially supported Google product```
 It is a tool to build container images from a Dockerfile inside a container or a Kubernetes cluster. It doesn't depend on the Docker daemon to run each Dockerfile command.
 
-It comes with it's own limitations, but we don't run the risk of using Docker-in-Docker
+It comes with it's limitations, but we don't run the risk of using Docker-in-Docker
 
 ---
 #### Prerequisites
-- Access to GitLab (either private self hosted or managed)
+- Access to GitLab (either private self-hosted or managed)
 - GitLab project with a Dockerfile
 
 ---
@@ -58,13 +58,13 @@ build_image:
 ```
 
 ---
-**variables**: These are static values which aren't going to change and is used at multiple location in the gitlab-ci.yml file
+**variables**: These are static values which aren't going to change and is used at multiple locations in the gitlab-ci.yml file
 
-**before_script**: Set(s) of commands or echo statement we want to print
+**before_script**: Set(s) of commands or echo statements we want to print
 
-**stages**: Stages are block of code for an identical job or set of jobs viz. build, test, clean-up, delete, deploy, etc. This executes in the order it's defined in the YAML. A dot(.) in front of any job(block of code) disables it and it won't be executed or available neither as an automatic or manual job.
+**stages**: Stages are a block of code for an identical job or set of jobs viz. build, test, clean-up, delete, deploy, etc. This executes in the order it's defined in the YAML. A dot(.) in front of any job(block of code) disables it and it won't be executed or available either as an automatic or manual job.
 
-**Jobs (Each block of code)**: Each block of individual stage contains key-value pair or set of commands to it. We can define each block of code to point to a particular stage and all the set of commands it requires to perform that function in the script block. It can be made to run automatically and also manual (start the job manually by clicking a button). The variables like password, access/secret key can be defined in the CI/CD settings under secret variables section so it's not available in plain text format.
+**Jobs (Each block of code)**: Each block of an individual stage contains a key-value pair or set of commands to it. We can define each block of code to point to a particular stage and all the set of commands it requires to perform that function in the script block. It can be made to run automatically and also manually (start the job manually by clicking a button). The variables like password and access/secret key can be defined in the CI/CD settings under the secret variables section so it's not available in plain text format.
 
 ---
 

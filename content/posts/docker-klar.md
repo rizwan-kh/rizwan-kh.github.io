@@ -24,7 +24,7 @@ Download the latest release (for OSX and Linux) from https://github.com/optiopay
 
 ---
 #### Usage
-Klar process returns if 0 if the number of detected high severity vulnerabilities in an image is less than or equal to a threshold (see below) and 1 if there were more. It will return 2 if an error has prevented the image from being analyzed.
+Klar process returns 0 if the number of detected high-severity vulnerabilities in an image is less than or equal to a threshold (see below) and 1 if there were more. It will return 2 if an error has prevented the image from being analyzed.
 
 Klar can be configured via the following environment variables:
 
@@ -55,7 +55,7 @@ CLAIR_ADDR=localhost;CLAIR_OUTPUT=High;CLAIR_THRESHOLD=10;DOCKER_USER=docker;DOC
 klar mysql:latest
 ```
 ##### Debug Output
-You can enable more verbose output but setting KLAR_TRACE to true.
+You can enable more verbose output by setting KLAR_TRACE to true.
 
 run `export KLAR_TRACE=true` to persist between runs.
 ---

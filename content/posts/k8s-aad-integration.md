@@ -11,11 +11,11 @@ tags:
 ---
 
 ## Introduction
-In my project, we are using many flavors of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these clusters is managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the clusters on Rancher to manage all Kubernetes clusters.
+In my project, we are using many flavours of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these clusters is managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the clusters on Rancher to manage all Kubernetes clusters.
 
 I had a requirement where we couldn't onboard the users to our Active Directory, and the plan was to give them access to the Kubernetes cluster via Azure AD external users(or guest users).
 
-OIDC based authentication is natively supported by Kubernetes and we will be taking advantage of this to set up authentication and authorization using Azure AD.
+OIDC-based authentication is natively supported by Kubernetes and we will be taking advantage of this to set up authentication and authorization using Azure AD.
 
 ## Setup
 
@@ -35,7 +35,7 @@ After the app is created, there is a couple of configuration that needs to be pe
 - Copy the `Application (client) ID` and `Directory (tenant) ID` to be used later.
 
 ### Configure Kubernetes API Server
-Kubernetes provides a way to configure OIDC compatible identity providers via flags passed to the kube-apiserver component. We need to the below flags while starting the kube-apiserver
+Kubernetes provides a way to configure OIDC-compatible identity providers via flags passed to the kube-apiserver component. We need to the below flags while starting the kube-apiserver
 
 ```
 --oidc-client-id="spn:<application id>" \
@@ -43,7 +43,7 @@ Kubernetes provides a way to configure OIDC compatible identity providers via fl
 --oidc-username-claim="email" # this will be `upn` if you want to authenticate direct member users of Azure AD and not guest users
 ```
 
-If you have created your cluster using [KOPS](https://kops.sigs.k8s.io/), you can add the below in the cluster configuration and perform an update and rolling-update to re-create the master nodes to enable the authentication
+If you have created your cluster using [KOPS](https://kops.sigs.k8s.io/), you can add the below in the cluster configuration and perform an update and rolling update to re-create the master nodes to enable the authentication
 
 ```
 spec:
@@ -60,7 +60,7 @@ After the master nodes are up and running, the server configuration is completed
 Since mostly, we use `kubectl` to interact with Kubernetes, we will configure kubectl to use - [kubelogin](https://github.com/Azure/kubelogin) which is a [client-go credential (exec) plugin](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#client-go-credential-plugins) implementing azure authentication. This plugin provides features that are not available in kubectl. It is supported on kubectl v1.11+
 - azure cli
 
-We will explain below on how to configure both
+We will explain below how to configure both
 
 #### Install Azure/kubelogin
 I followed the installation instructions from https://github.com/Azure/kubelogin:
@@ -83,13 +83,13 @@ Install using homebrew
 brew update && brew install azure-cli
 ```
 
-Although not preferred by many, using the script we can install as per below
+Although not preferred by many, using the script we can install per below
 ```
 curl -L https://aka.ms/InstallAzureCli | bash
 ```
 
 #### Configure kubectl
-Below kubeconfig contains sample garbage value, please replace the below fields with proper value
+The below kubeconfig contains sample garbage value, please replace the below fields with the proper value
 - certificate-authority-data
 - server
 - value for server-id
@@ -168,7 +168,7 @@ To sign in, use a web browser to open the page https://microsoft.com/devicelogin
 ```
 
 ### Authorization
-We would need to setup RBAC for different users and group as per our need, for that I created 3 Azure AD groups and mapped then as below
+We would need to setup RBAC for different users and groups as per our need, for that I created 3 Azure AD groups and mapped them as below
 1. k8s-admins
 2. k8s-editors
 3. k8s-viewers

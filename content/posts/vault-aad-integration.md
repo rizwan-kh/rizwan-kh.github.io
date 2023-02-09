@@ -15,10 +15,10 @@ tags:
 In this post, we will be implementing Hashicorp Vault authentication with Microsoft Azure AD as an identity provider using OIDC(OpenID Connect). The default **token** authentication is always enabled.
 
 ## Configuration
-There are two configurations that we had to do to achieve this with Azure AD, one is for app registration in the Azure Portal and the other one is on Vault - enabling the OIDC based auth. Steps for both are described below.
+There are two configurations that we had to do to achieve this with Azure AD, one is for app registration in the Azure Portal and the other one is on Vault - enabling the OIDC based auth. The steps for both are described below.
 
 ### Azure AD App Registration
-Navigate to Azure AD in the Azure portal and initiate a new registration under 'App Registration'. Give a name to the app and select web under Redirect URI and add http://localhost:8250/oidc/callback and Register. We need to add more Redirect URI which we will do once the app is created. Copy the Tenant ID and Client ID(we will need those later). Under Authentication, we need to add Redirect URI based on the Vault URL. Create a secret and copy it for later use. We will also need to give permission for Microsoft Graph API Permission for "Group.Read.All".
+Navigate to Azure AD in the Azure portal and initiate a new registration under 'App Registration'. Give a name to the app and select web under Redirect URI and add http://localhost:8250/oidc/callback and Register. We need to add more Redirect URI which we will do once the app is created. Copy the Tenant ID and Client ID(we will need those later). Under Authentication, we need to add Redirect URI based on the Vault URL. Create a secret and copy it for later use. We will also need to permit Microsoft Graph API Permission for "Group.Read.All".
 
 In short, we need the below from Microsoft Azure:
 - Register 1 App under App registration in Azure AD with name vault-aad-auth
@@ -34,7 +34,7 @@ In short, we need the below from Microsoft Azure:
 ### Vault Configurations
 
 #### enable OIDC
-Enabling the OIDC based auth is the first thing we need to do, if you want to configure multiple OIDC, we can change the path on which OIDC is initialized.  Go to the Access tab at top of the Vault UI page and click on 'Enable new method +' under Auth methods, alternatively, you can use Vault CLI to enable this using the below command
+Enabling the OIDC based auth is the first thing we need to do, if you want to configure multiple OIDCs, we can change the path on which OIDC is initialized.  Go to the Access tab at top of the Vault UI page and click on 'Enable new method +' under Auth methods, alternatively, you can use Vault CLI to enable this using the below command
 
 ```
 vault auth enable oidc
@@ -51,7 +51,7 @@ oidc_client_secret="SECRET_REDACTED"
 ```
 
 #### configure role
-Replace the vault URL in the below *allowed_redirect_uris* as applicable and only keep one among the last twos depending on which port vault is exposed.
+Replace the vault URL in the below *allowed_redirect_uris* as applicable and only keep one among the last two depending on which port vault is exposed.
 ```
 vault write auth/oidc/role/aad \
   user_claim="email" \
@@ -66,13 +66,13 @@ vault write auth/oidc/role/aad \
 
 ```
 
-#### verify OIDC login with above role
+#### verify OIDC login with the above role
 You can now try to log in using the above role via the below command or use the Vault UI with the OIDC method and role `aad`.
 
 ```
 vault login -method=oidc role=aad
 ```
-You will be authenticated to login but won't be able to see any credentials yet as policies are not yet set, which will be completed as below
+You will be authenticated to log in but won't be able to see any credentials yet as policies are not yet set, which will be completed below
 
 #### create two policy per team - read-only and read/write/delete
 ```
@@ -108,7 +108,7 @@ Post group creation, we need to perform two tasks
 vault write identity/group name="devops-admins" type="external" policies="team-devops-admin-policy"
 vault write identity/group name="devops-ro" type="external" policies="team-devops-ro-policy"
 ```
-Post execution, note down the canonical ID for both the groups which will be used in mapping with 
+Post execution, note down the canonical ID for both groups which will be used in mapping with 
 
 ##### external AAD group mapping
 ```
@@ -117,9 +117,9 @@ Post execution, note down the canonical ID for both the groups which will be use
 # for admin group
 vault write identity/group-alias name="7f8a791a-45ac-49a7-8883-406k2pfq844a" mount_accessor="auth_oidc_a26f03c3" canonical_id="383344sf-88x5-19s5-da01-9e0011foe9x3"
 
-# for read-only users group
+# for the read-only users group
 vault write identity/group-alias name="7f8a791a-3222-cc33-8899-4061122b334a" mount_accessor="auth_oidc_a26f03c3" canonical_id="3883336f-8555-1aa5-dww1-9e1122xae9b3"
 
 ```
-Now you can try to log in with the OIDC and role as `aad`; Provide you Azure credentials and you will be authentication and if authorized will able to login and view the authorized credentials.
+Now you can try to log in with the OIDC and role as `aad`; Provide your Azure credentials and you will be authenticated and if authorized will able to log in and view the authorized credentials.
  

@@ -7,11 +7,11 @@ tags:
 - docker
 ---
 ![docker](/docker.png)
-Below are few of the main and basic commands used in Docker, an easy pick-up and good-to-go command page for docker troubleshooting.
+Below are a few of the main and basic commands used in Docker, an easy pick-up and good-to-go command page for docker troubleshooting.
 
 ## Alias
 ---
-If you are a lazy developer/sysadmin like me, the first thing you should do on your system is to make easy alias of all the long commands, below are the ones I often use on any system I use on a  daily basis:
+If you are a lazy developer/sysadmin like me, the first thing you should do on your system is to make easy alias of all the long commands, below are the ones I often use on any system I use daily:
 
 These can be imported on ~/.bashrc (if you use bash) or ~/.zshrc (if you are a MAC user and use ZSH)
 
@@ -20,7 +20,7 @@ These can be imported on ~/.bashrc (if you use bash) or ~/.zshrc (if you are a M
 ### Commands and their usage
 Mostly used commands are aliased above, but to explain what each does, please read on
 ```
-# to build a docker image with a certain name and certain tag, use the below Docker build comamnd
+# to build a docker image with a certain name and certain tag, use the below Docker build command
 docker build --tag imagename:tagname --file /path/to/Dockerfile
 
 
