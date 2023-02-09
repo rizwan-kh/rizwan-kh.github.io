@@ -10,9 +10,9 @@ tags:
 ---
 ![nginx](/nginx.png)
 ## Introduction
-Today in a troublshooting session, one of the pod we were working with had Angular application exposed via a nginx server and we wanted to change few setting in the custom-nginx.conf, for which the developer informed us that he would need to re-build the image and the CI pipeline will take around 10-15mins for build, scan and deploy.
+Today in a troubleshooting session, one of the pods we were working with had an Angular application exposed via an nginx server and we wanted to change a few settings in the custom-nginx.conf, for which the developer informed us that he would need to rebuild the image and the CI pipeline will take around 10-15mins for the build, scan and deploy.
 
-I suggested below two approaches
+I suggested two approaches
 - map custom-nginx.conf as a configmap in the pod
 - restart/reload nginx process
 
