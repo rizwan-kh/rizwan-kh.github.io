@@ -10,7 +10,7 @@ paginate  = 10
 rssLimit  = 10  # Maximum number of items in the RSS feed.
 copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License." # This message is only used by the RSS template.
 
-googleAnalytics = "UA-198799391-1"
+googleAnalytics = "G-07N411SVHJ"
 # disqusShortname = ""
 
 archetypeDir = "archetypes"
@@ -48,6 +48,7 @@ disableHugoGeneratorInject = false
   series   = "series"
 
 [params]
+  googleTagManager= "G-07N411SVHJ"
   dateform        = "Jan 2, 2006"
   dateformShort   = "Jan 2"
   dateformNum     = "2006-01-02"
