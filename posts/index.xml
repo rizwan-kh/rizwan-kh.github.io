@@ -1,4 +1,4 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Rizwan Khan👨🏻‍💻</title><link>https://rizwan-kh.github.io/posts/</link><description>Recent content in Posts on Rizwan Khan👨🏻‍💻</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Wed, 08 Feb 2023 20:04:03 -0400</lastBuildDate><atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Reload nginx without restarting the container/pod</title><link>https://rizwan-kh.github.io/posts/2023/02/reload-nginx-without-restarting-the-container/pod/</link><pubDate>Wed, 08 Feb 2023 20:04:03 -0400</pubDate><guid>https://rizwan-kh.github.io/posts/2023/02/reload-nginx-without-restarting-the-container/pod/</guid><description>Introduction Today in a troubleshooting session, one of the pods we were working with had an Angular application exposed via an nginx server and we wanted to change a few settings in the custom-nginx.conf, for which the developer informed us that he would need to rebuild the image and the CI pipeline will take around 10-15mins for the build, scan and deploy.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Rizwan Khan👨🏻‍💻</title><link>https://rizwan-kh.github.io/posts/</link><description>Recent content in Posts on Rizwan Khan👨🏻‍💻</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Wed, 08 Feb 2023 20:04:03 -0400</lastBuildDate><atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Reload nginx without restarting the container/pod</title><link>https://rizwan-kh.github.io/posts/2023/02/reload-nginx-without-restarting-the-container/pod/</link><pubDate>Wed, 08 Feb 2023 20:04:03 -0400</pubDate><guid>https://rizwan-kh.github.io/posts/2023/02/reload-nginx-without-restarting-the-container/pod/</guid><description>Introduction Today in a troubleshooting session, one of the pods we were working with had an Angular application exposed via an nginx server and we wanted to change a few settings in the custom-nginx.conf, for which the developer informed us that he would need to rebuild the image and the CI pipeline will take around 10-15mins for the build, scan and deploy.
 I suggested two approaches
 map custom-nginx.conf as a configmap in the pod restart/reload nginx process We went ahead with the second approach as it was the more time-saving option.</description><content type="html"><![CDATA[<p><img src="/nginx.png" alt="nginx"></p>
 <h2 id="introduction">Introduction</h2>
@@ -1452,4 +1452,41 @@ docker logs CONTAINERNAME/CONTAINERID
 </tbody>
 </table>
 <p>That&rsquo;s all more or less the keystroke you need to know; It comes off naturally when you start using it after a few days but until then - you can refer to these as needed.</p>
-]]></content></item></channel></rss>
+]]></content></item><item><title/><link>https://rizwan-kh.github.io/posts/1/01/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://rizwan-kh.github.io/posts/1/01/</guid><description>title: &amp;ldquo;(Azure DevOps) ADF CI CD using Azure Pipeline&amp;rdquo; date: 2023-06-06T21:28:21-05:00 draft: false toc: false images: tags:
+azure devops pipelines adf</description><content type="html"><![CDATA[<p>title: &ldquo;(Azure DevOps) ADF CI CD using Azure Pipeline&rdquo;
+date: 2023-06-06T21:28:21-05:00
+draft: false
+toc: false
+images:
+tags:</p>
+<ul>
+<li>azure devops</li>
+<li>pipelines</li>
+<li>adf</li>
+</ul>
+<hr>
+<p><img src="/azure-pipelines.png" alt="azure"></p>
+]]></content></item><item><title/><link>https://rizwan-kh.github.io/posts/1/01/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://rizwan-kh.github.io/posts/1/01/</guid><description>title: &amp;ldquo;GKE Audit logs - Find the cluster resources audit logs&amp;rdquo; date: 2023-28-02T05:40:00+04:00 draft: true toc: false images: tags:
+gke autopilot gcp Introduction Commands The below command has to be run in the Cloud Logging console, please don&amp;rsquo;t forget to replace the cluster name within the quotes in the last line
+Cluster Created resource.type=&amp;#34;gke_cluster&amp;#34; (log_id(&amp;#34;cloudaudit.googleapis.com/data_access&amp;#34;) OR log_id(&amp;#34;cloudaudit.googleapis.com/activity&amp;#34;)) protoPayload.methodName:&amp;#34;CreateCluster&amp;#34; resource.labels.cluster_name=&amp;#34;autopilot-cluster-1&amp;#34;</description><content type="html"><![CDATA[<p>title: &ldquo;GKE Audit logs - Find the cluster resources audit logs&rdquo;
+date: 2023-28-02T05:40:00+04:00
+draft: true
+toc: false
+images:
+tags:</p>
+<ul>
+<li>gke</li>
+<li>autopilot</li>
+<li>gcp</li>
+</ul>
+<hr>
+<h2 id="introduction">Introduction</h2>
+<h2 id="commands">Commands</h2>
+<p>The below command has to be run in the Cloud Logging console, please don&rsquo;t forget to replace the cluster name within the quotes in the last line</p>
+<h3 id="cluster-created">Cluster Created</h3>
+<pre tabindex="0"><code>resource.type=&#34;gke_cluster&#34;
+(log_id(&#34;cloudaudit.googleapis.com/data_access&#34;) OR
+log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
+protoPayload.methodName:&#34;CreateCluster&#34;
+resource.labels.cluster_name=&#34;autopilot-cluster-1&#34;
+</code></pre>]]></content></item></channel></rss>
