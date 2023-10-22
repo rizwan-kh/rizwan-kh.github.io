@@ -189,7 +189,7 @@ disableHugoGeneratorInject = false
     identifier = "posts"
     name       = "Blog"
     url        = "posts/"
-  
+
 #  [[menu.main]]
 #   identifier = "archieve"
 #   name       = "Archive"
