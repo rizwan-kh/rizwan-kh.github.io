@@ -1,5 +1,5 @@
 ---
-title: "(Azure DevOps) How to commit/push to Azure Git Repository from Azure Pipeline"
+title: "(Azure DevOps) Committing and Pushing to Azure Git Repository from Azure Pipeline"
 date: 2021-03-14T00:28:21+04:00
 draft: false
 toc: false
@@ -10,10 +10,10 @@ tags:
   - git repo
 ---
 ![azure](/azure-pipelines.png)
-## Azure Git Repository
-In one of our use-case, we had to create some terraform HCL files via Azure DevOps pipeline operations and then commit/push those newly generated files back to Azure Git Repos. This is generally not a very usual use case or operation. However, we were able to achieve it using the below pipeline.
+## Azure Git Repository Workflow
+In a unique use-case scenario, we encountered the need to dynamically generate Terraform HCL files during Azure DevOps pipeline operations and subsequently commit and push these files back to Azure Git Repos. While this isn't a conventional operation, we successfully achieved this using the pipeline configuration outlined below.
 
-Assuming, your pipeline has completed and has generated or modified the files, now it's time to push the changes to git - this surely will trigger another pipeline, however, this second pipeline will start the deployment and not the generation of terraform files as it did in the first pipeline trigger.
+Assuming your pipeline has completed its tasks, including the generation or modification of files, the next step is to commit and push these changes to the Git repository. This action will inevitably trigger another pipeline, with the second pipeline focused on deployment rather than the initial Terraform file generation.
 
 ```
 # get the branch name
@@ -52,6 +52,4 @@ fi
 git status
 ```
 
-The commands are very self-explanatory. However, the important item I skipped mentioning is the authentication part, which happens using SSH keys, stored under Azure Pipelines -> Library -> Variable Group. You would also need to put your public SSH keys under your profile. Here is the [link from Microsoft which explains how the authentication setup is done](https://learn.microsoft.com/en-us/azure/devops/repos/git/use-ssh-keys-to-authenticate?view=azure-devops#set-up-ssh-key-authentication)
-
-Hope you enjoy the reading!
+While the commands are self-explanatory, it's crucial to highlight the authentication aspect, which is facilitated through SSH keys stored in Azure Pipelines' Variable Group. Additionally, you need to place your public SSH keys in your profile. For detailed authentication setup, refer to [Microsoft's guide on SSH key authentication](https://learn.microsoft.com/en-us/azure/devops/repos/git/use-ssh-keys-to-authenticate?view=azure-devops#set-up-ssh-key-authentication).
