@@ -508,7 +508,7 @@ Since when We have been using Traefik since early 2017 on 2 of our clusters as a
 <p>We have been using Traefik since early 2017 on 2 of our clusters as a daemonset Kubernetes object with external DNS to update the worker nodes IP with our DNS provider and used to manually generate and update Lets Encrypt certificate on a Kubernetes secret object.</p>
 <p>Later, with the release of Traefik proxy v2, we started deploying Traefik as a deployment Kubernetes object and have been using it since then on more than 10 clusters with auto Lets Encrypt certificate generation and we use a small custom init-container to update the Route53 DNS entry.</p>
 <h2 id="how-is-the-entire-setup-done">How is the entire setup done</h2>
-<p>It might feel a bit sketchy if you&rsquo;re doing this for the first time, but once set up - you&rsquo;re good to go for almost till you don&rsquo;t want to upgrade. 😉</p>
+<p>It might feel a bit sketchy if you&rsquo;re doing this for the first time, but once set up - you&rsquo;re good to go for almost till you don&rsquo;t want to upgrade. &#x1f609;</p>
 <h3 id="pre-requisite">Pre-requisite</h3>
 <ul>
 <li>AWS IAM Keys with Route53 list and update access</li>
@@ -710,7 +710,7 @@ metadata:
   namespace: default
   name: traefik-ingress-controller
 </code></pre><p>Now save the below manifest and deploy it on your cluster with a few amendments like replacing proper values for AWS Route53 hosted zone and IAM keys, storageClassName, acme email address, and your sub-domain in the initContainer args section</p>
-<p>ℹ️ - you can use the Instance profile/IAM Role as well if you don&rsquo;t want to use IAM keys</p>
+<p>&#x2139;&#xfe0f; - you can use the Instance profile/IAM Role as well if you don&rsquo;t want to use IAM keys</p>
 <pre tabindex="0"><code># create PVC to store the Lets Encrypt cert to persist between Traefik restarts
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -726,7 +726,7 @@ spec:
       storage: 1Gi
   storageClassName: gp2
 ---
-# replace the below values for data with the proper encoded value (these are random garbage values 😝 ) 
+# replace the below values for data with the proper encoded value (these are random garbage values :stuck_out_tongue_closed_eyes: ) 
 apiVersion: v1
 data:
   access_key_id: S1FSMjI0NDRKNVNBSUtBRDRLTkgK  
@@ -1020,11 +1020,11 @@ with open(&#39;request.json&#39;, &#39;w&#39;) as fp:
      fp.write(json.dumps(request_json))
 </code></pre><p>Here, the <code>request.json</code> is a proper JSON file ready to be used by any application/program in the Azure Pipeline;
 We noticed one issue though, the conversion process, converts all other data types to string datatype, so may be you would need to change that or add some logic to create json/dict with type-safe.</p>
-]]></content></item><item><title>(Azure DevOps) How to commit/push to Azure Git Repository from Azure Pipeline</title><link>https://rizwan-kh.github.io/posts/2021/03/azure-devops-how-to-commit/push-to-azure-git-repository-from-azure-pipeline/</link><pubDate>Sun, 14 Mar 2021 00:28:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/03/azure-devops-how-to-commit/push-to-azure-git-repository-from-azure-pipeline/</guid><description>Azure Git Repository In one of our use-case, we had to create some terraform HCL files via Azure DevOps pipeline operations and then commit/push those newly generated files back to Azure Git Repos. This is generally not a very usual use case or operation. However, we were able to achieve it using the below pipeline.
-Assuming, your pipeline has completed and has generated or modified the files, now it&amp;rsquo;s time to push the changes to git - this surely will trigger another pipeline, however, this second pipeline will start the deployment and not the generation of terraform files as it did in the first pipeline trigger.</description><content type="html"><![CDATA[<p><img src="/azure-pipelines.png" alt="azure"></p>
-<h2 id="azure-git-repository">Azure Git Repository</h2>
-<p>In one of our use-case, we had to create some terraform HCL files via Azure DevOps pipeline operations and then commit/push those newly generated files back to Azure Git Repos. This is generally not a very usual use case or operation. However, we were able to achieve it using the below pipeline.</p>
-<p>Assuming, your pipeline has completed and has generated or modified the files, now it&rsquo;s time to push the changes to git - this surely will trigger another pipeline, however, this second pipeline will start the deployment and not the generation of terraform files as it did in the first pipeline trigger.</p>
+]]></content></item><item><title>(Azure DevOps) Committing and Pushing to Azure Git Repository from Azure Pipeline</title><link>https://rizwan-kh.github.io/posts/2021/03/azure-devops-committing-and-pushing-to-azure-git-repository-from-azure-pipeline/</link><pubDate>Sun, 14 Mar 2021 00:28:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/03/azure-devops-committing-and-pushing-to-azure-git-repository-from-azure-pipeline/</guid><description>Azure Git Repository Workflow In a unique use-case scenario, we encountered the need to dynamically generate Terraform HCL files during Azure DevOps pipeline operations and subsequently commit and push these files back to Azure Git Repos. While this isn&amp;rsquo;t a conventional operation, we successfully achieved this using the pipeline configuration outlined below.
+Assuming your pipeline has completed its tasks, including the generation or modification of files, the next step is to commit and push these changes to the Git repository.</description><content type="html"><![CDATA[<p><img src="/azure-pipelines.png" alt="azure"></p>
+<h2 id="azure-git-repository-workflow">Azure Git Repository Workflow</h2>
+<p>In a unique use-case scenario, we encountered the need to dynamically generate Terraform HCL files during Azure DevOps pipeline operations and subsequently commit and push these files back to Azure Git Repos. While this isn&rsquo;t a conventional operation, we successfully achieved this using the pipeline configuration outlined below.</p>
+<p>Assuming your pipeline has completed its tasks, including the generation or modification of files, the next step is to commit and push these changes to the Git repository. This action will inevitably trigger another pipeline, with the second pipeline focused on deployment rather than the initial Terraform file generation.</p>
 <pre tabindex="0"><code># get the branch name
 GIT_BRANCH=$(git branch -q)
 
@@ -1059,8 +1059,97 @@ if [ $? -ne 0 ]; then
 fi
 
 git status
-</code></pre><p>The commands are very self-explanatory. However, the important item I skipped mentioning is the authentication part, which happens using SSH keys, stored under Azure Pipelines -&gt; Library -&gt; Variable Group. You would also need to put your public SSH keys under your profile. Here is the <a href="https://learn.microsoft.com/en-us/azure/devops/repos/git/use-ssh-keys-to-authenticate?view=azure-devops#set-up-ssh-key-authentication">link from Microsoft which explains how the authentication setup is done</a></p>
-<p>Hope you enjoy the reading!</p>
+</code></pre><p>While the commands are self-explanatory, it&rsquo;s crucial to highlight the authentication aspect, which is facilitated through SSH keys stored in Azure Pipelines&rsquo; Variable Group. Additionally, you need to place your public SSH keys in your profile. For detailed authentication setup, refer to <a href="https://learn.microsoft.com/en-us/azure/devops/repos/git/use-ssh-keys-to-authenticate?view=azure-devops#set-up-ssh-key-authentication">Microsoft&rsquo;s guide on SSH key authentication</a>.</p>
+]]></content></item><item><title>Docker Vulnerability Analysis</title><link>https://rizwan-kh.github.io/posts/2020/09/docker-vulnerability-analysis/</link><pubDate>Mon, 14 Sep 2020 17:20:44 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2020/09/docker-vulnerability-analysis/</guid><description>Introduction Docker, a powerful containerization platform, has revolutionized the way applications are developed, shipped, deployed and consumed. However, as with any technology, it&amp;rsquo;s crucial to address security considerations. Conducting vulnerability analysis on your Docker containers is an essential step in ensuring the integrity and security of your applications as well as environment.
+Why Vulnerability Analysis? Containerized applications, while providing isolation, share the same kernel and may carry vulnerabilities. Regular vulnerability analysis helps identify and mitigate potential security risks within your Docker images.</description><content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<p>Docker, a powerful containerization platform, has revolutionized the way applications are developed, shipped, deployed and consumed. However, as with any technology, it&rsquo;s crucial to address security considerations. Conducting vulnerability analysis on your Docker containers is an essential step in ensuring the integrity and security of your applications as well as environment.</p>
+<h2 id="why-vulnerability-analysis">Why Vulnerability Analysis?</h2>
+<p>Containerized applications, while providing isolation, share the same kernel and may carry vulnerabilities. Regular vulnerability analysis helps identify and mitigate potential security risks within your Docker images. This proactive approach is crucial in maintaining a robust security posture.</p>
+<h2 id="tools-for-docker-vulnerability-analysis">Tools for Docker Vulnerability Analysis</h2>
+<p>Several tools are available to assess and analyze vulnerabilities within Docker containers. Two widely used tools are:</p>
+<ol>
+<li>Clair</li>
+</ol>
+<ul>
+<li>Overview:
+<ul>
+<li>An open-source project for the static analysis of vulnerabilities in application containers.</li>
+</ul>
+</li>
+<li>Key Features:
+<ul>
+<li>Identifies vulnerabilities based on known data from various sources.</li>
+<li>Integrates with container orchestration systems like Kubernetes.</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>Trivy</li>
+</ol>
+<ul>
+<li>Overview:
+<ul>
+<li>A comprehensive and easy-to-use vulnerability scanner specifically designed for containers.</li>
+</ul>
+</li>
+<li>Key Features:
+<ul>
+<li>Supports scanning both operating system packages and application dependencies.</li>
+<li>Provides detailed vulnerability information.</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>Prisma Twistlock</li>
+</ol>
+<ul>
+<li>Overview:
+<ul>
+<li>A paid tool which enables static as well as runtime vulnerability scanning and analysis.</li>
+</ul>
+</li>
+<li>Key Features:
+<ul>
+<li>Identify and manage vulnerabilities in container images and monitor and protect containers during runtime, detecting and preventing anomalous activities.</li>
+<li>Integrate with CI/CD pipelines, orchestration tools, and other components of the DevOps toolchain.</li>
+</ul>
+</li>
+</ul>
+<h2 id="performing-vulnerability-analysis">Performing Vulnerability Analysis</h2>
+<p>Performing vulnerability analysis using tools like Clair or Trivy involves a few essential steps:</p>
+<ol>
+<li>Container Scanning:</li>
+</ol>
+<ul>
+<li>Integrate the chosen tool into your CI/CD pipeline or run it manually on your Docker images.</li>
+</ul>
+<ol start="2">
+<li>Scan Reports:</li>
+</ol>
+<ul>
+<li>Review the generated scan reports to identify vulnerabilities and their severity levels.</li>
+</ul>
+<ol start="3">
+<li>Mitigation:</li>
+</ol>
+<ul>
+<li>Implement necessary fixes or updates to address identified vulnerabilities.</li>
+</ul>
+<ol start="4">
+<li>Regular Scans:</li>
+</ol>
+<ul>
+<li>Make vulnerability analysis a regular part of your development lifecycle to catch and mitigate new vulnerabilities promptly.</li>
+</ul>
+<h2 id="best-practices-for-secure-containers">Best Practices for Secure Containers</h2>
+<p>In addition to using vulnerability analysis tools, adopting best practices for secure containerization is crucial. Some recommendations include:</p>
+<ul>
+<li>Regularly update base images to include the latest security patches.</li>
+<li>Minimize the attack surface by only installing necessary dependencies.</li>
+<li>Employ multi-stage builds to reduce the size of the final image.</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>Docker vulnerability analysis is an integral part of maintaining a secure containerized environment. By leveraging dedicated tools and following best practices, you can identify and address vulnerabilities, ensuring that your containerized applications remain resilient against potential security threats.</p>
 ]]></content></item><item><title>Hugo &amp; GitHub - Setup Static Website on GitHub</title><link>https://rizwan-kh.github.io/posts/2020/06/hugo-github-setup-static-website-on-github/</link><pubDate>Fri, 12 Jun 2020 22:32:01 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2020/06/hugo-github-setup-static-website-on-github/</guid><description>Hugo and Github Account A small write-up on how this site was setup. There are plenty of materials available all over the internet, but this is more of a self-help document for myself to refer back in future to understand how this was all setup.
 Hugo can be downloaded from their official release page A GitHub account needs to be created from this link and a public repo is required to be setup here After installing Hugo, to generate a new site, run the below command:</description><content type="html"><![CDATA[<p><img src="/hugo-logo-wide.svg" alt="Hub"></p>
 <h2 id="hugo-and-github-account">Hugo and Github Account</h2>
@@ -1466,11 +1555,10 @@ tags:</p>
 </ul>
 <hr>
 <p><img src="/azure-pipelines.png" alt="azure"></p>
-]]></content></item><item><title/><link>https://rizwan-kh.github.io/posts/1/01/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://rizwan-kh.github.io/posts/1/01/</guid><description>title: &amp;ldquo;GKE Audit logs - Find the cluster resources audit logs&amp;rdquo; date: 2023-28-02T05:40:00+04:00 draft: true toc: false images: tags:
-gke autopilot gcp Introduction Commands The below command has to be run in the Cloud Logging console, please don&amp;rsquo;t forget to replace the cluster name within the quotes in the last line
-Cluster Created resource.type=&amp;#34;gke_cluster&amp;#34; (log_id(&amp;#34;cloudaudit.googleapis.com/data_access&amp;#34;) OR log_id(&amp;#34;cloudaudit.googleapis.com/activity&amp;#34;)) protoPayload.methodName:&amp;#34;CreateCluster&amp;#34; resource.labels.cluster_name=&amp;#34;autopilot-cluster-1&amp;#34;</description><content type="html"><![CDATA[<p>title: &ldquo;GKE Audit logs - Find the cluster resources audit logs&rdquo;
+]]></content></item><item><title/><link>https://rizwan-kh.github.io/posts/1/01/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://rizwan-kh.github.io/posts/1/01/</guid><description>title: &amp;ldquo;GKE Audit logs - Find the cluster resources audit logs&amp;rdquo; date: 2023-28-02T05:40:00+04:00 draft: false toc: false images: tags:
+gke autopilot gcp Introduction In a scenario where you need to validate the creator of a specific Google Kubernetes Engine (GKE) cluster, especially when there is no clear ownership or standard naming conventions, leveraging the Google Logging Console can provide valuable insights. This guide aims to demonstrate how you can utilize Google Cloud&amp;rsquo;s Logging Console to identify the creator of a GKE cluster.</description><content type="html"><![CDATA[<p>title: &ldquo;GKE Audit logs - Find the cluster resources audit logs&rdquo;
 date: 2023-28-02T05:40:00+04:00
-draft: true
+draft: false
 toc: false
 images:
 tags:</p>
@@ -1481,12 +1569,29 @@ tags:</p>
 </ul>
 <hr>
 <h2 id="introduction">Introduction</h2>
+<p>In a scenario where you need to validate the creator of a specific Google Kubernetes Engine (GKE) cluster, especially when there is no clear ownership or standard naming conventions, leveraging the Google Logging Console can provide valuable insights. This guide aims to demonstrate how you can utilize Google Cloud&rsquo;s Logging Console to identify the creator of a GKE cluster.</p>
 <h2 id="commands">Commands</h2>
-<p>The below command has to be run in the Cloud Logging console, please don&rsquo;t forget to replace the cluster name within the quotes in the last line</p>
+<p>The following command is designed to be executed in the Cloud Logging console. Ensure to replace the placeholder with the actual cluster name within the quotes in the last line.</p>
 <h3 id="cluster-created">Cluster Created</h3>
 <pre tabindex="0"><code>resource.type=&#34;gke_cluster&#34;
 (log_id(&#34;cloudaudit.googleapis.com/data_access&#34;) OR
 log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
 protoPayload.methodName:&#34;CreateCluster&#34;
 resource.labels.cluster_name=&#34;autopilot-cluster-1&#34;
-</code></pre>]]></content></item></channel></rss>
+</code></pre><h2 id="additional-examples">Additional Examples</h2>
+<h3 id="cluster-deleted">Cluster Deleted</h3>
+<p>To identify who deleted a GKE cluster:</p>
+<pre tabindex="0"><code>resource.type=&#34;gke_cluster&#34;
+(log_id(&#34;cloudaudit.googleapis.com/data_access&#34;) OR
+log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
+protoPayload.methodName:&#34;DeleteCluster&#34;
+resource.labels.cluster_name=&#34;your-cluster-name&#34;
+</code></pre><h3 id="node-pool-created">Node Pool Created</h3>
+<p>To find out who created a specific GKE node pool:</p>
+<pre tabindex="0"><code>resource.type=&#34;gke_nodepool&#34;
+(log_id(&#34;cloudaudit.googleapis.com/data_access&#34;) OR
+log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
+protoPayload.methodName:&#34;CreateNodePool&#34;
+resource.labels.node_pool_name=&#34;your-node-pool-name&#34;
+</code></pre><p>These commands can be adapted based on your specific use case, allowing you to gain insights into various GKE cluster activities through the Google Logging Console.</p>
+]]></content></item></channel></rss>
