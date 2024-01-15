@@ -19,7 +19,7 @@ These can be imported on ~/.bashrc (if you use bash) or ~/.zshrc (if you are a M
 
 ### Commands and their usage
 Mostly used commands are aliased above, but to explain what each does, please read on
-```
+```sh
 # to build a docker image with a certain name and certain tag, use the below Docker build command
 docker build --tag imagename:tagname --file /path/to/Dockerfile
 

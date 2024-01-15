@@ -27,6 +27,6 @@ docker run -it --rm --entrypoint sh dead/test
 ```
 
 After your debugging is completed, feel free to delete the image
-```
+```sh
 docker rmi dead/test
 ```
