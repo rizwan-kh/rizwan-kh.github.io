@@ -219,27 +219,27 @@ map custom-nginx.conf as a configmap in the pod restart/reload nginx process We 
 <p>We went ahead with the second approach as it was the more time-saving option.</p>
 <h2 id="steps">Steps</h2>
 <p>Reload the nginx process on the pod using kubectl exec</p>
-<pre tabindex="0"><code>kubectl exec -ti app-nginx-ifbsdy -n ui -- nginx -s reload
-2023/02/09 01:39:02 [notice] 3269#3269: signal process started
-</code></pre><p>If you&rsquo;re running a docker container, exec inside the container</p>
-<pre tabindex="0"><code>docker exec -it app-nginx nginx -s reload
-2023/02/09 01:39:02 [notice] 3269#3269: signal process started
-</code></pre>]]></content></item><item><title>Working with dead container</title><link>https://rizwan-kh.github.io/posts/2022/07/working-with-dead-container/</link><pubDate>Sat, 16 Jul 2022 19:39:13 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2022/07/working-with-dead-container/</guid><description>I came across this question from a team member who wanted to troubleshoot a dead container. I use the below process and I thought why not do a small write-up to help the wider audience?
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl exec -ti app-nginx-ifbsdy -n ui -- nginx -s reload
+</span></span><span style="display:flex;"><span>2023/02/09 01:39:02 <span style="color:#f92672">[</span>notice<span style="color:#f92672">]</span> 3269#3269: signal process started
+</span></span></code></pre></div><p>If you&rsquo;re running a docker container, exec inside the container</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>docker exec -it app-nginx nginx -s reload
+</span></span><span style="display:flex;"><span>2023/02/09 01:39:02 <span style="color:#f92672">[</span>notice<span style="color:#f92672">]</span> 3269#3269: signal process started
+</span></span></code></pre></div>]]></content></item><item><title>Working with dead container</title><link>https://rizwan-kh.github.io/posts/2022/07/working-with-dead-container/</link><pubDate>Sat, 16 Jul 2022 19:39:13 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2022/07/working-with-dead-container/</guid><description>I came across this question from a team member who wanted to troubleshoot a dead container. I use the below process and I thought why not do a small write-up to help the wider audience?
 Usage The process is very simple - to save/commit the dead container to a new image and then start a new container with a sh entrypoint and debug the container. I consider you&amp;rsquo;re using docker, although similar equivalent commands for other container runtime alternatives like podman, ctr, etc.</description><content type="html"><![CDATA[<p><img src="/docker.png" alt="docker">
 I came across this question from a team member who wanted to troubleshoot a dead container. I use the below process and I thought why not do a small write-up to help the wider audience?</p>
 <h2 id="usage">Usage</h2>
 <p>The process is very simple - to save/commit the dead container to a new image and then start a new container with a <code>sh</code> entrypoint and debug the container. I consider you&rsquo;re using docker, although similar equivalent commands for other container runtime alternatives like podman, ctr, etc. can also be found, the process will be similar.</p>
-<pre tabindex="0"><code># commit the stopped container to a new image
-docker commit 25836caaa158 dead/test
-
-# run docker images to see the image in the list of images present on the host
-docker images
-REPOSITORY    TAG     IMAGE ID       CREATED         SIZE  
-dead/test     latest  cc9db32dcc2d   2 seconds ago   280.7MB
-
-# start a new container with shell entrypoint to debug
-docker run -it --rm --entrypoint sh dead/test
-</code></pre><p>After your debugging is completed, feel free to delete the image</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># commit the stopped container to a new image</span>
+</span></span><span style="display:flex;"><span>docker commit 25836caaa158 dead/test
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># run docker images to see the image in the list of images present on the host</span>
+</span></span><span style="display:flex;"><span>docker images
+</span></span><span style="display:flex;"><span>REPOSITORY    TAG     IMAGE ID       CREATED         SIZE  
+</span></span><span style="display:flex;"><span>dead/test     latest  cc9db32dcc2d   <span style="color:#ae81ff">2</span> seconds ago   280.7MB
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># start a new container with shell entrypoint to debug</span>
+</span></span><span style="display:flex;"><span>docker run -it --rm --entrypoint sh dead/test
+</span></span></code></pre></div><p>After your debugging is completed, feel free to delete the image</p>
 <pre tabindex="0"><code>docker rmi dead/test
 </code></pre>]]></content></item><item><title>Integration of Azure AD as OIDC identity provider for Kubernetes</title><link>https://rizwan-kh.github.io/posts/2022/03/integration-of-azure-ad-as-oidc-identity-provider-for-kubernetes/</link><pubDate>Mon, 14 Mar 2022 18:23:08 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2022/03/integration-of-azure-ad-as-oidc-identity-provider-for-kubernetes/</guid><description>Introduction In my project, we are using many flavours of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these clusters is managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the clusters on Rancher to manage all Kubernetes clusters.
 I had a requirement where we couldn&amp;rsquo;t onboard the users to our Active Directory, and the plan was to give them access to the Kubernetes cluster via Azure AD external users(or guest users).</description><content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
@@ -273,17 +273,17 @@ I had a requirement where we couldn&amp;rsquo;t onboard the users to our Active 
 </ul>
 <h3 id="configure-kubernetes-api-server">Configure Kubernetes API Server</h3>
 <p>Kubernetes provides a way to configure OIDC-compatible identity providers via flags passed to the kube-apiserver component. We need to the below flags while starting the kube-apiserver</p>
-<pre tabindex="0"><code>--oidc-client-id=&#34;spn:&lt;application id&gt;&#34; \
---oidc-issuer-url=&#34;https://sts.windows.net/&lt;azure AD tenant&gt;/&#34;
---oidc-username-claim=&#34;email&#34; # this will be `upn` if you want to authenticate direct member users of Azure AD and not guest users
-</code></pre><p>If you have created your cluster using <a href="https://kops.sigs.k8s.io/">KOPS</a>, you can add the below in the cluster configuration and perform an update and rolling update to re-create the master nodes to enable the authentication</p>
-<pre tabindex="0"><code>spec:
-    kubeAPIServer:
-        oidcClientID: spn:&lt;application ID&gt;
-        oidcIssuerURL: https://sts.windows.net/&lt;azure AD tenant&gt;/
-        oidcUsernameClaim: upn
-        oidcUsernamePrefix: &#39;aad:&#39;
-</code></pre><p>After the master nodes are up and running, the server configuration is completed. We will proceed with configuring clients</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>--oidc-client-id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;spn:&lt;application id&gt;&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--oidc-issuer-url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://sts.windows.net/&lt;azure AD tenant&gt;/&#34;</span>
+</span></span><span style="display:flex;"><span>--oidc-username-claim<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;email&#34;</span> <span style="color:#75715e"># this will be `upn` if you want to authenticate direct member users of Azure AD and not guest users</span>
+</span></span></code></pre></div><p>If you have created your cluster using <a href="https://kops.sigs.k8s.io/">KOPS</a>, you can add the below in the cluster configuration and perform an update and rolling update to re-create the master nodes to enable the authentication</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kubeAPIServer</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">oidcClientID</span>: <span style="color:#ae81ff">spn:&lt;application ID&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">oidcIssuerURL</span>: <span style="color:#ae81ff">https://sts.windows.net/&lt;azure AD tenant&gt;/</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">oidcUsernameClaim</span>: <span style="color:#ae81ff">upn</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">oidcUsernamePrefix</span>: <span style="color:#e6db74">&#39;aad:&#39;</span>
+</span></span></code></pre></div><p>After the master nodes are up and running, the server configuration is completed. We will proceed with configuring clients</p>
 <h3 id="client-configuration">Client configuration</h3>
 <p>Since mostly, we use <code>kubectl</code> to interact with Kubernetes, we will configure kubectl to use - <a href="https://github.com/Azure/kubelogin">kubelogin</a> which is a <a href="https://kubernetes.io/docs/reference/access-authn-authz/authentication/#client-go-credential-plugins">client-go credential (exec) plugin</a> implementing azure authentication. This plugin provides features that are not available in kubectl. It is supported on kubectl v1.11+</p>
 <ul>
@@ -293,18 +293,18 @@ I had a requirement where we couldn&amp;rsquo;t onboard the users to our Active 
 <h4 id="install-azurekubelogin">Install Azure/kubelogin</h4>
 <p>I followed the installation instructions from <a href="https://github.com/Azure/kubelogin">https://github.com/Azure/kubelogin</a>:</p>
 <p>Install using homebrew:</p>
-<pre tabindex="0"><code>brew install Azure/kubelogin/kubelogin
-</code></pre><p>Install directly from Github</p>
-<pre tabindex="0"><code>wget https://github.com/Azure/kubelogin/releases/latest/download/kubelogin-linux-amd64.zip
-unzip kubelogin-linux-amd64.zip -d kubelogin
-mv kubelogin/bin/linux_amd64/kubelogin /usr/local/bin/
-rm -r kubelogin*
-</code></pre><h4 id="install-azure-cli">Install Azure cli</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>brew install Azure/kubelogin/kubelogin
+</span></span></code></pre></div><p>Install directly from Github</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>wget https://github.com/Azure/kubelogin/releases/latest/download/kubelogin-linux-amd64.zip
+</span></span><span style="display:flex;"><span>unzip kubelogin-linux-amd64.zip -d kubelogin
+</span></span><span style="display:flex;"><span>mv kubelogin/bin/linux_amd64/kubelogin /usr/local/bin/
+</span></span><span style="display:flex;"><span>rm -r kubelogin*
+</span></span></code></pre></div><h4 id="install-azure-cli">Install Azure cli</h4>
 <p>Install using homebrew</p>
-<pre tabindex="0"><code>brew update &amp;&amp; brew install azure-cli
-</code></pre><p>Although not preferred by many, using the script we can install per below</p>
-<pre tabindex="0"><code>curl -L https://aka.ms/InstallAzureCli | bash
-</code></pre><h4 id="configure-kubectl">Configure kubectl</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>brew update <span style="color:#f92672">&amp;&amp;</span> brew install azure-cli
+</span></span></code></pre></div><p>Although not preferred by many, using the script we can install per below</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>curl -L https://aka.ms/InstallAzureCli | bash
+</span></span></code></pre></div><h4 id="configure-kubectl">Configure kubectl</h4>
 <p>The below kubeconfig contains sample garbage value, please replace the below fields with the proper value</p>
 <ul>
 <li>certificate-authority-data</li>
@@ -313,124 +313,124 @@ rm -r kubelogin*
 <li>value for client-id</li>
 <li>value for tenant-id</li>
 </ul>
-<pre tabindex="0"><code># using kubelogin
-apiVersion: v1
-clusters:
-- cluster:
-    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tC ...REDACTED STRING
-    server: https://34DA2A37GFSDXY7GFYWGE7ABA34Q11R0.myk8s.com
-  name: k8s-aad
-contexts:
-- context:
-    cluster: k8s-aad
-    user: azure-user
-  name: k8s-azure-user
-current-context: k8s-azure-user
-kind: Config
-preferences: {}
-users:
-- name: azure-user
-  user:
-    exec:
-      apiVersion: client.authentication.k8s.io/v1beta1
-      args:
-      - get-token
-      - --environment
-      - AzurePublicCloud
-      - --server-id
-      - a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210
-      - --client-id
-      - a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210
-      - --tenant-id
-      - 67xxx5c-xxxx-xxxx-xxxx-254xxxxx9ccf
-      command: kubelogin
-      env: null
-</code></pre><pre tabindex="0"><code># using azure cli
-apiVersion: v1
-clusters:
-- cluster:
-    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tC ...REDACTED STRING
-    server: https://34DA2A37GFSDXY7GFYWGE7ABA34Q11R0.myk8s.com
-  name: k8s-aad
-contexts:
-- context:
-    cluster: k8s-aad
-    user: azure-user
-  name: k8s-azure-user
-current-context: k8s-azure-user
-kind: Config
-preferences: {}
-users:
-- name: azure-user
-  user:
-    auth-provider:
-      config:
-        apiserver-id: a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210
-        client-id: a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210
-        environment: AzurePublicCloud
-        tenant-id: 67xxx5c-xxxx-xxxx-xxxx-254xxxxx9ccf
-      name: azure
-</code></pre><h3 id="authentication">Authentication</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#75715e"># using kubelogin</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">clusters</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">cluster</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">certificate-authority-data</span>: <span style="color:#ae81ff">LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tC ...REDACTED STRING</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">server</span>: <span style="color:#ae81ff">https://34DA2A37GFSDXY7GFYWGE7ABA34Q11R0.myk8s.com</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">k8s-aad</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">contexts</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">context</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">cluster</span>: <span style="color:#ae81ff">k8s-aad</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">user</span>: <span style="color:#ae81ff">azure-user</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">k8s-azure-user</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">current-context</span>: <span style="color:#ae81ff">k8s-azure-user</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Config</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">preferences</span>: {}
+</span></span><span style="display:flex;"><span><span style="color:#f92672">users</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">azure-user</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">user</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">exec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">client.authentication.k8s.io/v1beta1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">get-token</span>
+</span></span><span style="display:flex;"><span>      - --<span style="color:#ae81ff">environment</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">AzurePublicCloud</span>
+</span></span><span style="display:flex;"><span>      - --<span style="color:#ae81ff">server-id</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210</span>
+</span></span><span style="display:flex;"><span>      - --<span style="color:#ae81ff">client-id</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210</span>
+</span></span><span style="display:flex;"><span>      - --<span style="color:#ae81ff">tenant-id</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">67xxx5c-xxxx-xxxx-xxxx-254xxxxx9ccf</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">command</span>: <span style="color:#ae81ff">kubelogin</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">env</span>: <span style="color:#66d9ef">null</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#75715e"># using azure cli</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">clusters</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">cluster</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">certificate-authority-data</span>: <span style="color:#ae81ff">LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tC ...REDACTED STRING</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">server</span>: <span style="color:#ae81ff">https://34DA2A37GFSDXY7GFYWGE7ABA34Q11R0.myk8s.com</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">k8s-aad</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">contexts</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">context</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">cluster</span>: <span style="color:#ae81ff">k8s-aad</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">user</span>: <span style="color:#ae81ff">azure-user</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">k8s-azure-user</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">current-context</span>: <span style="color:#ae81ff">k8s-azure-user</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Config</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">preferences</span>: {}
+</span></span><span style="display:flex;"><span><span style="color:#f92672">users</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">azure-user</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">user</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">auth-provider</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">config</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">apiserver-id</span>: <span style="color:#ae81ff">a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">client-id</span>: <span style="color:#ae81ff">a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">environment</span>: <span style="color:#ae81ff">AzurePublicCloud</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">tenant-id</span>: <span style="color:#ae81ff">67xxx5c-xxxx-xxxx-xxxx-254xxxxx9ccf</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">azure</span>
+</span></span></code></pre></div><h3 id="authentication">Authentication</h3>
 <p>Post completion of this setup, issue <code>kubectl</code> command to get the instruction to authenticate yourself; Note this will only authenticate you, you would need to configure RBAC to allow the users to interact with the cluster.</p>
-<pre tabindex="0"><code>kubectl get pods
-To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code EJQH9Q8LS to authenticate.
-</code></pre><h3 id="authorization">Authorization</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl get pods
+</span></span><span style="display:flex;"><span>To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code EJQH9Q8LS to authenticate.
+</span></span></code></pre></div><h3 id="authorization">Authorization</h3>
 <p>We would need to setup RBAC for different users and groups as per our need, for that I created 3 Azure AD groups and mapped them as below</p>
 <ol>
 <li>k8s-admins</li>
 <li>k8s-editors</li>
 <li>k8s-viewers</li>
 </ol>
-<pre tabindex="0"><code>kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  annotations:
-    for.ref.AAD.Group: https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/abe95a71-b52a-43f2-9095-fecd4f6ef58d
-  name: aad-cluster-admins
-roleRef:
-  kind: ClusterRole
-  name: cluster-admin
-  apiGroup: rbac.authorization.k8s.io
-subjects:
-- apiGroup: rbac.authorization.k8s.io
-  kind: Group
-  name: aad:abe95a71-b52a-43f2-9095-fecd4f6ef58d  # group ID setup
-- apiGroup: rbac.authorization.k8s.io
-  kind: User
-  name: aad:rizwan.khan@mycontoso.com  # user setup
-  
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  annotations:
-    for.ref.AAD.Group: https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/0bec3baa-511d-4816-ae62-2758d6023cf1
-  name: aad-cluster-editors
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: edit
-subjects:
-- apiGroup: rbac.authorization.k8s.io
-  kind: Group
-  name: aad:0bec3baa-511d-4816-ae62-2758d6023cf1
-
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  annotations:
-    for.ref.AAD.Group: https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/03e95a71-b92a-4cf2-9895-fecd3f6ef58d
-  name: aad-cluster-viewers
-roleRef:
-  kind: ClusterRole
-  name: view
-  apiGroup: rbac.authorization.k8s.io
-subjects:
-- kind: Group
-  name: aad:03e95a71-b92a-4cf2-9895-fecd3f6ef58d
-  apiGroup: rbac.authorization.k8s.io
-</code></pre><p>After these RBAC are set, I added my user and a couple of others in those groups and voila, we were all set and good to go. We can also set up RoleBindings per namespace and access level as per requirement.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRoleBinding</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">for.ref.AAD.Group</span>: <span style="color:#ae81ff">https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/abe95a71-b52a-43f2-9095-fecd4f6ef58d</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aad-cluster-admins</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">roleRef</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cluster-admin</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">subjects</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Group</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aad:abe95a71-b52a-43f2-9095-fecd4f6ef58d </span> <span style="color:#75715e"># group ID setup</span>
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">User</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aad:rizwan.khan@mycontoso.com </span> <span style="color:#75715e"># user setup</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRoleBinding</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">for.ref.AAD.Group</span>: <span style="color:#ae81ff">https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/0bec3baa-511d-4816-ae62-2758d6023cf1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aad-cluster-editors</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">roleRef</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">edit</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">subjects</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Group</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aad:0bec3baa-511d-4816-ae62-2758d6023cf1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRoleBinding</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">for.ref.AAD.Group</span>: <span style="color:#ae81ff">https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/03e95a71-b92a-4cf2-9895-fecd3f6ef58d</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aad-cluster-viewers</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">roleRef</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">view</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">subjects</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Group</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aad:03e95a71-b92a-4cf2-9895-fecd3f6ef58d</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span></code></pre></div><p>After these RBAC are set, I added my user and a couple of others in those groups and voila, we were all set and good to go. We can also set up RoleBindings per namespace and access level as per requirement.</p>
 ]]></content></item><item><title>Hashicorp Vault &amp; Azure AD Identity Integration</title><link>https://rizwan-kh.github.io/posts/2022/02/hashicorp-vault-azure-ad-identity-integration/</link><pubDate>Tue, 15 Feb 2022 19:31:58 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2022/02/hashicorp-vault-azure-ad-identity-integration/</guid><description>Introduction In this post, we will be implementing Hashicorp Vault authentication with Microsoft Azure AD as an identity provider using OIDC(OpenID Connect). The default token authentication is always enabled.
 Configuration There are two configurations that we had to do to achieve this with Azure AD, one is for app registration in the Azure Portal and the other one is on Vault - enabling the OIDC based auth. The steps for both are described below.</description><content type="html"><![CDATA[<p><img src="/vault-auth-basic.webp" alt="OIDC"></p>
 <h2 id="introduction">Introduction</h2>
@@ -457,29 +457,29 @@ Configuration There are two configurations that we had to do to achieve this wit
 <h3 id="vault-configurations">Vault Configurations</h3>
 <h4 id="enable-oidc">enable OIDC</h4>
 <p>Enabling the OIDC based auth is the first thing we need to do, if you want to configure multiple OIDCs, we can change the path on which OIDC is initialized.  Go to the Access tab at top of the Vault UI page and click on &lsquo;Enable new method +&rsquo; under Auth methods, alternatively, you can use Vault CLI to enable this using the below command</p>
-<pre tabindex="0"><code>vault auth enable oidc
-</code></pre><h4 id="configure-oidc">configure OIDC</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>vault auth enable oidc
+</span></span></code></pre></div><h4 id="configure-oidc">configure OIDC</h4>
 <p>Post initializing the OIDC authentication, we need to configure OIDC using the below OIDC command, here we will need the Tenant ID, client ID, and secret that we created in the Azure AD App registration step. Replace the values in the below command before applying.</p>
-<pre tabindex="0"><code>vault write auth/oidc/config \
-oidc_discovery_url=&#34;https://login.microsoftonline.com/TENANT_ID/v2.0&#34; \
-oidc_client_id=&#34;CLIENT_ID&#34; \
-oidc_client_secret=&#34;SECRET_REDACTED&#34;
-</code></pre><h4 id="configure-role">configure role</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>vault write auth/oidc/config <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>oidc_discovery_url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://login.microsoftonline.com/TENANT_ID/v2.0&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>oidc_client_id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;CLIENT_ID&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>oidc_client_secret<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;SECRET_REDACTED&#34;</span>
+</span></span></code></pre></div><h4 id="configure-role">configure role</h4>
 <p>Replace the vault URL in the below <em>allowed_redirect_uris</em> as applicable and only keep one among the last two depending on which port vault is exposed.</p>
-<pre tabindex="0"><code>vault write auth/oidc/role/aad \
-  user_claim=&#34;email&#34; \
-  oidc_scopes=&#34;https://graph.microsoft.com/.default&#34; \
-  groups_claim=&#34;groups&#34; \
-  policies=default \
-  ttl=1h \
-  allowed_redirect_uris=&#34;http://localhost:8250/oidc/callback&#34; \
-  allowed_redirect_uris=&#34;https://localhost:8250/oidc/callback&#34; \
-  allowed_redirect_uris=&#34;https://vault.x-ops.com:8200/ui/vault/auth/oidc/oidc/callback&#34; \
-  allowed_redirect_uris=&#34;https://vault.x-ops.com/ui/vault/auth/oidc/oidc/callback&#34;
-</code></pre><h4 id="verify-oidc-login-with-the-above-role">verify OIDC login with the above role</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>vault write auth/oidc/role/aad <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  user_claim<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;email&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  oidc_scopes<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://graph.microsoft.com/.default&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  groups_claim<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;groups&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  policies<span style="color:#f92672">=</span>default <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  ttl<span style="color:#f92672">=</span>1h <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  allowed_redirect_uris<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://localhost:8250/oidc/callback&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  allowed_redirect_uris<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://localhost:8250/oidc/callback&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  allowed_redirect_uris<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://vault.x-ops.com:8200/ui/vault/auth/oidc/oidc/callback&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  allowed_redirect_uris<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://vault.x-ops.com/ui/vault/auth/oidc/oidc/callback&#34;</span>
+</span></span></code></pre></div><h4 id="verify-oidc-login-with-the-above-role">verify OIDC login with the above role</h4>
 <p>You can now try to log in using the above role via the below command or use the Vault UI with the OIDC method and role <code>aad</code>.</p>
-<pre tabindex="0"><code>vault login -method=oidc role=aad
-</code></pre><p>You will be authenticated to log in but won&rsquo;t be able to see any credentials yet as policies are not yet set, which will be completed below</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>vault login -method<span style="color:#f92672">=</span>oidc role<span style="color:#f92672">=</span>aad
+</span></span></code></pre></div><p>You will be authenticated to log in but won&rsquo;t be able to see any credentials yet as policies are not yet set, which will be completed below</p>
 <h4 id="create-two-policy-per-team---read-only-and-readwritedelete">create two policy per team - read-only and read/write/delete</h4>
 <pre tabindex="0"><code># admin policy for kv backend at path kv/
 path &#34;kv/*&#34; {
@@ -490,9 +490,9 @@ path &#34;kv/*&#34; {
     capabilities = [&#34;read&#34;, &#34;list&#34;]
 }
 </code></pre><p>Save the two policies in two files named - <code>devops-admin-policy.hcl</code> and <code>devops-ro-policy.hcl</code>. Use the below command to write these policies</p>
-<pre tabindex="0"><code>vault policy write team-devops-admin-policy &#34;devops-admin-policy.hcl&#34;
-vault policy write team-devops-ro-policy &#34;devops-ro-policy.hcl&#34;
-</code></pre><h4 id="create-or-select-azure-ad-groups-mapped-to-the-two-policies-per-team">create or select azure AD groups mapped to the two policies per team</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>vault policy write team-devops-admin-policy <span style="color:#e6db74">&#34;devops-admin-policy.hcl&#34;</span>
+</span></span><span style="display:flex;"><span>vault policy write team-devops-ro-policy <span style="color:#e6db74">&#34;devops-ro-policy.hcl&#34;</span>
+</span></span></code></pre></div><h4 id="create-or-select-azure-ad-groups-mapped-to-the-two-policies-per-team">create or select azure AD groups mapped to the two policies per team</h4>
 <p>Create two Azure AD groups and map the corresponding users as applicable and note down the <strong>Object(Group) ID</strong> for both the groups - one will be used for admin users and one for read-only users</p>
 <h4 id="create-group-mapping">create group mapping</h4>
 <p>Post group creation, we need to perform two tasks</p>
@@ -501,18 +501,18 @@ vault policy write team-devops-ro-policy &#34;devops-ro-policy.hcl&#34;
 <li>create identity mapping between the AAD groups and vault groups</li>
 </ul>
 <h5 id="internal-vault-group">internal vault group</h5>
-<pre tabindex="0"><code>vault write identity/group name=&#34;devops-admins&#34; type=&#34;external&#34; policies=&#34;team-devops-admin-policy&#34;
-vault write identity/group name=&#34;devops-ro&#34; type=&#34;external&#34; policies=&#34;team-devops-ro-policy&#34;
-</code></pre><p>Post execution, note down the canonical ID for both groups which will be used in mapping with</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>vault write identity/group name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;devops-admins&#34;</span> type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;external&#34;</span> policies<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;team-devops-admin-policy&#34;</span>
+</span></span><span style="display:flex;"><span>vault write identity/group name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;devops-ro&#34;</span> type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;external&#34;</span> policies<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;team-devops-ro-policy&#34;</span>
+</span></span></code></pre></div><p>Post execution, note down the canonical ID for both groups which will be used in mapping with</p>
 <h5 id="external-aad-group-mapping">external AAD group mapping</h5>
-<pre tabindex="0"><code># vault write identity/group-alias name=&#34;&lt;azuread-group-object-id&gt;&#34; mount_accessor=&#34;oidc_mount_accessor&#34; canonical_id=&#34;&lt;canonical-id&gt;&#34;
-
-# for admin group
-vault write identity/group-alias name=&#34;7f8a791a-45ac-49a7-8883-406k2pfq844a&#34; mount_accessor=&#34;auth_oidc_a26f03c3&#34; canonical_id=&#34;383344sf-88x5-19s5-da01-9e0011foe9x3&#34;
-
-# for the read-only users group
-vault write identity/group-alias name=&#34;7f8a791a-3222-cc33-8899-4061122b334a&#34; mount_accessor=&#34;auth_oidc_a26f03c3&#34; canonical_id=&#34;3883336f-8555-1aa5-dww1-9e1122xae9b3&#34;
-</code></pre><p>Now you can try to log in with the OIDC and role as <code>aad</code>; Provide your Azure credentials and you will be authenticated and if authorized will able to log in and view the authorized credentials.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># vault write identity/group-alias name=&#34;&lt;azuread-group-object-id&gt;&#34; mount_accessor=&#34;oidc_mount_accessor&#34; canonical_id=&#34;&lt;canonical-id&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># for admin group</span>
+</span></span><span style="display:flex;"><span>vault write identity/group-alias name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;7f8a791a-45ac-49a7-8883-406k2pfq844a&#34;</span> mount_accessor<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;auth_oidc_a26f03c3&#34;</span> canonical_id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;383344sf-88x5-19s5-da01-9e0011foe9x3&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># for the read-only users group</span>
+</span></span><span style="display:flex;"><span>vault write identity/group-alias name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;7f8a791a-3222-cc33-8899-4061122b334a&#34;</span> mount_accessor<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;auth_oidc_a26f03c3&#34;</span> canonical_id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;3883336f-8555-1aa5-dww1-9e1122xae9b3&#34;</span>
+</span></span></code></pre></div><p>Now you can try to log in with the OIDC and role as <code>aad</code>; Provide your Azure credentials and you will be authenticated and if authorized will able to log in and view the authorized credentials.</p>
 ]]></content></item><item><title>Integration of Azure AD as OIDC identity provider for AWS EKS</title><link>https://rizwan-kh.github.io/posts/2021/12/integration-of-azure-ad-as-oidc-identity-provider-for-aws-eks/</link><pubDate>Wed, 22 Dec 2021 23:40:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/12/integration-of-azure-ad-as-oidc-identity-provider-for-aws-eks/</guid><description>Introduction In my project, we are using many flavours of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these clusters are managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the cluster on Rancher to manage all Kubernetes cluster.
 I had a requirement where we couldn&amp;rsquo;t onboard the users to our Active Directory, and the plan was to give them access to Amazon EKS via an Azure AD external users(or guest users).</description><content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
 <p>In my project, we are using many flavours of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these clusters are managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the cluster on Rancher to manage all Kubernetes cluster.</p>
@@ -569,13 +569,13 @@ I had a requirement where we couldn&amp;rsquo;t onboard the users to our Active 
 <h4 id="install-azurekubelogin">Install Azure/kubelogin</h4>
 <p>I followed the installation instructions from <a href="https://github.com/Azure/kubelogin">https://github.com/Azure/kubelogin</a>:</p>
 <p>Install using homebrew:</p>
-<pre tabindex="0"><code>brew install Azure/kubelogin/kubelogin
-</code></pre><p>Install directly from Github</p>
-<pre tabindex="0"><code>wget https://github.com/Azure/kubelogin/releases/latest/download/kubelogin-linux-amd64.zip
-unzip kubelogin-linux-amd64.zip -d kubelogin
-mv kubelogin/bin/linux_amd64/kubelogin /usr/local/bin/
-rm -r kubelogin*
-</code></pre><h4 id="configure-kubectl">Configure kubectl</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>brew install Azure/kubelogin/kubelogin
+</span></span></code></pre></div><p>Install directly from Github</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>wget https://github.com/Azure/kubelogin/releases/latest/download/kubelogin-linux-amd64.zip
+</span></span><span style="display:flex;"><span>unzip kubelogin-linux-amd64.zip -d kubelogin
+</span></span><span style="display:flex;"><span>mv kubelogin/bin/linux_amd64/kubelogin /usr/local/bin/
+</span></span><span style="display:flex;"><span>rm -r kubelogin*
+</span></span></code></pre></div><h4 id="configure-kubectl">Configure kubectl</h4>
 <p>The below kubeconfig contains sample garbage value, please replace the below fields with the proper value</p>
 <ul>
 <li>certificate-authority-data</li>
@@ -584,98 +584,98 @@ rm -r kubelogin*
 <li>value for client-id</li>
 <li>value for tenant-id</li>
 </ul>
-<pre tabindex="0"><code>apiVersion: v1
-clusters:
-- cluster:
-    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tC ...REDACTED STRING
-    server: https://34DA2A37GFSDXY7GFYWGE7ABA34Q11R0.gr7.us-east-1.eks.amazonaws.com
-  name: aws-eks-aad
-contexts:
-- context:
-    cluster: aws-eks-aad
-    user: azure-user
-  name: aws-eks-azure-user
-current-context: aws-eks-azure-user
-kind: Config
-preferences: {}
-users:
-- name: azure-user
-  user:
-    exec:
-      apiVersion: client.authentication.k8s.io/v1beta1
-      args:
-      - get-token
-      - --environment
-      - AzurePublicCloud
-      - --server-id
-      - a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210
-      - --client-id
-      - a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210
-      - --tenant-id
-      - 67xxx5c-xxxx-xxxx-xxxx-254xxxxx9ccf
-      command: kubelogin
-      env: null
-</code></pre><h3 id="authentication">Authentication</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">clusters</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">cluster</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">certificate-authority-data</span>: <span style="color:#ae81ff">LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tC ...REDACTED STRING</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">server</span>: <span style="color:#ae81ff">https://34DA2A37GFSDXY7GFYWGE7ABA34Q11R0.gr7.us-east-1.eks.amazonaws.com</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aws-eks-aad</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">contexts</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">context</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">cluster</span>: <span style="color:#ae81ff">aws-eks-aad</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">user</span>: <span style="color:#ae81ff">azure-user</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aws-eks-azure-user</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">current-context</span>: <span style="color:#ae81ff">aws-eks-azure-user</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Config</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">preferences</span>: {}
+</span></span><span style="display:flex;"><span><span style="color:#f92672">users</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">azure-user</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">user</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">exec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">client.authentication.k8s.io/v1beta1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">get-token</span>
+</span></span><span style="display:flex;"><span>      - --<span style="color:#ae81ff">environment</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">AzurePublicCloud</span>
+</span></span><span style="display:flex;"><span>      - --<span style="color:#ae81ff">server-id</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210</span>
+</span></span><span style="display:flex;"><span>      - --<span style="color:#ae81ff">client-id</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">a3xxxx4fe-xxxx-xxxx-xxxx-dexxxxxx210</span>
+</span></span><span style="display:flex;"><span>      - --<span style="color:#ae81ff">tenant-id</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">67xxx5c-xxxx-xxxx-xxxx-254xxxxx9ccf</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">command</span>: <span style="color:#ae81ff">kubelogin</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">env</span>: <span style="color:#66d9ef">null</span>
+</span></span></code></pre></div><h3 id="authentication">Authentication</h3>
 <p>Post completion of this setup, issue <code>kubectl</code> command to get the instruction to authenticate yourself; Note this will only authenticate you, you would need to configure RBAC to allow the users to interact with the cluster.</p>
-<pre tabindex="0"><code>kubectl get pods
-To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code EJQH9Q8LS to authenticate.
-</code></pre><h3 id="authorization">Authorization</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl get pods
+</span></span><span style="display:flex;"><span>To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code EJQH9Q8LS to authenticate.
+</span></span></code></pre></div><h3 id="authorization">Authorization</h3>
 <p>We would need to setup RBAC for different users and groups as per our needs, for that I created 3 Azure AD groups and mapped them below</p>
 <ol>
 <li>eks-admins</li>
 <li>eks-editors</li>
 <li>eks-viewers</li>
 </ol>
-<pre tabindex="0"><code>kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  annotations:
-    for.ref.AAD.Group: https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/abe95a71-b52a-43f2-9095-fecd4f6ef58d
-  name: aad-cluster-admins
-roleRef:
-  kind: ClusterRole
-  name: cluster-admin
-  apiGroup: rbac.authorization.k8s.io
-subjects:
-- apiGroup: rbac.authorization.k8s.io
-  kind: Group
-  name: aad:abe95a71-b52a-43f2-9095-fecd4f6ef58d  # group ID setup
-- apiGroup: rbac.authorization.k8s.io
-  kind: User
-  name: aad:rizwan.khan@mycontoso.com  # user setup
-  
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  annotations:
-    for.ref.AAD.Group: https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/0bec3baa-511d-4816-ae62-2758d6023cf1
-  name: aad-cluster-editors
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: edit
-subjects:
-- apiGroup: rbac.authorization.k8s.io
-  kind: Group
-  name: aad:0bec3baa-511d-4816-ae62-2758d6023cf1
-
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  annotations:
-    for.ref.AAD.Group: https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/03e95a71-b92a-4cf2-9895-fecd3f6ef58d
-  name: aad-cluster-viewers
-roleRef:
-  kind: ClusterRole
-  name: view
-  apiGroup: rbac.authorization.k8s.io
-subjects:
-- kind: Group
-  name: aad:03e95a71-b92a-4cf2-9895-fecd3f6ef58d
-  apiGroup: rbac.authorization.k8s.io
-</code></pre><p>After these RBAC are set, I added my user and a couple of others in those groups and voila, we were all set and good to go.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRoleBinding</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">for.ref.AAD.Group</span>: <span style="color:#ae81ff">https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/abe95a71-b52a-43f2-9095-fecd4f6ef58d</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aad-cluster-admins</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">roleRef</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cluster-admin</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">subjects</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Group</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aad:abe95a71-b52a-43f2-9095-fecd4f6ef58d </span> <span style="color:#75715e"># group ID setup</span>
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">User</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aad:rizwan.khan@mycontoso.com </span> <span style="color:#75715e"># user setup</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRoleBinding</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">for.ref.AAD.Group</span>: <span style="color:#ae81ff">https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/0bec3baa-511d-4816-ae62-2758d6023cf1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aad-cluster-editors</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">roleRef</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">edit</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">subjects</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Group</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aad:0bec3baa-511d-4816-ae62-2758d6023cf1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRoleBinding</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">for.ref.AAD.Group</span>: <span style="color:#ae81ff">https://portal.azure.com/#blade/Microsoft_AAD_IAM/GroupDetailsMenuBlade/Overview/groupId/03e95a71-b92a-4cf2-9895-fecd3f6ef58d</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aad-cluster-viewers</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">roleRef</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">view</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">subjects</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Group</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aad:03e95a71-b92a-4cf2-9895-fecd3f6ef58d</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span></code></pre></div><p>After these RBAC are set, I added my user and a couple of others in those groups and voila, we were all set and good to go.</p>
 ]]></content></item><item><title>Trivy - Scan Container Images</title><link>https://rizwan-kh.github.io/posts/2021/12/trivy-scan-container-images/</link><pubDate>Tue, 14 Dec 2021 23:10:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/12/trivy-scan-container-images/</guid><description>Trivy Trivy is a scanner for vulnerabilities in container images, file systems, git repositories and configuration. It&amp;rsquo;s an Aqua Security open-source project that can be easily used to integrate with our existing CI CD pipeline or used as a stand-alone tool to scan container images deployed on the Kubernetes cluster.
 We were using Clair previous to our switch to Trivy as we analyzed both the tools and found Trivy to be more helpful for the longer run - it was faster, had more CVE database updates as compared to Clair and didn&amp;rsquo;t depend on external clients to interact/scan.</description><content type="html"><![CDATA[<p><img src="/trivy.png" alt="trivy"></p>
 <h2 id="trivy">Trivy</h2>
@@ -683,32 +683,32 @@ We were using Clair previous to our switch to Trivy as we analyzed both the tool
 <p>We were using <a href="https://github.com/coreos/clair">Clair</a> previous to our switch to Trivy as we analyzed both the tools and found Trivy to be more helpful for the longer run - it was faster, had more CVE database updates as compared to Clair and didn&rsquo;t depend on external clients to interact/scan.</p>
 <h2 id="usage">Usage</h2>
 <p>For stand-alone usage, simply <a href="https://github.com/aquasecurity/trivy/releases">download the binary</a> on your Mac/Linux system and scan images or file systems or configuration as below</p>
-<pre tabindex="0"><code># for scanning images
-trivy image [image-name]
-trivy image alpine:latest
-
-# for scanning file system
-trivy fs --security-checks vuln,config [YOUR_PROJECT_DIR]
-trivy fs --security-checks vuln,config my_project/
-
-# for scanning configuration
-trivy config [YOUR_IAC_DIR]
-trivy config terraform/src
-</code></pre><p>Trivy is a <a href="https://github.com/aquasecurity/trivy#features">feature-rich tool</a> and once you start using the same, you will recommend it to everyone who isn&rsquo;t using it due to its simplicity.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># for scanning images</span>
+</span></span><span style="display:flex;"><span>trivy image <span style="color:#f92672">[</span>image-name<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>trivy image alpine:latest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># for scanning file system</span>
+</span></span><span style="display:flex;"><span>trivy fs --security-checks vuln,config <span style="color:#f92672">[</span>YOUR_PROJECT_DIR<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>trivy fs --security-checks vuln,config my_project/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># for scanning configuration</span>
+</span></span><span style="display:flex;"><span>trivy config <span style="color:#f92672">[</span>YOUR_IAC_DIR<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>trivy config terraform/src
+</span></span></code></pre></div><p>Trivy is a <a href="https://github.com/aquasecurity/trivy#features">feature-rich tool</a> and once you start using the same, you will recommend it to everyone who isn&rsquo;t using it due to its simplicity.</p>
 <h2 id="use-case">Use-case</h2>
 <p>We scan the images in our build CI pipeline, but once deployed on the Kubernetes cluster, we were trying to find a tool which would scan the deployed images, we found Trivy can be used as an alternative if you don&rsquo;t have run-time scanners like Palo Alto Twistlock Defender which does more than just scanning.</p>
 <p>We were re-scanning the images from our registry, but only the ones which are already running on our cluster.</p>
 <p>We get the list of images using the below <code>kubectl</code> API call and then iterate over those images to generate either HTML or JSON format reports as per the need.</p>
-<pre tabindex="0"><code># to get the list of images running on the cluster
-kubectl get pods --all-namespaces -o jsonpath=&#34;{.items[*].spec.containers[*].image}&#34; |tr -s &#39;[[:space:]]&#39; &#39;\n&#39; |sort |uniq -c
-
-# then we use the output list from the above command to iterate over each image to get the desired output
-# to get only critical vulnerabilities on library layer
-trivy image -s CRITICAL --vuln-type library --ignore-unfixed --format json -o my-app-1.4.3.json registry.mycompany.com/containers/my-app:1.4.3
-
-# to get all vulnerabilities in HTML format
-trivy image --format template &#34;@contrib/template.html&#34; -o my-app-1.4.3.html registry.mycompany.com/containers/my-app:1.4.3
-</code></pre>]]></content></item><item><title>Traefik on Kubernetes with Let's Encrypt &amp; Route53</title><link>https://rizwan-kh.github.io/posts/2021/07/traefik-on-kubernetes-with-lets-encrypt-route53/</link><pubDate>Wed, 28 Jul 2021 17:40:27 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/07/traefik-on-kubernetes-with-lets-encrypt-route53/</guid><description>Why Traefik? Traefik is a modern dynamic load balancer and reverse proxy, it&amp;rsquo;s easy to set up, and control and provides lots of options which sit right with our use cases. It integrates with Lets Encrypt to provide SSL termination along with support for service discovery, tracing, and metrics out of the box running on Kubernetes as a small pod.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># to get the list of images running on the cluster</span>
+</span></span><span style="display:flex;"><span>kubectl get pods --all-namespaces -o jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{.items[*].spec.containers[*].image}&#34;</span> |tr -s <span style="color:#e6db74">&#39;[[:space:]]&#39;</span> <span style="color:#e6db74">&#39;\n&#39;</span> |sort |uniq -c
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># then we use the output list from the above command to iterate over each image to get the desired output</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># to get only critical vulnerabilities on library layer</span>
+</span></span><span style="display:flex;"><span>trivy image -s CRITICAL --vuln-type library --ignore-unfixed --format json -o my-app-1.4.3.json registry.mycompany.com/containers/my-app:1.4.3
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># to get all vulnerabilities in HTML format</span>
+</span></span><span style="display:flex;"><span>trivy image --format template <span style="color:#e6db74">&#34;@contrib/template.html&#34;</span> -o my-app-1.4.3.html registry.mycompany.com/containers/my-app:1.4.3
+</span></span></code></pre></div>]]></content></item><item><title>Traefik on Kubernetes with Let's Encrypt &amp; Route53</title><link>https://rizwan-kh.github.io/posts/2021/07/traefik-on-kubernetes-with-lets-encrypt-route53/</link><pubDate>Wed, 28 Jul 2021 17:40:27 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/07/traefik-on-kubernetes-with-lets-encrypt-route53/</guid><description>Why Traefik? Traefik is a modern dynamic load balancer and reverse proxy, it&amp;rsquo;s easy to set up, and control and provides lots of options which sit right with our use cases. It integrates with Lets Encrypt to provide SSL termination along with support for service discovery, tracing, and metrics out of the box running on Kubernetes as a small pod.
 Since when We have been using Traefik since early 2017 on 2 of our clusters as a daemonset Kubernetes object with external DNS to update the worker nodes IP with our DNS provider and used to manually generate and update Lets Encrypt certificate on a Kubernetes secret object.</description><content type="html"><![CDATA[<p><img src="/k8s-traefik-le-route53.svg" alt="k8s-traefik-le-route53"></p>
 <h2 id="why-traefik">Why Traefik?</h2>
 <p><a href="https://traefik.io/traefik/"><strong>Traefik</strong></a> is a modern dynamic load balancer and reverse proxy, it&rsquo;s easy to set up, and control and provides lots of options which sit right with our use cases. It integrates with Lets Encrypt to provide SSL termination along with support for service discovery, tracing, and metrics out of the box running on Kubernetes as a small pod.</p>
@@ -728,390 +728,390 @@ Since when We have been using Traefik since early 2017 on 2 of our clusters as a
 <h4 id="lets-start-with-traefik-deployment">Let&rsquo;s Start with Traefik Deployment</h4>
 <p>Deploy the below traefik-crd-sa-cr-crb.yaml file with <code>kubectl apply -f traefik-crd-sa-cr-crb.yaml</code> as-is.</p>
 <p><a href="https://doc.traefik.io/traefik/user-guides/crd-acme/#cluster-resources">The below CRD&rsquo;s and supporting manifest are taken from this Traefik official documentation</a></p>
-<pre tabindex="0"><code># traefik-crd-sa-cr-crb.yaml
-apiVersion: apiextensions.k8s.io/v1beta1
-kind: CustomResourceDefinition
-metadata:
-  name: ingressroutes.traefik.containo.us
-
-spec:
-  group: traefik.containo.us
-  version: v1alpha1
-  names:
-    kind: IngressRoute
-    plural: ingressroutes
-    singular: ingressroute
-  scope: Namespaced
-
----
-apiVersion: apiextensions.k8s.io/v1beta1
-kind: CustomResourceDefinition
-metadata:
-  name: middlewares.traefik.containo.us
-
-spec:
-  group: traefik.containo.us
-  version: v1alpha1
-  names:
-    kind: Middleware
-    plural: middlewares
-    singular: middleware
-  scope: Namespaced
-
----
-apiVersion: apiextensions.k8s.io/v1beta1
-kind: CustomResourceDefinition
-metadata:
-  name: ingressroutetcps.traefik.containo.us
-
-spec:
-  group: traefik.containo.us
-  version: v1alpha1
-  names:
-    kind: IngressRouteTCP
-    plural: ingressroutetcps
-    singular: ingressroutetcp
-  scope: Namespaced
-
----
-apiVersion: apiextensions.k8s.io/v1beta1
-kind: CustomResourceDefinition
-metadata:
-  name: ingressrouteudps.traefik.containo.us
-
-spec:
-  group: traefik.containo.us
-  version: v1alpha1
-  names:
-    kind: IngressRouteUDP
-    plural: ingressrouteudps
-    singular: ingressrouteudp
-  scope: Namespaced
-
----
-apiVersion: apiextensions.k8s.io/v1beta1
-kind: CustomResourceDefinition
-metadata:
-  name: tlsoptions.traefik.containo.us
-
-spec:
-  group: traefik.containo.us
-  version: v1alpha1
-  names:
-    kind: TLSOption
-    plural: tlsoptions
-    singular: tlsoption
-  scope: Namespaced
-
----
-apiVersion: apiextensions.k8s.io/v1beta1
-kind: CustomResourceDefinition
-metadata:
-  name: tlsstores.traefik.containo.us
-
-spec:
-  group: traefik.containo.us
-  version: v1alpha1
-  names:
-    kind: TLSStore
-    plural: tlsstores
-    singular: tlsstore
-  scope: Namespaced
-
----
-apiVersion: apiextensions.k8s.io/v1beta1
-kind: CustomResourceDefinition
-metadata:
-  name: traefikservices.traefik.containo.us
-
-spec:
-  group: traefik.containo.us
-  version: v1alpha1
-  names:
-    kind: TraefikService
-    plural: traefikservices
-    singular: traefikservice
-  scope: Namespaced
-
----
-apiVersion: apiextensions.k8s.io/v1beta1
-kind: CustomResourceDefinition
-metadata:
-  name: serverstransports.traefik.containo.us
-
-spec:
-  group: traefik.containo.us
-  version: v1alpha1
-  names:
-    kind: ServersTransport
-    plural: serverstransports
-    singular: serverstransport
-  scope: Namespaced
-
----
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1beta1
-metadata:
-  name: traefik-ingress-controller
-
-rules:
-  - apiGroups:
-      - &#34;&#34;
-    resources:
-      - services
-      - endpoints
-      - secrets
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - extensions
-      - networking.k8s.io
-    resources:
-      - ingresses
-      - ingressclasses
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - extensions
-    resources:
-      - ingresses/status
-    verbs:
-      - update
-  - apiGroups:
-      - traefik.containo.us
-    resources:
-      - middlewares
-      - ingressroutes
-      - traefikservices
-      - ingressroutetcps
-      - ingressrouteudps
-      - tlsoptions
-      - tlsstores
-      - serverstransports
-    verbs:
-      - get
-      - list
-      - watch
-
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
-metadata:
-  name: traefik-ingress-controller
-
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: traefik-ingress-controller
-subjects:
-  - kind: ServiceAccount
-    name: traefik-ingress-controller
-    namespace: default
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  namespace: default
-  name: traefik-ingress-controller
-</code></pre><p>Now save the below manifest and deploy it on your cluster with a few amendments like replacing proper values for AWS Route53 hosted zone and IAM keys, storageClassName, acme email address, and your sub-domain in the initContainer args section</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#75715e"># traefik-crd-sa-cr-crb.yaml</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apiextensions.k8s.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">CustomResourceDefinition</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ingressroutes.traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">group</span>: <span style="color:#ae81ff">traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v1alpha1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">names</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">IngressRoute</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">plural</span>: <span style="color:#ae81ff">ingressroutes</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">singular</span>: <span style="color:#ae81ff">ingressroute</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">scope</span>: <span style="color:#ae81ff">Namespaced</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apiextensions.k8s.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">CustomResourceDefinition</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">middlewares.traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">group</span>: <span style="color:#ae81ff">traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v1alpha1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">names</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Middleware</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">plural</span>: <span style="color:#ae81ff">middlewares</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">singular</span>: <span style="color:#ae81ff">middleware</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">scope</span>: <span style="color:#ae81ff">Namespaced</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apiextensions.k8s.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">CustomResourceDefinition</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ingressroutetcps.traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">group</span>: <span style="color:#ae81ff">traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v1alpha1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">names</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">IngressRouteTCP</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">plural</span>: <span style="color:#ae81ff">ingressroutetcps</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">singular</span>: <span style="color:#ae81ff">ingressroutetcp</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">scope</span>: <span style="color:#ae81ff">Namespaced</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apiextensions.k8s.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">CustomResourceDefinition</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ingressrouteudps.traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">group</span>: <span style="color:#ae81ff">traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v1alpha1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">names</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">IngressRouteUDP</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">plural</span>: <span style="color:#ae81ff">ingressrouteudps</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">singular</span>: <span style="color:#ae81ff">ingressrouteudp</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">scope</span>: <span style="color:#ae81ff">Namespaced</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apiextensions.k8s.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">CustomResourceDefinition</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">tlsoptions.traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">group</span>: <span style="color:#ae81ff">traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v1alpha1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">names</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">TLSOption</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">plural</span>: <span style="color:#ae81ff">tlsoptions</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">singular</span>: <span style="color:#ae81ff">tlsoption</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">scope</span>: <span style="color:#ae81ff">Namespaced</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apiextensions.k8s.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">CustomResourceDefinition</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">tlsstores.traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">group</span>: <span style="color:#ae81ff">traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v1alpha1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">names</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">TLSStore</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">plural</span>: <span style="color:#ae81ff">tlsstores</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">singular</span>: <span style="color:#ae81ff">tlsstore</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">scope</span>: <span style="color:#ae81ff">Namespaced</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apiextensions.k8s.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">CustomResourceDefinition</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">traefikservices.traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">group</span>: <span style="color:#ae81ff">traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v1alpha1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">names</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">TraefikService</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">plural</span>: <span style="color:#ae81ff">traefikservices</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">singular</span>: <span style="color:#ae81ff">traefikservice</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">scope</span>: <span style="color:#ae81ff">Namespaced</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apiextensions.k8s.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">CustomResourceDefinition</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">serverstransports.traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">group</span>: <span style="color:#ae81ff">traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v1alpha1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">names</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ServersTransport</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">plural</span>: <span style="color:#ae81ff">serverstransports</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">singular</span>: <span style="color:#ae81ff">serverstransport</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">scope</span>: <span style="color:#ae81ff">Namespaced</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">traefik-ingress-controller</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">rules</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">services</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">endpoints</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">secrets</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">get</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">list</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">watch</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">extensions</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">networking.k8s.io</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ingresses</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ingressclasses</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">get</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">list</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">watch</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">extensions</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ingresses/status</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">update</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">traefik.containo.us</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">middlewares</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ingressroutes</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">traefikservices</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ingressroutetcps</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ingressrouteudps</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">tlsoptions</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">tlsstores</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">serverstransports</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">get</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">list</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">watch</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRoleBinding</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">traefik-ingress-controller</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">roleRef</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">traefik-ingress-controller</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">subjects</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ServiceAccount</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">traefik-ingress-controller</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ServiceAccount</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">traefik-ingress-controller</span>
+</span></span></code></pre></div><p>Now save the below manifest and deploy it on your cluster with a few amendments like replacing proper values for AWS Route53 hosted zone and IAM keys, storageClassName, acme email address, and your sub-domain in the initContainer args section</p>
 <p>&#x2139;&#xfe0f; - you can use the Instance profile/IAM Role as well if you don&rsquo;t want to use IAM keys</p>
-<pre tabindex="0"><code># create PVC to store the Lets Encrypt cert to persist between Traefik restarts
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  labels:
-  name: traefik-acme-storage-default
-  namespace: default
-spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-  storageClassName: gp2
----
-# replace the below values for data with the proper encoded value (these are random garbage values :stuck_out_tongue_closed_eyes: ) 
-apiVersion: v1
-data:
-  access_key_id: S1FSMjI0NDRKNVNBSUtBRDRLTkgK  
-  hosted_zone: WjM0RzY1QUVERURFCg==
-  region: dXMtZWFzdC0x
-  secret_key_id: SmszMmRUUUJWRlZTVVlCWVZESVVJRVZWSTZHVkhHMzJRVwo=
-kind: Secret
-metadata:
-  labels:
-  name: route53-secret
-  namespace: default
-type: Opaque
----
-# create Traefik clusterIP service, note we won&#39;t be using the web as we avoid using port 80 for all Production purposes
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-  name: traefik
-  namespace: default
-spec:
-  ports:
-  - name: web
-    port: 8000
-    protocol: TCP
-    targetPort: 8000
-  - name: admin
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
-  - name: websecure
-    port: 4443
-    protocol: TCP
-    targetPort: 4443
-  selector:
-    app: traefik
-  type: ClusterIP
----
-# Traefik deployment YAML, initContainers will be explained in detail below
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app: traefik
-  name: traefik
-  namespace: default
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: traefik
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      labels:
-        app: traefik
-    spec:
-      containers:
-      - args:
-        - --api.insecure
-        - --accesslog=true
-        - --entrypoints.websecure.Address=:4443
-        - --providers.kubernetescrd
-        - --providers.kubernetesingress
-        - --entrypoints.websecure.http.tls.options=default
-        - --entrypoints.websecure.http.tls.certResolver=default
-        - --certificatesresolvers.default.acme.dnschallenge.provider=route53
-        - --certificatesResolvers.default.acme.dnsChallenge.delayBeforeCheck=5
-        - --certificatesresolvers.default.acme.email=my.email@xzy.com
-        - --certificatesresolvers.default.acme.storage=/data/acme.json
-        - --metrics.prometheus=true
-        - --metrics.prometheus.entryPoint=metrics
-        - --serverstransport.insecureskipverify
-        env:
-        - name: AWS_ACCESS_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              key: access_key_id
-              name: route53-secret
-        - name: AWS_HOSTED_ZONE_ID
-          valueFrom:
-            secretKeyRef:
-              key: hosted_zone
-              name: route53-secret
-        - name: AWS_REGION
-          valueFrom:
-            secretKeyRef:
-              key: region
-              name: route53-secret
-        - name: AWS_SECRET_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              key: secret_key_id
-              name: route53-secret
-        image: traefik:v2.4
-        imagePullPolicy: IfNotPresent
-        name: traefik
-        ports:
-        - containerPort: 4443
-          hostPort: 443
-          name: websecure
-          protocol: TCP
-        - containerPort: 8080
-          name: admin
-          protocol: TCP
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-        volumeMounts:
-        - mountPath: /data
-          name: cert-storage-volume
-      dnsPolicy: ClusterFirst
-      initContainers:
-      - args:
-        - &#39;apt-get install awscli -y;HOSTED_ZONE_ID=&#34;Z34G65AEDEDE&#34;;INPUT=&#34;{\&#34;ChangeBatch\&#34;: { \&#34;Comment\&#34;:
-          \&#34;Update the A record set\&#34;, \&#34;Changes\&#34;:[ {\&#34;Action\&#34;: \&#34;UPSERT\&#34;, \&#34;ResourceRecordSet\&#34;:
-          { \&#34;Name\&#34;: \&#34;*.k8s.mydomain.com\&#34;, \&#34;Type\&#34;: \&#34;A\&#34;, \&#34;TTL\&#34;:
-          300, \&#34;ResourceRecords\&#34;: [ { \&#34;Value\&#34;: \&#34;HOSTIP\&#34;}]}}]}}&#34;; HOSTIP=`curl
-          http://169.254.169.254/latest/meta-data/local-ipv4`;INPUT_JSON=`echo $INPUT
-          | sed &#34;s/HOSTIP/$HOSTIP/&#34;`; echo $INPUT_JSON;aws route53 change-resource-record-sets
-          --hosted-zone-id &#34;$HOSTED_ZONE_ID&#34; --cli-input-json &#34;$INPUT_JSON&#34;&#39;
-        command:
-        - /bin/sh
-        - -c
-        env:
-        - name: AWS_ACCESS_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              key: access_key_id
-              name: route53-secret
-        - name: AWS_REGION
-          valueFrom:
-            secretKeyRef:
-              key: region
-              name: route53-secret
-        - name: AWS_SECRET_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              key: secret_key_id
-              name: route53-secret
-        envFrom:
-        - secretRef:
-            name: route53-secret
-        image: ubuntu:xenial    
-        imagePullPolicy: IfNotPresent
-        name: route53-changes
-      serviceAccount: traefik-ingress-controller
-      serviceAccountName: traefik-ingress-controller
-      volumes:
-      - name: cert-storage-volume
-        persistentVolumeClaim:
-          claimName: traefik-acme-storage-default
-----
-</code></pre><p>The manifest is pretty straightforward, with the only non-standard part being the initContainer, which is used here to get the IP address of the worker node on which Trafik is deployed and to update it in AWS Route53 with an A record.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#75715e"># create PVC to store the Lets Encrypt cert to persist between Traefik restarts</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">PersistentVolumeClaim</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">traefik-acme-storage-default</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">accessModes</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">ReadWriteOnce</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resources</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">requests</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">storage</span>: <span style="color:#ae81ff">1Gi</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">storageClassName</span>: <span style="color:#ae81ff">gp2</span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># replace the below values for data with the proper encoded value (these are random garbage values :stuck_out_tongue_closed_eyes: ) </span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">data</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">access_key_id</span>: <span style="color:#ae81ff">S1FSMjI0NDRKNVNBSUtBRDRLTkgK  </span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">hosted_zone</span>: <span style="color:#ae81ff">WjM0RzY1QUVERURFCg==</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">region</span>: <span style="color:#ae81ff">dXMtZWFzdC0x</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">secret_key_id</span>: <span style="color:#ae81ff">SmszMmRUUUJWRlZTVVlCWVZESVVJRVZWSTZHVkhHMzJRVwo=</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Secret</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">route53-secret</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">type</span>: <span style="color:#ae81ff">Opaque</span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># create Traefik clusterIP service, note we won&#39;t be using the web as we avoid using port 80 for all Production purposes</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">traefik</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">web</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8000</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">targetPort</span>: <span style="color:#ae81ff">8000</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">admin</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8080</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">targetPort</span>: <span style="color:#ae81ff">8080</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">websecure</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">port</span>: <span style="color:#ae81ff">4443</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">targetPort</span>: <span style="color:#ae81ff">4443</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">traefik</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">type</span>: <span style="color:#ae81ff">ClusterIP</span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Traefik deployment YAML, initContainers will be explained in detail below</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">traefik</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">traefik</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">matchLabels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">app</span>: <span style="color:#ae81ff">traefik</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">strategy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Recreate</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">traefik</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">api.insecure</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">accesslog=true</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">entrypoints.websecure.Address=:4443</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">providers.kubernetescrd</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">providers.kubernetesingress</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">entrypoints.websecure.http.tls.options=default</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">entrypoints.websecure.http.tls.certResolver=default</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">certificatesresolvers.default.acme.dnschallenge.provider=route53</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">certificatesResolvers.default.acme.dnsChallenge.delayBeforeCheck=5</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">certificatesresolvers.default.acme.email=my.email@xzy.com</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">certificatesresolvers.default.acme.storage=/data/acme.json</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">metrics.prometheus=true</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">metrics.prometheus.entryPoint=metrics</span>
+</span></span><span style="display:flex;"><span>        - --<span style="color:#ae81ff">serverstransport.insecureskipverify</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">env</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">AWS_ACCESS_KEY_ID</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">valueFrom</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">secretKeyRef</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">key</span>: <span style="color:#ae81ff">access_key_id</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">name</span>: <span style="color:#ae81ff">route53-secret</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">AWS_HOSTED_ZONE_ID</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">valueFrom</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">secretKeyRef</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">key</span>: <span style="color:#ae81ff">hosted_zone</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">name</span>: <span style="color:#ae81ff">route53-secret</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">AWS_REGION</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">valueFrom</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">secretKeyRef</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">key</span>: <span style="color:#ae81ff">region</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">name</span>: <span style="color:#ae81ff">route53-secret</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">AWS_SECRET_ACCESS_KEY</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">valueFrom</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">secretKeyRef</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">key</span>: <span style="color:#ae81ff">secret_key_id</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">name</span>: <span style="color:#ae81ff">route53-secret</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">traefik:v2.4</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">imagePullPolicy</span>: <span style="color:#ae81ff">IfNotPresent</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">traefik</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">4443</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">hostPort</span>: <span style="color:#ae81ff">443</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">websecure</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">8080</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">admin</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">resources</span>: {}
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">terminationMessagePath</span>: <span style="color:#ae81ff">/dev/termination-log</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">terminationMessagePolicy</span>: <span style="color:#ae81ff">File</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/data</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cert-storage-volume</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">dnsPolicy</span>: <span style="color:#ae81ff">ClusterFirst</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">initContainers</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#e6db74">&#39;apt-get install awscli -y;HOSTED_ZONE_ID=&#34;Z34G65AEDEDE&#34;;INPUT=&#34;{\&#34;ChangeBatch\&#34;: { \&#34;Comment\&#34;:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          \&#34;Update the A record set\&#34;, \&#34;Changes\&#34;:[ {\&#34;Action\&#34;: \&#34;UPSERT\&#34;, \&#34;ResourceRecordSet\&#34;:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          { \&#34;Name\&#34;: \&#34;*.k8s.mydomain.com\&#34;, \&#34;Type\&#34;: \&#34;A\&#34;, \&#34;TTL\&#34;:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          300, \&#34;ResourceRecords\&#34;: [ { \&#34;Value\&#34;: \&#34;HOSTIP\&#34;}]}}]}}&#34;; HOSTIP=`curl
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          http://169.254.169.254/latest/meta-data/local-ipv4`;INPUT_JSON=`echo $INPUT
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          | sed &#34;s/HOSTIP/$HOSTIP/&#34;`; echo $INPUT_JSON;aws route53 change-resource-record-sets
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          --hosted-zone-id &#34;$HOSTED_ZONE_ID&#34; --cli-input-json &#34;$INPUT_JSON&#34;&#39;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">command</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">/bin/sh</span>
+</span></span><span style="display:flex;"><span>        - -<span style="color:#ae81ff">c</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">env</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">AWS_ACCESS_KEY_ID</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">valueFrom</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">secretKeyRef</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">key</span>: <span style="color:#ae81ff">access_key_id</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">name</span>: <span style="color:#ae81ff">route53-secret</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">AWS_REGION</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">valueFrom</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">secretKeyRef</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">key</span>: <span style="color:#ae81ff">region</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">name</span>: <span style="color:#ae81ff">route53-secret</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">AWS_SECRET_ACCESS_KEY</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">valueFrom</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">secretKeyRef</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">key</span>: <span style="color:#ae81ff">secret_key_id</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">name</span>: <span style="color:#ae81ff">route53-secret</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">envFrom</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">secretRef</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">name</span>: <span style="color:#ae81ff">route53-secret</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">ubuntu:xenial    </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">imagePullPolicy</span>: <span style="color:#ae81ff">IfNotPresent</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">route53-changes</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">serviceAccount</span>: <span style="color:#ae81ff">traefik-ingress-controller</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">serviceAccountName</span>: <span style="color:#ae81ff">traefik-ingress-controller</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cert-storage-volume</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">persistentVolumeClaim</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">claimName</span>: <span style="color:#ae81ff">traefik-acme-storage-default</span>
+</span></span><span style="display:flex;"><span>----
+</span></span></code></pre></div><p>The manifest is pretty straightforward, with the only non-standard part being the initContainer, which is used here to get the IP address of the worker node on which Trafik is deployed and to update it in AWS Route53 with an A record.</p>
 <p>Assuming the IP address is 10.7.60.70, an entry with record *.k8s.mydomain.com with an A record pointing to IP 10.7.60.70 will get inserted in Route53 in your public hosted zone.</p>
 <h4 id="is-this-even-working">Is this even working?</h4>
 <p>Of course, if we have done all this, how do we validate, for that we will deploy a service and ingressRoute CRD with the manifest provided below</p>
 <p><code>kubectl apply -f traefik-ir.yaml</code></p>
-<pre tabindex="0"><code># traefik-ir.yaml
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: traefik-dashboard
-  namespace: default
-spec:
-  entryPoints:
-    - websecure
-  routes:
-  - match: Host(`traefik.k8s.mydomain.com`) &amp;&amp; PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: admin
-      port: 8080
-  tls:
-    certResolver: default
-</code></pre><p>You should now be able to browse to this URL <a href="https://traefik.k8s.mydomain.com">https://traefik.k8s.mydomain.com</a> with proper Lets Encrypt TLS certificates and would see the Treafik dashboard.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#75715e"># traefik-ir.yaml</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">traefik.containo.us/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">IngressRoute</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">traefik-dashboard</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">entryPoints</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">websecure</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">routes</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">match</span>: <span style="color:#ae81ff">Host(`traefik.k8s.mydomain.com`) &amp;&amp; PathPrefix(`/`)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Rule</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">admin</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8080</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">tls</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">certResolver</span>: <span style="color:#ae81ff">default</span>
+</span></span></code></pre></div><p>You should now be able to browse to this URL <a href="https://traefik.k8s.mydomain.com">https://traefik.k8s.mydomain.com</a> with proper Lets Encrypt TLS certificates and would see the Treafik dashboard.</p>
 <p><img src="/traefik-dashboard.webp" alt="traefik-dashboard"></p>
 <h3 id="final-thoughts">Final thoughts</h3>
 <p>This blog may not do justice in explaining how this tool exactly works, however, I intended to get you a working traefik deployment with AWS Route53, and I guess that would help someone in need.</p>
@@ -1123,47 +1123,47 @@ For our use case, we had been looking at an option to send a JSON-based paramete
 <h3 id="flatten-json--operation">Flatten JSON &amp; operation</h3>
 <p>We look at the option to use the Flatten JSON Objects extension to convert a nested data layer object into a new object with only one layer of key/value pairs. For this, we used the <strong>flatten_json</strong> library</p>
 <p><code>pip install flatten_json</code></p>
-<pre tabindex="0"><code>&#39;&#39;&#39;
-flatten the JSON data with a &#39;_&#39; separator; you can use different separators as well
-&#39;&#39;&#39;
-# flatten.py
-import flatten_json
-
-data = {
-    &#34;a&#34;: 1,
-    &#34;b&#34;: 2,
-    &#34;c&#34;: [{&#34;d&#34;: [2, 3, 4], &#34;e&#34;: [{&#34;f&#34;: 1, &#34;g&#34;: 2}]}]
-}
-flat_json = flatten_json.flatten(data,&#39;_&#39;)
-print(flat_json)
-&#39;&#39;&#39;
-the above command gives us the below output, which is single layer of JSON
-{
- &#39;a&#39;: 1,
- &#39;b&#39;: 2,
- &#39;c_0_d_0&#39;: 2,
- &#39;c_0_d_1&#39;: 3,
- &#39;c_0_d_2&#39;: 4,
- &#39;c_0_e_0_f&#39;: 1,
- &#39;c_0_e_0_g&#39;: 2
- }
-&#39;&#39;&#39;
-</code></pre><p>Now that we had a single layer <code>key: value</code> pair, we added another hack to be able to read these variables properly in the Azure DevOps pipeline. We added a prefix (any prefix that&rsquo;s not part of your JSON) <strong>RizwanGotNoChill-</strong></p>
-<pre tabindex="0"><code>prefixed_flat_json = {f&#34;RizwanGotNoChill-{key}&#34;: val for key, val in flat_json.items()}
-print(prefixed_flat_json)
-&#39;&#39;&#39;
-the above command gives us the below output, which is single layer prefixed JSON
-{
- &#39;RizwanGotNoChill-a&#39;: 1,
- &#39;RizwanGotNoChill-b&#39;: 2,
- &#39;RizwanGotNoChill-c_0_d_0&#39;: 2,
- &#39;RizwanGotNoChill-c_0_d_1&#39;: 3,
- &#39;RizwanGotNoChill-c_0_d_2&#39;: 4,
- &#39;RizwanGotNoChill-c_0_e_0_f&#39;: 1,
- &#39;RizwanGotNoChill-c_0_e_0_g&#39;: 2
- }
-&#39;&#39;&#39;
-</code></pre><p>This part is all we needed, now you could use the Azure DevOps Rest API with the above <code>key: value</code> pair to trigger any pipeline and I will show, how we interpreted these in the pipeline and crafted a JSON out.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">flatten the JSON data with a &#39;_&#39; separator; you can use different separators as well
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># flatten.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> flatten_json
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;a&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;b&#34;</span>: <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;c&#34;</span>: [{<span style="color:#e6db74">&#34;d&#34;</span>: [<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>], <span style="color:#e6db74">&#34;e&#34;</span>: [{<span style="color:#e6db74">&#34;f&#34;</span>: <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;g&#34;</span>: <span style="color:#ae81ff">2</span>}]}]
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>flat_json <span style="color:#f92672">=</span> flatten_json<span style="color:#f92672">.</span>flatten(data,<span style="color:#e6db74">&#39;_&#39;</span>)
+</span></span><span style="display:flex;"><span>print(flat_json)
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">the above command gives us the below output, which is single layer of JSON
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> &#39;a&#39;: 1,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> &#39;b&#39;: 2,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> &#39;c_0_d_0&#39;: 2,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> &#39;c_0_d_1&#39;: 3,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> &#39;c_0_d_2&#39;: 4,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> &#39;c_0_e_0_f&#39;: 1,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> &#39;c_0_e_0_g&#39;: 2
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+</span></span></code></pre></div><p>Now that we had a single layer <code>key: value</code> pair, we added another hack to be able to read these variables properly in the Azure DevOps pipeline. We added a prefix (any prefix that&rsquo;s not part of your JSON) <strong>RizwanGotNoChill-</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>prefixed_flat_json <span style="color:#f92672">=</span> {<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;RizwanGotNoChill-</span><span style="color:#e6db74">{</span>key<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>: val <span style="color:#66d9ef">for</span> key, val <span style="color:#f92672">in</span> flat_json<span style="color:#f92672">.</span>items()}
+</span></span><span style="display:flex;"><span>print(prefixed_flat_json)
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">the above command gives us the below output, which is single layer prefixed JSON
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> &#39;RizwanGotNoChill-a&#39;: 1,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> &#39;RizwanGotNoChill-b&#39;: 2,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> &#39;RizwanGotNoChill-c_0_d_0&#39;: 2,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> &#39;RizwanGotNoChill-c_0_d_1&#39;: 3,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> &#39;RizwanGotNoChill-c_0_d_2&#39;: 4,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> &#39;RizwanGotNoChill-c_0_e_0_f&#39;: 1,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> &#39;RizwanGotNoChill-c_0_e_0_g&#39;: 2
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+</span></span></code></pre></div><p>This part is all we needed, now you could use the Azure DevOps Rest API with the above <code>key: value</code> pair to trigger any pipeline and I will show, how we interpreted these in the pipeline and crafted a JSON out.</p>
 <h3 id="trigger-azure-devops-pipeline">Trigger Azure DevOps Pipeline</h3>
 <p>I found the below two ways to trigger a pipeline, you may want to see which one fits your case -</p>
 <ul>
@@ -1173,101 +1173,101 @@ the above command gives us the below output, which is single layer prefixed JSON
 <li>Convert your JSON to an escaped one using this <a href="https://jsonformatter.org/json-escape">link</a></li>
 <li>Create the request param as below and send</li>
 </ol>
-<pre tabindex="0"><code># Replace the values for YOURORG, YOURPROJECT, PATTOKEN and the value for id(pipeline ID)
-curl --request POST \
-  --url &#39;https://dev.azure.com/YOURORG/YOURPROJECT/_apis/build/builds?api-version=6.1-preview.6&#39; \
-  --header &#39;Authorization: Basic PATTOKEN&#39; \
-  --header &#39;Content-Type: application/json&#39; \
-
-  --data &#39;{
-    &#34;parameters&#34;: &#34;{\&#34;RizwanGotNoChill-a\&#34;:1,\&#34;RizwanGotNoChill-b\&#34;:2,\&#34;RizwanGotNoChill-c_0_d_0\&#34;:2,\&#34;RizwanGotNoChill-c_0_d_1\&#34;:3,\&#34;RizwanGotNoChill-c_0_d_2\&#34;:4,\&#34;RizwanGotNoChill-c_0_e_0_f\&#34;:1,\&#34;RizwanGotNoChill-c_0_e_0_g\&#34;:2}&#34;,
-    &#34;definition&#34;:  { &#34;id&#34;:  27 }
-}&#39;
-</code></pre><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># Replace the values for YOURORG, YOURPROJECT, PATTOKEN and the value for id(pipeline ID)</span>
+</span></span><span style="display:flex;"><span>curl --request POST <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --url <span style="color:#e6db74">&#39;https://dev.azure.com/YOURORG/YOURPROJECT/_apis/build/builds?api-version=6.1-preview.6&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --header <span style="color:#e6db74">&#39;Authorization: Basic PATTOKEN&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --header <span style="color:#e6db74">&#39;Content-Type: application/json&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>
+</span></span><span style="display:flex;"><span>  --data <span style="color:#e6db74">&#39;{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;parameters&#34;: &#34;{\&#34;RizwanGotNoChill-a\&#34;:1,\&#34;RizwanGotNoChill-b\&#34;:2,\&#34;RizwanGotNoChill-c_0_d_0\&#34;:2,\&#34;RizwanGotNoChill-c_0_d_1\&#34;:3,\&#34;RizwanGotNoChill-c_0_d_2\&#34;:4,\&#34;RizwanGotNoChill-c_0_e_0_f\&#34;:1,\&#34;RizwanGotNoChill-c_0_e_0_g\&#34;:2}&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;definition&#34;:  { &#34;id&#34;:  27 }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}&#39;</span>
+</span></span></code></pre></div><ul>
 <li>The other way to trigger a pipeline is by calling the <strong>RunPipeline API</strong>, I wrote a small program</li>
 </ul>
 <script src="https://gist.github.com/rizwan-kh/c08955a24bfc1eb3eaa48248acd012e0.js"></script>
 
 <h3 id="unflatten-json--operation">Unflatten JSON &amp; operation</h3>
 <p>Now the baton is at the Azure DevOps end to decode and re-configure this as a JSON, I used a simple job and Python script to achieve this</p>
-<pre tabindex="0"><code># azure-pipeline.yml
-- job: install_library
-  steps:
-  - checkout: none
-  - script: |
-      pip3 install flatten_json
-      pip3 freeze
-    displayName: Install python library
-
-- job: generate_files
-  steps:
-  - script: |
-      echo &#34;Here, we will grep the content based on the prefix and store in a file&#34;
-      env | grep RizwanGotNoChill &gt; request.txt
-      sed -i &#39;s/RizwanGotNoChill-//&#39; request.txt
-      echo &#34;utils.py first creates a dict based on request.txt and then unflattens the files and write to request.json&#34;
-      python3 utils.py
-      cat request.json | jq .
-    displayName: Produce JSON
-</code></pre><pre tabindex="0"><code># utils.py
-import os, sys
-import json
-import flatten_json
-
-dict_from_file = {}
-with open(&#34;request.txt&#34;) as fp:
-    for line in fp:
-        (key, val) = line.split(&#34;=&#34;)
-        dict_from_file[key.lower()] = val.rstrip(&#34;\n&#34;)
-print(dict_from_file)
-
-request_json = flatten_json.unflatten(dict_from_file, &#39;-&#39;)
-print(request_json)
-
-with open(&#39;request.json&#39;, &#39;w&#39;) as fp:
-     fp.write(json.dumps(request_json))
-</code></pre><p>Here, the <code>request.json</code> is a proper JSON file ready to be used by any application/program in the Azure Pipeline;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#75715e"># azure-pipeline.yml</span>
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">job</span>: <span style="color:#ae81ff">install_library</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">steps</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">checkout</span>: <span style="color:#ae81ff">none</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">script</span>: |<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      pip3 install flatten_json
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      pip3 freeze</span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">displayName</span>: <span style="color:#ae81ff">Install python library</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">job</span>: <span style="color:#ae81ff">generate_files</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">steps</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">script</span>: |<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      echo &#34;Here, we will grep the content based on the prefix and store in a file&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      env | grep RizwanGotNoChill &gt; request.txt
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      sed -i &#39;s/RizwanGotNoChill-//&#39; request.txt
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      echo &#34;utils.py first creates a dict based on request.txt and then unflattens the files and write to request.json&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      python3 utils.py
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      cat request.json | jq .</span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">displayName</span>: <span style="color:#ae81ff">Produce JSON</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># utils.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os<span style="color:#f92672">,</span> sys
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> json
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> flatten_json
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dict_from_file <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;request.txt&#34;</span>) <span style="color:#66d9ef">as</span> fp:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> fp:
+</span></span><span style="display:flex;"><span>        (key, val) <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;=&#34;</span>)
+</span></span><span style="display:flex;"><span>        dict_from_file[key<span style="color:#f92672">.</span>lower()] <span style="color:#f92672">=</span> val<span style="color:#f92672">.</span>rstrip(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>print(dict_from_file)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>request_json <span style="color:#f92672">=</span> flatten_json<span style="color:#f92672">.</span>unflatten(dict_from_file, <span style="color:#e6db74">&#39;-&#39;</span>)
+</span></span><span style="display:flex;"><span>print(request_json)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;request.json&#39;</span>, <span style="color:#e6db74">&#39;w&#39;</span>) <span style="color:#66d9ef">as</span> fp:
+</span></span><span style="display:flex;"><span>     fp<span style="color:#f92672">.</span>write(json<span style="color:#f92672">.</span>dumps(request_json))
+</span></span></code></pre></div><p>Here, the <code>request.json</code> is a proper JSON file ready to be used by any application/program in the Azure Pipeline;
 We noticed one issue though, the conversion process, converts all other data types to string datatype, so may be you would need to change that or add some logic to create json/dict with type-safe.</p>
 ]]></content></item><item><title>(Azure DevOps) Committing and Pushing to Azure Git Repository from Azure Pipeline</title><link>https://rizwan-kh.github.io/posts/2021/03/azure-devops-committing-and-pushing-to-azure-git-repository-from-azure-pipeline/</link><pubDate>Sun, 14 Mar 2021 00:28:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/03/azure-devops-committing-and-pushing-to-azure-git-repository-from-azure-pipeline/</guid><description>Azure Git Repository Workflow In a unique use-case scenario, we encountered the need to dynamically generate Terraform HCL files during Azure DevOps pipeline operations and subsequently commit and push these files back to Azure Git Repos. While this isn&amp;rsquo;t a conventional operation, we successfully achieved this using the pipeline configuration outlined below.
 Assuming your pipeline has completed its tasks, including the generation or modification of files, the next step is to commit and push these changes to the Git repository.</description><content type="html"><![CDATA[<p><img src="/azure-pipelines.png" alt="azure"></p>
 <h2 id="azure-git-repository-workflow">Azure Git Repository Workflow</h2>
 <p>In a unique use-case scenario, we encountered the need to dynamically generate Terraform HCL files during Azure DevOps pipeline operations and subsequently commit and push these files back to Azure Git Repos. While this isn&rsquo;t a conventional operation, we successfully achieved this using the pipeline configuration outlined below.</p>
 <p>Assuming your pipeline has completed its tasks, including the generation or modification of files, the next step is to commit and push these changes to the Git repository. This action will inevitably trigger another pipeline, with the second pipeline focused on deployment rather than the initial Terraform file generation.</p>
-<pre tabindex="0"><code># get the branch name
-GIT_BRANCH=$(git branch -q)
-
-# set your git global variables
-git config --global user.email &#34;rizwan.khan@x-ops.com&#34;
-git config --global user.name &#34;Rizwan Khan&#34;
-
-git add *.tf
-if [ $? -ne 0 ]; then 
-    echo &#34;Nothing to git add, maybe path error?&#34;
-    exit 1
-fi
-
-git status
-
-# perform git commit with generic message
-git commit -m &#34;[new generated env tf files via build] - commit via pipeline&#34;
-if [ $? -ne 0 ]; then 
-    echo &#34;Nothing to git commit, maybe path error?&#34;
-    exit 1
-fi
-
-git config --get remote.origin.url
-# check if you&#39;re on the right branch
-git branch
-
-# push to the branch where you&#39;re working
-git push --set-upstream origin HEAD:$GIT_BRANCH
-if [ $? -ne 0 ]; then 
-    echo &#34;Not able to push the changes, maybe another change was made in the repo?&#34;
-    exit 1 
-fi
-
-git status
-</code></pre><p>While the commands are self-explanatory, it&rsquo;s crucial to highlight the authentication aspect, which is facilitated through SSH keys stored in Azure Pipelines&rsquo; Variable Group. Additionally, you need to place your public SSH keys in your profile. For detailed authentication setup, refer to <a href="https://learn.microsoft.com/en-us/azure/devops/repos/git/use-ssh-keys-to-authenticate?view=azure-devops#set-up-ssh-key-authentication">Microsoft&rsquo;s guide on SSH key authentication</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># get the branch name</span>
+</span></span><span style="display:flex;"><span>GIT_BRANCH<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>git branch -q<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># set your git global variables</span>
+</span></span><span style="display:flex;"><span>git config --global user.email <span style="color:#e6db74">&#34;rizwan.khan@x-ops.com&#34;</span>
+</span></span><span style="display:flex;"><span>git config --global user.name <span style="color:#e6db74">&#34;Rizwan Khan&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>git add *.tf
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $? -ne <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span> 
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;Nothing to git add, maybe path error?&#34;</span>
+</span></span><span style="display:flex;"><span>    exit <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>git status
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># perform git commit with generic message</span>
+</span></span><span style="display:flex;"><span>git commit -m <span style="color:#e6db74">&#34;[new generated env tf files via build] - commit via pipeline&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $? -ne <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span> 
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;Nothing to git commit, maybe path error?&#34;</span>
+</span></span><span style="display:flex;"><span>    exit <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>git config --get remote.origin.url
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># check if you&#39;re on the right branch</span>
+</span></span><span style="display:flex;"><span>git branch
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># push to the branch where you&#39;re working</span>
+</span></span><span style="display:flex;"><span>git push --set-upstream origin HEAD:$GIT_BRANCH
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $? -ne <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span> 
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;Not able to push the changes, maybe another change was made in the repo?&#34;</span>
+</span></span><span style="display:flex;"><span>    exit <span style="color:#ae81ff">1</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>git status
+</span></span></code></pre></div><p>While the commands are self-explanatory, it&rsquo;s crucial to highlight the authentication aspect, which is facilitated through SSH keys stored in Azure Pipelines&rsquo; Variable Group. Additionally, you need to place your public SSH keys in your profile. For detailed authentication setup, refer to <a href="https://learn.microsoft.com/en-us/azure/devops/repos/git/use-ssh-keys-to-authenticate?view=azure-devops#set-up-ssh-key-authentication">Microsoft&rsquo;s guide on SSH key authentication</a>.</p>
 ]]></content></item><item><title>Docker Vulnerability Analysis</title><link>https://rizwan-kh.github.io/posts/2020/09/docker-vulnerability-analysis/</link><pubDate>Mon, 14 Sep 2020 17:20:44 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2020/09/docker-vulnerability-analysis/</guid><description>Introduction Docker, a powerful containerization platform, has revolutionized the way applications are developed, shipped, deployed and consumed. However, as with any technology, it&amp;rsquo;s crucial to address security considerations. Conducting vulnerability analysis on your Docker containers is an essential step in ensuring the integrity and security of your applications as well as environment.
 Why Vulnerability Analysis? Containerized applications, while providing isolation, share the same kernel and may carry vulnerabilities. Regular vulnerability analysis helps identify and mitigate potential security risks within your Docker images.</description><content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
 <p>Docker, a powerful containerization platform, has revolutionized the way applications are developed, shipped, deployed and consumed. However, as with any technology, it&rsquo;s crucial to address security considerations. Conducting vulnerability analysis on your Docker containers is an essential step in ensuring the integrity and security of your applications as well as environment.</p>
@@ -1367,34 +1367,34 @@ Hugo can be downloaded from their official release page A GitHub account needs t
 <li>A GitHub account needs to be created from <a href="https://github.com/join">this link</a> and a public repo is required to be setup <a href="https://github.com/new">here</a></li>
 </ul>
 <p>After installing <strong>Hugo</strong>, to generate a new site, run the below command:</p>
-<pre tabindex="0"><code>hugo new site rizwan-blogs
-</code></pre><p>This will automatically create a directory named <em>rizwan-blogs</em> which will contain the necessary sub-directories and files required for our new hugo-based static website.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>hugo new site rizwan-blogs
+</span></span></code></pre></div><p>This will automatically create a directory named <em>rizwan-blogs</em> which will contain the necessary sub-directories and files required for our new hugo-based static website.</p>
 <p>The <code>config.toml</code> file is the main configuration file where we can add/change the theme or add additional settings like title, author, etc. Sample <strong>config.toml</strong> looks like below</p>
-<pre tabindex="0"><code>baseURL = &#34;https://rizwan-kh.github.io&#34;
-title = &#34;Rizwan Khan👨🏻‍💻&#34;
-languageCode = &#34;en-us&#34;
-theme = &#34;hello-friend-ng&#34;
-</code></pre><p>Replace the above 4 values as you want to in the config.toml and you are good to go.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>baseURL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://rizwan-kh.github.io&#34;</span>
+</span></span><span style="display:flex;"><span>title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Rizwan Khan👨🏻‍💻&#34;</span>
+</span></span><span style="display:flex;"><span>languageCode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;en-us&#34;</span>
+</span></span><span style="display:flex;"><span>theme <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;hello-friend-ng&#34;</span>
+</span></span></code></pre></div><p>Replace the above 4 values as you want to in the config.toml and you are good to go.</p>
 <p>To add content/pages, we run the below command, this will create a markdown page with the post marked as <code>draft: true</code> and we can keep it as true until we want to publish the post.</p>
-<pre tabindex="0"><code>huge new posts/my-post.md
-</code></pre><p>Fire up your favorite editor and it&rsquo;s all <a href="https://www.markdownguide.org/cheat-sheet/">markdown</a> from there.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>huge new posts/my-post.md
+</span></span></code></pre></div><p>Fire up your favorite editor and it&rsquo;s all <a href="https://www.markdownguide.org/cheat-sheet/">markdown</a> from there.
 Then we can start the hugo server in build drafts enabled mode (or as I think of it as development mode) with the below command and it will let you browse the site on address <a href="http://localhost:1313/">localhost:1313</a> with auto-refresh mode on.</p>
-<pre tabindex="0"><code>hugo server -D
-</code></pre><p>When the pages/posts are ready to be published, simply run the server in publish mode and hugo will take care of generating the required files in <code>./public</code> directory,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>hugo server -D
+</span></span></code></pre></div><p>When the pages/posts are ready to be published, simply run the server in publish mode and hugo will take care of generating the required files in <code>./public</code> directory,
 <em>Note: Make sure to clean up the public directory, as the directory will contain drafts pages as well from the previous run</em></p>
-<pre tabindex="0"><code>hugo
-</code></pre><h4 id="deploy-your-website">Deploy your website</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>hugo
+</span></span></code></pre></div><h4 id="deploy-your-website">Deploy your website</h4>
 <p>The final production content in stored in the public directory and we just need to copy the directory in the production server either on <strong>AWS S3</strong>, or on <strong>GitHub Pages</strong></p>
 <hr>
 <p>Now for the publishing the website, Go to <a href="https://github.com">GitHub</a> and create a <a href="https://github.com/new">new public repository</a> named <em><strong>username.github.io</strong></em>, where <em><strong>username</strong></em> is your username (or organization name) on GitHub.</p>
 <p>Use any <strong>git</strong> client to clone the repo, copy over the entire <em>public</em> directory</p>
-<pre tabindex="0"><code>git clone https://github.com/username/username.github.io
-cd username.github.io
-</code></pre><p>copy over the entire content of the <code>public</code> directory <code>username.github.io</code> and use git to commit and push the content over to <em>GitHub</em></p>
-<pre tabindex="0"><code>git add --all
-git commit -m &#34;initial commit&#34;
-git push origin main
-</code></pre><p>open your browser and type up the URL <a href="https://username.github.io">username.github.io</a> and voila your static website content is up and ready for free.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git clone https://github.com/username/username.github.io
+</span></span><span style="display:flex;"><span>cd username.github.io
+</span></span></code></pre></div><p>copy over the entire content of the <code>public</code> directory <code>username.github.io</code> and use git to commit and push the content over to <em>GitHub</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git add --all
+</span></span><span style="display:flex;"><span>git commit -m <span style="color:#e6db74">&#34;initial commit&#34;</span>
+</span></span><span style="display:flex;"><span>git push origin main
+</span></span></code></pre></div><p>open your browser and type up the URL <a href="https://username.github.io">username.github.io</a> and voila your static website content is up and ready for free.</p>
 ]]></content></item><item><title>Klar</title><link>https://rizwan-kh.github.io/posts/2020/03/klar/</link><pubDate>Sat, 14 Mar 2020 17:20:26 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2020/03/klar/</guid><description>Introduction Klar is a static binary tool to analyze images stored in a private or public Docker registry for security vulnerabilities using Clair. Klar is designed to be used as an integration tool so it relies on environment variables. It&amp;rsquo;s a single binary which requires no dependencies and can be plugged and/or integrated into our CI CD pipelines.
 Klar serves as a client which coordinates the image checks between the Docker registry and Clair.</description><content type="html"><![CDATA[<h3 id="introduction">Introduction</h3>
 <p><a href="https://github.com/optiopay/klar">Klar</a> is a static binary tool to analyze images stored in a private or public Docker registry for security vulnerabilities using <a href="https://github.com/coreos/clair">Clair</a>. Klar is designed to be used as an integration tool so it relies on environment variables. It&rsquo;s a single binary which requires no dependencies and can be plugged and/or integrated into our CI CD pipelines.</p>
@@ -1481,27 +1481,27 @@ Klar serves as a client which coordinates the image checks between the Docker re
 </tbody>
 </table>
 <h4 id="usage-1">Usage:</h4>
-<pre tabindex="0"><code>CLAIR_ADDR=localhost;CLAIR_OUTPUT=High;CLAIR_THRESHOLD=10;DOCKER_USER=docker;DOCKER_PASSWORD=secret;
-klar mysql:latest
-</code></pre><h5 id="debug-output">Debug Output</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>CLAIR_ADDR<span style="color:#f92672">=</span>localhost;CLAIR_OUTPUT<span style="color:#f92672">=</span>High;CLAIR_THRESHOLD<span style="color:#f92672">=</span>10;DOCKER_USER<span style="color:#f92672">=</span>docker;DOCKER_PASSWORD<span style="color:#f92672">=</span>secret;
+</span></span><span style="display:flex;"><span>klar mysql:latest
+</span></span></code></pre></div><h5 id="debug-output">Debug Output</h5>
 <p>You can enable more verbose output by setting KLAR_TRACE to true.</p>
 <h2 id="run-export-klar_tracetrue-to-persist-between-runs">run <code>export KLAR_TRACE=true</code> to persist between runs.</h2>
 <h4 id="gitlab-ci-usage">GitLab CI Usage</h4>
 <p>We have the below job defined in <code>.gitlab-ci.yml</code> post Dockerbuild stage</p>
-<pre tabindex="0"><code>image_analysis:
-  stage: analyse
-  image: registry.mycompany.com/ci/kubernetes-deploy:klar
-  script:
-    - export PATH=$PATH:$CI_PROJECT_DIR
-    - export TAG=&#34;$CI_BUILD_REF_NAME&#34;
-    - CLAIR_THRESHOLD=1000 DOCKER_TIMEOUT=5 CLAIR_TIMEOUT=5 CLAIR_ADDR=https://ngclair.mycompany.com:443 DOCKER_USER=gitlab-ci-token DOCKER_PASSWORD=$CI_BUILD_TOKEN klar $CI_REGISTRY_IMAGE:$TAG | tee scan.txt
-  artifacts:
-    paths:
-      - $CI_PROJECT_DIR/scan.txt
-    expire_in: 1 hour
-  tags:
-    - my_runner
-</code></pre><p>This image <code>registry.mycompany.com/ci/kubernetes-deploy:klar</code> contains the klar binary and the clair server is running on <a href="https://ngclair.mycompany.com:443">https://ngclair.mycompany.com:443</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">image_analysis</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">stage</span>: <span style="color:#ae81ff">analyse</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">image</span>: <span style="color:#ae81ff">registry.mycompany.com/ci/kubernetes-deploy:klar</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">script</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">export PATH=$PATH:$CI_PROJECT_DIR</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">export TAG=&#34;$CI_BUILD_REF_NAME&#34;</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">CLAIR_THRESHOLD=1000 DOCKER_TIMEOUT=5 CLAIR_TIMEOUT=5 CLAIR_ADDR=https://ngclair.mycompany.com:443 DOCKER_USER=gitlab-ci-token DOCKER_PASSWORD=$CI_BUILD_TOKEN klar $CI_REGISTRY_IMAGE:$TAG | tee scan.txt</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">artifacts</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">paths</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">$CI_PROJECT_DIR/scan.txt</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">expire_in</span>: <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">hour</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">tags</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">my_runner</span>
+</span></span></code></pre></div><p>This image <code>registry.mycompany.com/ci/kubernetes-deploy:klar</code> contains the klar binary and the clair server is running on <a href="https://ngclair.mycompany.com:443">https://ngclair.mycompany.com:443</a></p>
 ]]></content></item><item><title>Vagrant</title><link>https://rizwan-kh.github.io/posts/2020/03/vagrant/</link><pubDate>Sat, 14 Mar 2020 17:20:26 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2020/03/vagrant/</guid><description>Introduction Getting started with Vagrant Download the install the Vagrant from the Download section
 vagrant version Installed Version: 2.2.10 Latest Version: 2.2.10 You&amp;#39;re running an up-to-date version of Vagrant! Download and install VirtualBox
 Now if both Vagrant and VirtualBox are up and running, all we need to do is run the below 3 commands to have a Ubuntu VM up and available for our use in no time.
@@ -1509,17 +1509,17 @@ vagrant init hashicorp/bionic64 vagrant up vagrant ssh This is a pretty simple w
 <hr>
 <h2 id="getting-started-with-vagrant">Getting started with Vagrant</h2>
 <p>Download the install the <a href="https://www.vagrantup.com/downloads">Vagrant</a> from the Download section</p>
-<pre tabindex="0"><code>vagrant version
-Installed Version: 2.2.10
-Latest Version: 2.2.10
-
-You&#39;re running an up-to-date version of Vagrant!
-</code></pre><p>Download and install <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>vagrant version
+</span></span><span style="display:flex;"><span>Installed Version: 2.2.10
+</span></span><span style="display:flex;"><span>Latest Version: 2.2.10
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>You<span style="color:#960050;background-color:#1e0010">&#39;</span>re running an up-to-date version of Vagrant!
+</span></span></code></pre></div><p>Download and install <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></p>
 <p>Now if both <strong>Vagrant</strong> and <strong>VirtualBox</strong> are up and running, all we need to do is run the below 3 commands to have a Ubuntu VM up and available for our use in no time.</p>
-<pre tabindex="0"><code>vagrant init hashicorp/bionic64
-vagrant up
-vagrant ssh
-</code></pre><p>This is a pretty simple way to spin up a new Ubuntu VM, we can do a lot more which I will try to write up in later posts.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>vagrant init hashicorp/bionic64
+</span></span><span style="display:flex;"><span>vagrant up
+</span></span><span style="display:flex;"><span>vagrant ssh
+</span></span></code></pre></div><p>This is a pretty simple way to spin up a new Ubuntu VM, we can do a lot more which I will try to write up in later posts.</p>
 ]]></content></item><item><title>Gitlab CI &amp; Kaniko to build Docker Images</title><link>https://rizwan-kh.github.io/posts/2020/02/gitlab-ci-kaniko-to-build-docker-images/</link><pubDate>Wed, 12 Feb 2020 12:11:00 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2020/02/gitlab-ci-kaniko-to-build-docker-images/</guid><description>Introduction You can build container images from a Dockerfile inside a container or a Kubernetes cluster, though Jérôme Petazzoni strongly discourages doing so. He wrote a detailed blog that can be read here on why not to build container images using Dockerfile inside a container or a Kubernetes cluster.
 Context You will get N number of blogs on how to use the CI/CD of GitLab; here we will see an easy reference point to extend a file and create CI/CD for Docker Image to be built and stored in the same GitLab registry using kaniko.</description><content type="html"><![CDATA[<p><img src="/gitlab.jpeg" alt="GitLab"></p>
 <h3 id="introduction">Introduction</h3>
@@ -1540,29 +1540,29 @@ It is a tool to build container images from a Dockerfile inside a container or a
 </ul>
 <hr>
 <h4 id="ci-yaml-for-auto-devops">CI YAML for auto-devops</h4>
-<pre tabindex="0"><code># .gitlab-ci.yml
-variables:
-    GIT_SSL_NO_VERIFY: &#34;true&#34;
-
-before_script:
-  - echo &#34;Random image creation, user = $GITLABUSER&#34;
-
-stages:
-  - build
-
-build_image:
-  image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [&#34;&#34;]
-  stage: build
-  script:
-    - ls
-    - pwd
-    - export CI_REGISTRY_IMAGE=mygitlab.com/base-project/subproject/project
-    - echo &#34;{\&#34;auths\&#34;:{\&#34;mygitlab.com\&#34;:{\&#34;username\&#34;:\&#34;gitlab-ci-token\&#34;,\&#34;password\&#34;:\&#34;$CI_BUILD_TOKEN\&#34;},\&#34;repository.xyz-company.io\&#34;:{\&#34;username\&#34;:\&#34;user\&#34;,\&#34;password\&#34;:\&#34;123random\&#34;}}}&#34; &gt; /kaniko/.docker/config.json
-    - wget https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem | xargs cat lets-encrypt-x3-cross-signed.pem &gt;&gt; /kaniko/ssl/certs/ca-certificates.crt
-    - /kaniko/executor --skip-tls-verify --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME
-</code></pre><hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#75715e"># .gitlab-ci.yml</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">variables</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">GIT_SSL_NO_VERIFY</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">before_script</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">echo &#34;Random image creation, user = $GITLABUSER&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">stages</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">build</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">build_image</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">image</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">gcr.io/kaniko-project/executor:debug</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">entrypoint</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">stage</span>: <span style="color:#ae81ff">build</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">script</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">ls</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">pwd</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">export CI_REGISTRY_IMAGE=mygitlab.com/base-project/subproject/project</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">echo &#34;{\&#34;auths\&#34;:{\&#34;mygitlab.com\&#34;:{\&#34;username\&#34;:\&#34;gitlab-ci-token\&#34;,\&#34;password\&#34;:\&#34;$CI_BUILD_TOKEN\&#34;},\&#34;repository.xyz-company.io\&#34;:{\&#34;username\&#34;:\&#34;user\&#34;,\&#34;password\&#34;:\&#34;123random\&#34;}}}&#34; &gt; /kaniko/.docker/config.json</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">wget https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem | xargs cat lets-encrypt-x3-cross-signed.pem &gt;&gt; /kaniko/ssl/certs/ca-certificates.crt</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">/kaniko/executor --skip-tls-verify --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME</span>
+</span></span></code></pre></div><hr>
 <p><strong>variables</strong>: These are static values which aren&rsquo;t going to change and is used at multiple locations in the gitlab-ci.yml file</p>
 <p><strong>before_script</strong>: Set(s) of commands or echo statements we want to print</p>
 <p><strong>stages</strong>: Stages are a block of code for an identical job or set of jobs viz. build, test, clean-up, delete, deploy, etc. This executes in the order it&rsquo;s defined in the YAML. A dot(.) in front of any job(block of code) disables it and it won&rsquo;t be executed or available either as an automatic or manual job.</p>
@@ -1577,17 +1577,17 @@ Many times, we come across a situation where our organization uses a private Doc
 <p>One can think of service accounts as service users for pods. They help pods authenticate with the api-server and interact with it.</p>
 <h2 id="heading"></h2>
 <p>Many times, we come across a situation where our organization uses a private Docker registry to store the Docker images and to make this available we need to create a <code>docker-registry</code> kubernetes secret and pass as <code>imagePullSecrets</code> in the deployment manifest.</p>
-<pre tabindex="0"><code>kubectl create secret docker-registry registry-cred \
- --docker-server=my.private-registry.com \
- --docker-username=my_username \
- --docker-password=&#34;my_superr_strong_password&#34; \
- --docker-email=my.email@mycompany.com -n my-namespace
-</code></pre><p>Then, we pass this secret in the deployment manifest as below.</p>
-<pre tabindex="0"><code>...
-      imagePullSecrets:
-      - name: registry-cred
-...
-</code></pre><h2 id="the-problem-with-this-approach">The problem with this approach?</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl create secret docker-registry registry-cred <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span> --docker-server<span style="color:#f92672">=</span>my.private-registry.com <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span> --docker-username<span style="color:#f92672">=</span>my_username <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span> --docker-password<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my_superr_strong_password&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span> --docker-email<span style="color:#f92672">=</span>my.email@mycompany.com -n my-namespace
+</span></span></code></pre></div><p>Then, we pass this secret in the deployment manifest as below.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">imagePullSecrets</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">registry-cred</span>
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><h2 id="the-problem-with-this-approach">The problem with this approach?</h2>
 <p>Not many that I can think of, except the below ones:</p>
 <ul>
 <li>The deployment yaml is generally developed by Developers who don&rsquo;t need to know about these credentials</li>
@@ -1595,9 +1595,9 @@ Many times, we come across a situation where our organization uses a private Doc
 </ul>
 <h2 id="the-solution">The solution</h2>
 <p><code>serviceAccounts</code> - your Kubernetes administrator can just patch serviceAccounts with the registry credential secret and you don&rsquo;t need to worry about replacing or adding it in your manifest yaml each time.</p>
-<pre tabindex="0"><code>kubectl patch serviceaccount default \
--p &#39;{&#34;imagePullSecrets&#34;: [{&#34;name&#34;: &#34;registry-cred&#34;}]}&#39; -n my-namespace
-</code></pre>]]></content></item><item><title>Docker Cheat Sheet</title><link>https://rizwan-kh.github.io/posts/2019/10/docker-cheat-sheet/</link><pubDate>Fri, 11 Oct 2019 05:11:13 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2019/10/docker-cheat-sheet/</guid><description>Below are a few of the main and basic commands used in Docker, an easy pick-up and good-to-go command page for docker troubleshooting.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>kubectl patch serviceaccount default <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-p <span style="color:#e6db74">&#39;{&#34;imagePullSecrets&#34;: [{&#34;name&#34;: &#34;registry-cred&#34;}]}&#39;</span> -n my-namespace
+</span></span></code></pre></div>]]></content></item><item><title>Docker Cheat Sheet</title><link>https://rizwan-kh.github.io/posts/2019/10/docker-cheat-sheet/</link><pubDate>Fri, 11 Oct 2019 05:11:13 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2019/10/docker-cheat-sheet/</guid><description>Below are a few of the main and basic commands used in Docker, an easy pick-up and good-to-go command page for docker troubleshooting.
 Alias If you are a lazy developer/sysadmin like me, the first thing you should do on your system is to make easy alias of all the long commands, below are the ones I often use on any system I use daily:
 These can be imported on ~/.</description><content type="html"><![CDATA[<p><img src="/docker.png" alt="docker">
 Below are a few of the main and basic commands used in Docker, an easy pick-up and good-to-go command page for docker troubleshooting.</p>
