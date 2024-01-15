@@ -240,8 +240,8 @@ I came across this question from a team member who wanted to troubleshoot a dead
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># start a new container with shell entrypoint to debug</span>
 </span></span><span style="display:flex;"><span>docker run -it --rm --entrypoint sh dead/test
 </span></span></code></pre></div><p>After your debugging is completed, feel free to delete the image</p>
-<pre tabindex="0"><code>docker rmi dead/test
-</code></pre>]]></content></item><item><title>Integration of Azure AD as OIDC identity provider for Kubernetes</title><link>https://rizwan-kh.github.io/posts/2022/03/integration-of-azure-ad-as-oidc-identity-provider-for-kubernetes/</link><pubDate>Mon, 14 Mar 2022 18:23:08 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2022/03/integration-of-azure-ad-as-oidc-identity-provider-for-kubernetes/</guid><description>Introduction In my project, we are using many flavours of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these clusters is managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the clusters on Rancher to manage all Kubernetes clusters.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>docker rmi dead/test
+</span></span></code></pre></div>]]></content></item><item><title>Integration of Azure AD as OIDC identity provider for Kubernetes</title><link>https://rizwan-kh.github.io/posts/2022/03/integration-of-azure-ad-as-oidc-identity-provider-for-kubernetes/</link><pubDate>Mon, 14 Mar 2022 18:23:08 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2022/03/integration-of-azure-ad-as-oidc-identity-provider-for-kubernetes/</guid><description>Introduction In my project, we are using many flavours of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these clusters is managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the clusters on Rancher to manage all Kubernetes clusters.
 I had a requirement where we couldn&amp;rsquo;t onboard the users to our Active Directory, and the plan was to give them access to the Kubernetes cluster via Azure AD external users(or guest users).</description><content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
 <p>In my project, we are using many flavours of Kubernetes viz. EKS, AKS, GKE, RKE, ACK. RBAC for all these clusters is managed via a central Active Directory as well as the user authentication, and this is achieved centrally by onboarding all the clusters on Rancher to manage all Kubernetes clusters.</p>
 <p>I had a requirement where we couldn&rsquo;t onboard the users to our Active Directory, and the plan was to give them access to the Kubernetes cluster via Azure AD external users(or guest users).</p>
@@ -1609,41 +1609,41 @@ Below are a few of the main and basic commands used in Docker, an easy pick-up a
 
 <h3 id="commands-and-their-usage">Commands and their usage</h3>
 <p>Mostly used commands are aliased above, but to explain what each does, please read on</p>
-<pre tabindex="0"><code># to build a docker image with a certain name and certain tag, use the below Docker build command
-docker build --tag imagename:tagname --file /path/to/Dockerfile
-
-
-# to check the docker images
-docker images
-
-
-# to run a docker container in detach mode publishing hostport:containerport and mounting a host vol to container vol, giving a name to the runnging container and the hostname to container
-docker run --tty --interactive --publish 2222:22 --hostname my-x-host --volume /hostvolume:/containervol --name name-of-running-container --detach imagename:tagname
-# docker run -ti -p 2222:22 -h my-x-host -v /hostvolume:/containervol -n name-of-running-container -d imagename:tagname (this is shorter version of the above command)
-
-
-# to see all running containers
-docker ps
-
-
-# to see all containers (running, stopped, exited, etc.)
-docker ps -a
-
-
-# to get inside a running container
-docker exec -ti CONTAINERNAME/CONTAINERID bash
-
-
-# to stop a running container
-docker stop CONTAINERNAME/CONTAINERID
-
-
-# to remove a stopped container
-docker rm CONTAINERNAME/CONTAINERID
-
-# to see logs from containers
-docker logs CONTAINERNAME/CONTAINERID
-</code></pre>]]></content></item><item><title>tmux</title><link>https://rizwan-kh.github.io/posts/2019/06/tmux/</link><pubDate>Thu, 13 Jun 2019 21:53:35 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2019/06/tmux/</guid><description>tmux - Terminal Multiplexer tmux is a terminal multiplexer. It helps switch between multiple programs in one terminal, detach them(they keep running in the background) and reattach them when needed. I started using tmux as someone recommended me to start using it as it helps with CKA &amp;amp; CKAD (which I have still not attempted) and then later on I was heavily using it for my website(with Hugo). I had previously used mPutty, but mPutty uses multiple logged-in sessions to display on the screen, whereas tmux simply multiplies the existing sessions on screen.</description><content type="html"><![CDATA[<p><img src="/tmux-logo.png" alt="tmux"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># to build a docker image with a certain name and certain tag, use the below Docker build command</span>
+</span></span><span style="display:flex;"><span>docker build --tag imagename:tagname --file /path/to/Dockerfile
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># to check the docker images</span>
+</span></span><span style="display:flex;"><span>docker images
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># to run a docker container in detach mode publishing hostport:containerport and mounting a host vol to container vol, giving a name to the runnging container and the hostname to container</span>
+</span></span><span style="display:flex;"><span>docker run --tty --interactive --publish 2222:22 --hostname my-x-host --volume /hostvolume:/containervol --name name-of-running-container --detach imagename:tagname
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># docker run -ti -p 2222:22 -h my-x-host -v /hostvolume:/containervol -n name-of-running-container -d imagename:tagname (this is shorter version of the above command)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># to see all running containers</span>
+</span></span><span style="display:flex;"><span>docker ps
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># to see all containers (running, stopped, exited, etc.)</span>
+</span></span><span style="display:flex;"><span>docker ps -a
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># to get inside a running container</span>
+</span></span><span style="display:flex;"><span>docker exec -ti CONTAINERNAME/CONTAINERID bash
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># to stop a running container</span>
+</span></span><span style="display:flex;"><span>docker stop CONTAINERNAME/CONTAINERID
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># to remove a stopped container</span>
+</span></span><span style="display:flex;"><span>docker rm CONTAINERNAME/CONTAINERID
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># to see logs from containers</span>
+</span></span><span style="display:flex;"><span>docker logs CONTAINERNAME/CONTAINERID
+</span></span></code></pre></div>]]></content></item><item><title>tmux</title><link>https://rizwan-kh.github.io/posts/2019/06/tmux/</link><pubDate>Thu, 13 Jun 2019 21:53:35 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2019/06/tmux/</guid><description>tmux - Terminal Multiplexer tmux is a terminal multiplexer. It helps switch between multiple programs in one terminal, detach them(they keep running in the background) and reattach them when needed. I started using tmux as someone recommended me to start using it as it helps with CKA &amp;amp; CKAD (which I have still not attempted) and then later on I was heavily using it for my website(with Hugo). I had previously used mPutty, but mPutty uses multiple logged-in sessions to display on the screen, whereas tmux simply multiplies the existing sessions on screen.</description><content type="html"><![CDATA[<p><img src="/tmux-logo.png" alt="tmux"></p>
 <h1 id="tmux---terminal-multiplexer">tmux - Terminal Multiplexer</h1>
 <p>tmux is a terminal multiplexer. It helps switch between multiple programs in one terminal, detach them(they keep running in the background) and reattach them when needed. I started using tmux as someone recommended me to start using it as it helps with CKA &amp; CKAD (which I  have still not attempted) and then later on I was heavily using it for my website(with Hugo). I had previously used mPutty, but mPutty uses multiple logged-in sessions to display on the screen, whereas tmux simply multiplies the existing sessions on screen.</p>
 <h3 id="installation">Installation</h3>
