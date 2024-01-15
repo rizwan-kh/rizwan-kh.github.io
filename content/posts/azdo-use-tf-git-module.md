@@ -33,7 +33,7 @@ For the Known Host file, we need to run the below command and get the output and
 
 Now, under Pipeline, we need to use the task below to use the SSH keys to fetch or perform git operations.
 
-```
+```yml
 #azure-pipeline.yml
 - task: InstallSSHKey@0
   inputs:
@@ -44,7 +44,7 @@ Now, under Pipeline, we need to use the task below to use the SSH keys to fetch 
 ```
 
 Now to use the above set key, we need to call the git modules like below
-```
+```t
 #sample.tf
 module "some_azure_repo_tf_module" {
   source = "git@ssh.dev.azure.com:v3/x-ops/devops/terraform-poc?ref=main"

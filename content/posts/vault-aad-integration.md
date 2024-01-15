@@ -36,14 +36,14 @@ In short, we need the below from Microsoft Azure:
 #### enable OIDC
 Enabling the OIDC based auth is the first thing we need to do, if you want to configure multiple OIDCs, we can change the path on which OIDC is initialized.  Go to the Access tab at top of the Vault UI page and click on 'Enable new method +' under Auth methods, alternatively, you can use Vault CLI to enable this using the below command
 
-```
+```sh
 vault auth enable oidc
 ```
 
 #### configure OIDC 
 Post initializing the OIDC authentication, we need to configure OIDC using the below OIDC command, here we will need the Tenant ID, client ID, and secret that we created in the Azure AD App registration step. Replace the values in the below command before applying.
 
-```
+```sh
 vault write auth/oidc/config \
 oidc_discovery_url="https://login.microsoftonline.com/TENANT_ID/v2.0" \
 oidc_client_id="CLIENT_ID" \
@@ -52,7 +52,7 @@ oidc_client_secret="SECRET_REDACTED"
 
 #### configure role
 Replace the vault URL in the below *allowed_redirect_uris* as applicable and only keep one among the last two depending on which port vault is exposed.
-```
+```sh
 vault write auth/oidc/role/aad \
   user_claim="email" \
   oidc_scopes="https://graph.microsoft.com/.default" \
@@ -69,7 +69,7 @@ vault write auth/oidc/role/aad \
 #### verify OIDC login with the above role
 You can now try to log in using the above role via the below command or use the Vault UI with the OIDC method and role `aad`.
 
-```
+```sh
 vault login -method=oidc role=aad
 ```
 You will be authenticated to log in but won't be able to see any credentials yet as policies are not yet set, which will be completed below
@@ -89,7 +89,7 @@ path "kv/*" {
 ```
 
 Save the two policies in two files named - `devops-admin-policy.hcl` and `devops-ro-policy.hcl`. Use the below command to write these policies
-```
+```sh
 vault policy write team-devops-admin-policy "devops-admin-policy.hcl"
 vault policy write team-devops-ro-policy "devops-ro-policy.hcl"
 ```
@@ -104,14 +104,14 @@ Post group creation, we need to perform two tasks
 - create identity mapping between the AAD groups and vault groups
 
 ##### internal vault group
-```
+```sh
 vault write identity/group name="devops-admins" type="external" policies="team-devops-admin-policy"
 vault write identity/group name="devops-ro" type="external" policies="team-devops-ro-policy"
 ```
 Post execution, note down the canonical ID for both groups which will be used in mapping with 
 
 ##### external AAD group mapping
-```
+```sh
 # vault write identity/group-alias name="<azuread-group-object-id>" mount_accessor="oidc_mount_accessor" canonical_id="<canonical-id>"
 
 # for admin group

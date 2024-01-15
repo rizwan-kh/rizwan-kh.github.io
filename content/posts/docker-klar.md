@@ -50,7 +50,7 @@ Klar can be configured via the following environment variables:
 
 #### Usage:
 
-```
+```sh
 CLAIR_ADDR=localhost;CLAIR_OUTPUT=High;CLAIR_THRESHOLD=10;DOCKER_USER=docker;DOCKER_PASSWORD=secret;
 klar mysql:latest
 ```
@@ -62,7 +62,7 @@ run `export KLAR_TRACE=true` to persist between runs.
 #### GitLab CI Usage
 We have the below job defined in `.gitlab-ci.yml` post Dockerbuild stage
 
-```
+```yml
 image_analysis:
   stage: analyse
   image: registry.mycompany.com/ci/kubernetes-deploy:klar

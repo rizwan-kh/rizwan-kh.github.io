@@ -15,7 +15,7 @@ In a unique use-case scenario, we encountered the need to dynamically generate T
 
 Assuming your pipeline has completed its tasks, including the generation or modification of files, the next step is to commit and push these changes to the Git repository. This action will inevitably trigger another pipeline, with the second pipeline focused on deployment rather than the initial Terraform file generation.
 
-```
+```shell
 # get the branch name
 GIT_BRANCH=$(git branch -q)
 

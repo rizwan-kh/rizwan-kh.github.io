@@ -8,6 +8,7 @@ tags:
   - security
   - docker
   - container
+  - vulnerabilities
 ---
 ## Introduction
 Docker, a powerful containerization platform, has revolutionized the way applications are developed, shipped, deployed and consumed. However, as with any technology, it's crucial to address security considerations. Conducting vulnerability analysis on your Docker containers is an essential step in ensuring the integrity and security of your applications as well as environment.

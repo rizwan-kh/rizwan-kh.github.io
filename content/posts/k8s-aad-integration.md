@@ -37,7 +37,7 @@ After the app is created, there is a couple of configuration that needs to be pe
 ### Configure Kubernetes API Server
 Kubernetes provides a way to configure OIDC-compatible identity providers via flags passed to the kube-apiserver component. We need to the below flags while starting the kube-apiserver
 
-```
+```sh
 --oidc-client-id="spn:<application id>" \
 --oidc-issuer-url="https://sts.windows.net/<azure AD tenant>/"
 --oidc-username-claim="email" # this will be `upn` if you want to authenticate direct member users of Azure AD and not guest users
@@ -45,7 +45,7 @@ Kubernetes provides a way to configure OIDC-compatible identity providers via fl
 
 If you have created your cluster using [KOPS](https://kops.sigs.k8s.io/), you can add the below in the cluster configuration and perform an update and rolling update to re-create the master nodes to enable the authentication
 
-```
+```yml
 spec:
     kubeAPIServer:
         oidcClientID: spn:<application ID>
@@ -66,12 +66,12 @@ We will explain below how to configure both
 I followed the installation instructions from https://github.com/Azure/kubelogin:
 
 Install using homebrew:
-```
+```sh
 brew install Azure/kubelogin/kubelogin
 ```
 
 Install directly from Github
-```
+```sh
 wget https://github.com/Azure/kubelogin/releases/latest/download/kubelogin-linux-amd64.zip
 unzip kubelogin-linux-amd64.zip -d kubelogin
 mv kubelogin/bin/linux_amd64/kubelogin /usr/local/bin/
@@ -79,12 +79,12 @@ rm -r kubelogin*
 ```
 #### Install Azure cli
 Install using homebrew
-```
+```sh
 brew update && brew install azure-cli
 ```
 
 Although not preferred by many, using the script we can install per below
-```
+```sh
 curl -L https://aka.ms/InstallAzureCli | bash
 ```
 
@@ -96,7 +96,7 @@ The below kubeconfig contains sample garbage value, please replace the below fie
 - value for client-id
 - value for tenant-id
 
-```
+```yml
 # using kubelogin
 apiVersion: v1
 clusters:
@@ -131,7 +131,7 @@ users:
       env: null
 ```
 
-```
+```yml
 # using azure cli
 apiVersion: v1
 clusters:
@@ -162,7 +162,7 @@ users:
 ### Authentication
 Post completion of this setup, issue `kubectl` command to get the instruction to authenticate yourself; Note this will only authenticate you, you would need to configure RBAC to allow the users to interact with the cluster.
 
-```
+```sh
 kubectl get pods
 To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code EJQH9Q8LS to authenticate.
 ```
@@ -172,7 +172,7 @@ We would need to setup RBAC for different users and groups as per our need, for 
 1. k8s-admins
 2. k8s-editors
 3. k8s-viewers
-```
+```yml
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:

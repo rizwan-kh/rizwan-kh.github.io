@@ -20,7 +20,7 @@ We look at the option to use the Flatten JSON Objects extension to convert a nes
 `pip install flatten_json`
 
 
-```
+```python
 '''
 flatten the JSON data with a '_' separator; you can use different separators as well
 '''
@@ -50,7 +50,7 @@ the above command gives us the below output, which is single layer of JSON
 
 Now that we had a single layer `key: value` pair, we added another hack to be able to read these variables properly in the Azure DevOps pipeline. We added a prefix (any prefix that's not part of your JSON) **RizwanGotNoChill-**
 
-```
+```python
 prefixed_flat_json = {f"RizwanGotNoChill-{key}": val for key, val in flat_json.items()}
 print(prefixed_flat_json)
 '''
@@ -76,7 +76,7 @@ I found the below two ways to trigger a pipeline, you may want to see which one 
 - Using REST API-based curl/HTTP command calling the **build API** - https://dev.azure.com/YOURORG/YOURPROJECT/_apis/build/builds?api-version=6.1-preview.6)
 1. Convert your JSON to an escaped one using this [link](https://jsonformatter.org/json-escape)
 2. Create the request param as below and send 
-```
+```shell
 # Replace the values for YOURORG, YOURPROJECT, PATTOKEN and the value for id(pipeline ID)
 curl --request POST \
   --url 'https://dev.azure.com/YOURORG/YOURPROJECT/_apis/build/builds?api-version=6.1-preview.6' \
@@ -97,7 +97,7 @@ curl --request POST \
 
 Now the baton is at the Azure DevOps end to decode and re-configure this as a JSON, I used a simple job and Python script to achieve this
 
-```
+```yml
 # azure-pipeline.yml
 - job: install_library
   steps:
@@ -119,7 +119,7 @@ Now the baton is at the Azure DevOps end to decode and re-configure this as a JS
     displayName: Produce JSON
 ```
 
-```
+```python
 # utils.py
 import os, sys
 import json

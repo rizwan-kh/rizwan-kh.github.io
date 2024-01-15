@@ -15,7 +15,7 @@ tags:
 ## Getting started with Vagrant
 Download the install the [Vagrant](https://www.vagrantup.com/downloads) from the Download section
 
-```
+```sh
 vagrant version
 Installed Version: 2.2.10
 Latest Version: 2.2.10
@@ -26,7 +26,7 @@ You're running an up-to-date version of Vagrant!
 Download and install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
 Now if both **Vagrant** and **VirtualBox** are up and running, all we need to do is run the below 3 commands to have a Ubuntu VM up and available for our use in no time.
-```
+```sh
 vagrant init hashicorp/bionic64
 vagrant up
 vagrant ssh

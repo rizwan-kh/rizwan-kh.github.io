@@ -13,7 +13,7 @@ I came across this question from a team member who wanted to troubleshoot a dead
 ## Usage
 The process is very simple - to save/commit the dead container to a new image and then start a new container with a `sh` entrypoint and debug the container. I consider you're using docker, although similar equivalent commands for other container runtime alternatives like podman, ctr, etc. can also be found, the process will be similar.
 
-```
+```sh
 # commit the stopped container to a new image
 docker commit 25836caaa158 dead/test
 

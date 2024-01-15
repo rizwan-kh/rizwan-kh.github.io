@@ -57,12 +57,12 @@ Since mostly, we use `kubectl` to interact with Kubernetes, we will configure ku
 I followed the installation instructions from https://github.com/Azure/kubelogin:
 
 Install using homebrew:
-```
+```sh
 brew install Azure/kubelogin/kubelogin
 ```
 
 Install directly from Github
-```
+```sh
 wget https://github.com/Azure/kubelogin/releases/latest/download/kubelogin-linux-amd64.zip
 unzip kubelogin-linux-amd64.zip -d kubelogin
 mv kubelogin/bin/linux_amd64/kubelogin /usr/local/bin/
@@ -77,7 +77,7 @@ The below kubeconfig contains sample garbage value, please replace the below fie
 - value for client-id
 - value for tenant-id
 
-```
+```yml
 apiVersion: v1
 clusters:
 - cluster:
@@ -114,7 +114,7 @@ users:
 ### Authentication
 Post completion of this setup, issue `kubectl` command to get the instruction to authenticate yourself; Note this will only authenticate you, you would need to configure RBAC to allow the users to interact with the cluster.
 
-```
+```sh
 kubectl get pods
 To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code EJQH9Q8LS to authenticate.
 ```
@@ -124,7 +124,7 @@ We would need to setup RBAC for different users and groups as per our needs, for
 1. eks-admins
 2. eks-editors
 3. eks-viewers
-```
+```yml
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:

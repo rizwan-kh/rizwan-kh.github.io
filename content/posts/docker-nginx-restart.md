@@ -20,14 +20,14 @@ We went ahead with the second approach as it was the more time-saving option.
 
 ## Steps
 Reload the nginx process on the pod using kubectl exec
-```
+```sh
 kubectl exec -ti app-nginx-ifbsdy -n ui -- nginx -s reload
 2023/02/09 01:39:02 [notice] 3269#3269: signal process started
 ```
 
 If you're running a docker container, exec inside the container
 
-```
+```sh
 docker exec -it app-nginx nginx -s reload
 2023/02/09 01:39:02 [notice] 3269#3269: signal process started
 ```

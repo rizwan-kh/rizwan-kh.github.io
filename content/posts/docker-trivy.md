@@ -18,7 +18,7 @@ We were using [Clair](https://github.com/coreos/clair) previous to our switch to
 ## Usage
 For stand-alone usage, simply [download the binary](https://github.com/aquasecurity/trivy/releases) on your Mac/Linux system and scan images or file systems or configuration as below
 
-```
+```sh
 # for scanning images
 trivy image [image-name]
 trivy image alpine:latest
@@ -42,7 +42,7 @@ We were re-scanning the images from our registry, but only the ones which are al
 
 We get the list of images using the below `kubectl` API call and then iterate over those images to generate either HTML or JSON format reports as per the need.
 
-```
+```sh
 # to get the list of images running on the cluster
 kubectl get pods --all-namespaces -o jsonpath="{.items[*].spec.containers[*].image}" |tr -s '[[:space:]]' '\n' |sort |uniq -c
 

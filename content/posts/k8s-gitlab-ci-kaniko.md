@@ -31,7 +31,7 @@ It comes with it's limitations, but we don't run the risk of using Docker-in-Doc
 
 ---
 #### CI YAML for auto-devops
-```
+```yml
 # .gitlab-ci.yml
 variables:
     GIT_SSL_NO_VERIFY: "true"

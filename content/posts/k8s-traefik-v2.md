@@ -32,7 +32,7 @@ Set up your Kubernetes cluster, doesn't matter if it's EKS, AKS, GKE, Custom kub
 Deploy the below traefik-crd-sa-cr-crb.yaml file with `kubectl apply -f traefik-crd-sa-cr-crb.yaml` as-is.
 
 [The below CRD's and supporting manifest are taken from this Traefik official documentation](https://doc.traefik.io/traefik/user-guides/crd-acme/#cluster-resources)
-```
+```yml
 # traefik-crd-sa-cr-crb.yaml
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
@@ -229,7 +229,7 @@ Now save the below manifest and deploy it on your cluster with a few amendments 
 
 :information_source: - you can use the Instance profile/IAM Role as well if you don't want to use IAM keys 
 
-```
+```yml
 # create PVC to store the Lets Encrypt cert to persist between Traefik restarts
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -411,7 +411,7 @@ Of course, if we have done all this, how do we validate, for that we will deploy
 
 `kubectl apply -f traefik-ir.yaml`
 
-```
+```yml
 # traefik-ir.yaml
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
