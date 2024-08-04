@@ -10,17 +10,19 @@ tags:
 # Enable local Terraform provider for Testing/Development
 
 ## Introduction
+
 Recently, we faced an issue with databricks/databricks provider and we spend alomost 2 weeks figuring out an auth issue that we saw in the provider for storage_account for th Unity Catalog. And thus, we wanted to dive into the databricks provider golang code to see if we can add few debug statements and understand where it was failing. So we cloned the repo from GitHub, made the changes and used the `contributing.md` to learn how to build the package - it was as easy as running the command `make install` and the Makefile had all the magic command configured.
 
 We got a binary locally available to use. Now we faced the challenge of how to use the local binary, as with each `terraform init` command, terraform was pulling the module from registry.terraform.io.
 
 ## Setup
+
 Looking around the documents, we found a way and all it needed was to create a `~/.terraformrc` file with the below content
 
-```
+```t
 provider_installation {
   dev_overrides {
-    “registry.terraform.io/databricks/databricks = “/Users/rizwan/GitHub/databricks-terraform/”
+    "registry.terraform.io/databricks/databricks" = "/Users/rizwan/GitHub/databricks-terraform/"
   }
 
   # For all other providers, install them directly from their origin provider
