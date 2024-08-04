@@ -4,17 +4,17 @@
 <p>We got a binary locally available to use. Now we faced the challenge of how to use the local binary, as with each <code>terraform init</code> command, terraform was pulling the module from registry.terraform.io.</p>
 <h2 id="setup">Setup</h2>
 <p>Looking around the documents, we found a way and all it needed was to create a <code>~/.terraformrc</code> file with the below content</p>
-<pre tabindex="0"><code>provider_installation {
-  dev_overrides {
-    “registry.terraform.io/databricks/databricks = “/Users/rizwan/GitHub/databricks-terraform/”
-  }
-
-  # For all other providers, install them directly from their origin provider
-  # registries as normal. If you omit this, Terraform will _only_ use
-  # the dev_overrides block, and so no other providers will be available.
-  direct {}
-}
-</code></pre><p>The after &ldquo;=&rdquo; sign contains the value of the directory where the binary exist, ensure the binary has the version number.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-t" data-lang="t"><span style="display:flex;"><span>provider_installation {
+</span></span><span style="display:flex;"><span>  dev_overrides {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;registry.terraform.io/databricks/databricks&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/Users/rizwan/GitHub/databricks-terraform/&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># For all other providers, install them directly from their origin provider</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># registries as normal. If you omit this, Terraform will _only_ use</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># the dev_overrides block, and so no other providers will be available.</span>
+</span></span><span style="display:flex;"><span>  direct {}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The after &ldquo;=&rdquo; sign contains the value of the directory where the binary exist, ensure the binary has the version number.</p>
 <p>When you perform a new <code>terraform init</code> or <code>terraform apply</code>, you will be present with a warning, that it&rsquo;s using the local databricks provider and not the one available on the remote registry.terraform.io.</p>
 ]]></content></item><item><title>(Azure DevOps) ADF CI CD using Azure Pipeline</title><link>https://rizwan-kh.github.io/posts/2023/06/azure-devops-adf-ci-cd-using-azure-pipeline/</link><pubDate>Tue, 06 Jun 2023 21:28:21 -0500</pubDate><guid>https://rizwan-kh.github.io/posts/2023/06/azure-devops-adf-ci-cd-using-azure-pipeline/</guid><description>Automating Azure Data Factory deployments using Azure DevOps CI/CD Introduction In the ever-evolving landscape of data engineering, having a streamlined and automated process for deploying changes to Azure Data Factory (ADF) is crucial. Azure DevOps provides a robust platform for implementing Continuous Integration and Continuous Deployment (CI/CD) pipelines for ADF, allowing teams to deliver changes efficiently and maintain a reliable data processing workflow.
 Why CI/CD for ADF? Azure Data Factory is a cloud-based data integration service that allows you to create, schedule, and manage data pipelines.</description><content type="html"><![CDATA[<p><img alt="azure" src="/azure-pipelines.png"></p>
