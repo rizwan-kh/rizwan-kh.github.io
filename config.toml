@@ -29,10 +29,11 @@ disableSitemap = false
 disable404     = false
 disableHugoGeneratorInject = false
 
-[Config]
-  [Config.Services]
-    [Config.Services.GoogleAnalytics]
-      ID = "G-07N411SVHJ"
+[services]
+  [services.disqus]
+    shortname = ''
+  [services.googleAnalytics]
+    id = "G-07N411SVHJ"
 
 [pagination]
   pagerSize = 10
