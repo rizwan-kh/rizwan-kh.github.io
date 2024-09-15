@@ -17,7 +17,7 @@
 </span></span></code></pre></div><p>The after &ldquo;=&rdquo; sign contains the value of the directory where the binary exist, ensure the binary has the version number.</p>
 <p>When you perform a new <code>terraform init</code> or <code>terraform apply</code>, you will be present with a warning, that it&rsquo;s using the local databricks provider and not the one available on the remote registry.terraform.io.</p>
 ]]></content></item><item><title>(Azure DevOps) ADF CI CD using Azure Pipeline</title><link>https://rizwan-kh.github.io/posts/2023/06/azure-devops-adf-ci-cd-using-azure-pipeline/</link><pubDate>Tue, 06 Jun 2023 21:28:21 -0500</pubDate><guid>https://rizwan-kh.github.io/posts/2023/06/azure-devops-adf-ci-cd-using-azure-pipeline/</guid><description>Automating Azure Data Factory deployments using Azure DevOps CI/CD Introduction In the ever-evolving landscape of data engineering, having a streamlined and automated process for deploying changes to Azure Data Factory (ADF) is crucial. Azure DevOps provides a robust platform for implementing Continuous Integration and Continuous Deployment (CI/CD) pipelines for ADF, allowing teams to deliver changes efficiently and maintain a reliable data processing workflow.
-Why CI/CD for ADF? Azure Data Factory is a cloud-based data integration service that allows you to create, schedule, and manage data pipelines.</description><content type="html"><![CDATA[<p><img alt="azure" src="/azure-pipelines.png"></p>
+Why CI/CD for ADF? Azure Data Factory is a cloud-based data integration service that allows you to create, schedule, and manage data pipelines.</description><content type="html"><![CDATA[<p><img src="/azure-pipelines.png" alt="azure"></p>
 <h1 id="automating-azure-data-factory-deployments-using-azure-devops-cicd">Automating Azure Data Factory deployments using Azure DevOps CI/CD</h1>
 <h2 id="introduction">Introduction</h2>
 <p>In the ever-evolving landscape of data engineering, having a streamlined and automated process for deploying changes to Azure Data Factory (ADF) is crucial. Azure DevOps provides a robust platform for implementing Continuous Integration and Continuous Deployment (CI/CD) pipelines for ADF, allowing teams to deliver changes efficiently and maintain a reliable data processing workflow.</p>
@@ -226,7 +226,7 @@ Why CI/CD for ADF? Azure Data Factory is a cloud-based data integration service 
 <hr>
 ]]></content></item><item><title>Reload nginx without restarting the container/pod</title><link>https://rizwan-kh.github.io/posts/2023/02/reload-nginx-without-restarting-the-container/pod/</link><pubDate>Wed, 08 Feb 2023 20:04:03 -0400</pubDate><guid>https://rizwan-kh.github.io/posts/2023/02/reload-nginx-without-restarting-the-container/pod/</guid><description>Introduction Today in a troubleshooting session, one of the pods we were working with had an Angular application exposed via an nginx server and we wanted to change a few settings in the custom-nginx.conf, for which the developer informed us that he would need to rebuild the image and the CI pipeline will take around 10-15mins for the build, scan and deploy.
 I suggested two approaches
-map custom-nginx.conf as a configmap in the pod restart/reload nginx process We went ahead with the second approach as it was the more time-saving option.</description><content type="html"><![CDATA[<p><img alt="nginx" src="/nginx.png"></p>
+map custom-nginx.conf as a configmap in the pod restart/reload nginx process We went ahead with the second approach as it was the more time-saving option.</description><content type="html"><![CDATA[<p><img src="/nginx.png" alt="nginx"></p>
 <h2 id="introduction">Introduction</h2>
 <p>Today in a troubleshooting session, one of the pods we were working with had an Angular application exposed via an nginx server and we wanted to change a few settings in the custom-nginx.conf, for which the developer informed us that he would need to rebuild the image and the CI pipeline will take around 10-15mins for the build, scan and deploy.</p>
 <p>I suggested two approaches</p>
@@ -243,7 +243,7 @@ map custom-nginx.conf as a configmap in the pod restart/reload nginx process We 
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>docker exec -it app-nginx nginx -s reload
 </span></span><span style="display:flex;"><span>2023/02/09 01:39:02 <span style="color:#f92672">[</span>notice<span style="color:#f92672">]</span> 3269#3269: signal process started
 </span></span></code></pre></div>]]></content></item><item><title>Working with dead container</title><link>https://rizwan-kh.github.io/posts/2022/07/working-with-dead-container/</link><pubDate>Sat, 16 Jul 2022 19:39:13 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2022/07/working-with-dead-container/</guid><description>I came across this question from a team member who wanted to troubleshoot a dead container. I use the below process and I thought why not do a small write-up to help the wider audience?
-Usage The process is very simple - to save/commit the dead container to a new image and then start a new container with a sh entrypoint and debug the container. I consider you&amp;rsquo;re using docker, although similar equivalent commands for other container runtime alternatives like podman, ctr, etc.</description><content type="html"><![CDATA[<p><img alt="docker" src="/docker.png">
+Usage The process is very simple - to save/commit the dead container to a new image and then start a new container with a sh entrypoint and debug the container. I consider you&amp;rsquo;re using docker, although similar equivalent commands for other container runtime alternatives like podman, ctr, etc.</description><content type="html"><![CDATA[<p><img src="/docker.png" alt="docker">
 I came across this question from a team member who wanted to troubleshoot a dead container. I use the below process and I thought why not do a small write-up to help the wider audience?</p>
 <h2 id="usage">Usage</h2>
 <p>The process is very simple - to save/commit the dead container to a new image and then start a new container with a <code>sh</code> entrypoint and debug the container. I consider you&rsquo;re using docker, although similar equivalent commands for other container runtime alternatives like podman, ctr, etc. can also be found, the process will be similar.</p>
@@ -450,7 +450,7 @@ I had a requirement where we couldn&amp;rsquo;t onboard the users to our Active 
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
 </span></span></code></pre></div><p>After these RBAC are set, I added my user and a couple of others in those groups and voila, we were all set and good to go. We can also set up RoleBindings per namespace and access level as per requirement.</p>
 ]]></content></item><item><title>Hashicorp Vault &amp; Azure AD Identity Integration</title><link>https://rizwan-kh.github.io/posts/2022/02/hashicorp-vault-azure-ad-identity-integration/</link><pubDate>Tue, 15 Feb 2022 19:31:58 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2022/02/hashicorp-vault-azure-ad-identity-integration/</guid><description>Introduction In this post, we will be implementing Hashicorp Vault authentication with Microsoft Azure AD as an identity provider using OIDC(OpenID Connect). The default token authentication is always enabled.
-Configuration There are two configurations that we had to do to achieve this with Azure AD, one is for app registration in the Azure Portal and the other one is on Vault - enabling the OIDC based auth. The steps for both are described below.</description><content type="html"><![CDATA[<p><img alt="OIDC" src="/vault-auth-basic.webp"></p>
+Configuration There are two configurations that we had to do to achieve this with Azure AD, one is for app registration in the Azure Portal and the other one is on Vault - enabling the OIDC based auth. The steps for both are described below.</description><content type="html"><![CDATA[<p><img src="/vault-auth-basic.webp" alt="OIDC"></p>
 <h2 id="introduction">Introduction</h2>
 <p>In this post, we will be implementing Hashicorp Vault authentication with Microsoft Azure AD as an identity provider using OIDC(OpenID Connect). The default <strong>token</strong> authentication is always enabled.</p>
 <h2 id="configuration">Configuration</h2>
@@ -695,7 +695,7 @@ I had a requirement where we couldn&amp;rsquo;t onboard the users to our Active 
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
 </span></span></code></pre></div><p>After these RBAC are set, I added my user and a couple of others in those groups and voila, we were all set and good to go.</p>
 ]]></content></item><item><title>Trivy - Scan Container Images</title><link>https://rizwan-kh.github.io/posts/2021/12/trivy-scan-container-images/</link><pubDate>Tue, 14 Dec 2021 23:10:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/12/trivy-scan-container-images/</guid><description>Trivy Trivy is a scanner for vulnerabilities in container images, file systems, git repositories and configuration. It&amp;rsquo;s an Aqua Security open-source project that can be easily used to integrate with our existing CI CD pipeline or used as a stand-alone tool to scan container images deployed on the Kubernetes cluster.
-We were using Clair previous to our switch to Trivy as we analyzed both the tools and found Trivy to be more helpful for the longer run - it was faster, had more CVE database updates as compared to Clair and didn&amp;rsquo;t depend on external clients to interact/scan.</description><content type="html"><![CDATA[<p><img alt="trivy" src="/trivy.png"></p>
+We were using Clair previous to our switch to Trivy as we analyzed both the tools and found Trivy to be more helpful for the longer run - it was faster, had more CVE database updates as compared to Clair and didn&amp;rsquo;t depend on external clients to interact/scan.</description><content type="html"><![CDATA[<p><img src="/trivy.png" alt="trivy"></p>
 <h2 id="trivy">Trivy</h2>
 <p><a href="https://github.com/aquasecurity/trivy">Trivy</a> is a scanner for vulnerabilities in container images, file systems, git repositories and configuration. It&rsquo;s an <a href="https://aquasec.com/">Aqua Security</a> open-source project that can be easily used to integrate with our existing CI CD pipeline or used as a stand-alone tool to scan container images deployed on the Kubernetes cluster.</p>
 <p>We were using <a href="https://github.com/coreos/clair">Clair</a> previous to our switch to Trivy as we analyzed both the tools and found Trivy to be more helpful for the longer run - it was faster, had more CVE database updates as compared to Clair and didn&rsquo;t depend on external clients to interact/scan.</p>
@@ -727,14 +727,14 @@ We were using Clair previous to our switch to Trivy as we analyzed both the tool
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># to get all vulnerabilities in HTML format</span>
 </span></span><span style="display:flex;"><span>trivy image --format template <span style="color:#e6db74">&#34;@contrib/template.html&#34;</span> -o my-app-1.4.3.html registry.mycompany.com/containers/my-app:1.4.3
 </span></span></code></pre></div>]]></content></item><item><title>Traefik on Kubernetes with Let's Encrypt &amp; Route53</title><link>https://rizwan-kh.github.io/posts/2021/07/traefik-on-kubernetes-with-lets-encrypt-route53/</link><pubDate>Wed, 28 Jul 2021 17:40:27 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/07/traefik-on-kubernetes-with-lets-encrypt-route53/</guid><description>Why Traefik? Traefik is a modern dynamic load balancer and reverse proxy, it&amp;rsquo;s easy to set up, and control and provides lots of options which sit right with our use cases. It integrates with Lets Encrypt to provide SSL termination along with support for service discovery, tracing, and metrics out of the box running on Kubernetes as a small pod.
-Since when We have been using Traefik since early 2017 on 2 of our clusters as a daemonset Kubernetes object with external DNS to update the worker nodes IP with our DNS provider and used to manually generate and update Lets Encrypt certificate on a Kubernetes secret object.</description><content type="html"><![CDATA[<p><img alt="k8s-traefik-le-route53" src="/k8s-traefik-le-route53.svg"></p>
+Since when We have been using Traefik since early 2017 on 2 of our clusters as a daemonset Kubernetes object with external DNS to update the worker nodes IP with our DNS provider and used to manually generate and update Lets Encrypt certificate on a Kubernetes secret object.</description><content type="html"><![CDATA[<p><img src="/k8s-traefik-le-route53.svg" alt="k8s-traefik-le-route53"></p>
 <h2 id="why-traefik">Why Traefik?</h2>
 <p><a href="https://traefik.io/traefik/"><strong>Traefik</strong></a> is a modern dynamic load balancer and reverse proxy, it&rsquo;s easy to set up, and control and provides lots of options which sit right with our use cases. It integrates with Lets Encrypt to provide SSL termination along with support for service discovery, tracing, and metrics out of the box running on Kubernetes as a small pod.</p>
 <h3 id="since-when">Since when</h3>
 <p>We have been using Traefik since early 2017 on 2 of our clusters as a daemonset Kubernetes object with external DNS to update the worker nodes IP with our DNS provider and used to manually generate and update Lets Encrypt certificate on a Kubernetes secret object.</p>
 <p>Later, with the release of Traefik proxy v2, we started deploying Traefik as a deployment Kubernetes object and have been using it since then on more than 10 clusters with auto Lets Encrypt certificate generation and we use a small custom init-container to update the Route53 DNS entry.</p>
 <h2 id="how-is-the-entire-setup-done">How is the entire setup done</h2>
-<p>It might feel a bit sketchy if you&rsquo;re doing this for the first time, but once set up - you&rsquo;re good to go for almost till you don&rsquo;t want to upgrade. &#x1f609;</p>
+<p>It might feel a bit sketchy if you&rsquo;re doing this for the first time, but once set up - you&rsquo;re good to go for almost till you don&rsquo;t want to upgrade. 😉</p>
 <h3 id="pre-requisite">Pre-requisite</h3>
 <ul>
 <li>AWS IAM Keys with Route53 list and update access</li>
@@ -936,7 +936,7 @@ Since when We have been using Traefik since early 2017 on 2 of our clusters as a
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">traefik-ingress-controller</span>
 </span></span></code></pre></div><p>Now save the below manifest and deploy it on your cluster with a few amendments like replacing proper values for AWS Route53 hosted zone and IAM keys, storageClassName, acme email address, and your sub-domain in the initContainer args section</p>
-<p>&#x2139;&#xfe0f; - you can use the Instance profile/IAM Role as well if you don&rsquo;t want to use IAM keys</p>
+<p>ℹ️ - you can use the Instance profile/IAM Role as well if you don&rsquo;t want to use IAM keys</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#75715e"># create PVC to store the Lets Encrypt cert to persist between Traefik restarts</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">PersistentVolumeClaim</span>
@@ -952,7 +952,7 @@ Since when We have been using Traefik since early 2017 on 2 of our clusters as a
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">storage</span>: <span style="color:#ae81ff">1Gi</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">storageClassName</span>: <span style="color:#ae81ff">gp2</span>
 </span></span><span style="display:flex;"><span>---
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># replace the below values for data with the proper encoded value (these are random garbage values :stuck_out_tongue_closed_eyes: ) </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># replace the below values for data with the proper encoded value (these are random garbage values 😝 ) </span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">data</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">access_key_id</span>: <span style="color:#ae81ff">S1FSMjI0NDRKNVNBSUtBRDRLTkgK  </span>
@@ -1130,11 +1130,11 @@ Since when We have been using Traefik since early 2017 on 2 of our clusters as a
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">tls</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">certResolver</span>: <span style="color:#ae81ff">default</span>
 </span></span></code></pre></div><p>You should now be able to browse to this URL <a href="https://traefik.k8s.mydomain.com">https://traefik.k8s.mydomain.com</a> with proper Lets Encrypt TLS certificates and would see the Treafik dashboard.</p>
-<p><img alt="traefik-dashboard" src="/traefik-dashboard.webp"></p>
+<p><img src="/traefik-dashboard.webp" alt="traefik-dashboard"></p>
 <h3 id="final-thoughts">Final thoughts</h3>
 <p>This blog may not do justice in explaining how this tool exactly works, however, I intended to get you a working traefik deployment with AWS Route53, and I guess that would help someone in need.</p>
 ]]></content></item><item><title>(Azure DevOps) Send Json Request(Parameters) to Azure Pipelines</title><link>https://rizwan-kh.github.io/posts/2021/06/azure-devops-send-json-requestparameters-to-azure-pipelines/</link><pubDate>Mon, 21 Jun 2021 11:16:23 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/06/azure-devops-send-json-requestparameters-to-azure-pipelines/</guid><description>Introduction If you&amp;rsquo;ve been using Azure DevOps, you would know that a pipeline can be triggered with runtime parameters in the format key: value pair and this is great for doing almost all of the tasks.
-For our use case, we had been looking at an option to send a JSON-based parameter dictionary and I couldn&amp;rsquo;t find any way at the time of writing this article. We came up with a hack to achieve this and I would want to write it up in this blog post.</description><content type="html"><![CDATA[<p><img alt="azure" src="/azure-pipelines.png"></p>
+For our use case, we had been looking at an option to send a JSON-based parameter dictionary and I couldn&amp;rsquo;t find any way at the time of writing this article. We came up with a hack to achieve this and I would want to write it up in this blog post.</description><content type="html"><![CDATA[<p><img src="/azure-pipelines.png" alt="azure"></p>
 <h3 id="introduction">Introduction</h3>
 <p>If you&rsquo;ve been using Azure DevOps, you would know that a pipeline can be triggered with runtime parameters in the format <code>key: value</code> pair and this is great for doing almost all of the tasks.</p>
 <p>For our use case, we had been looking at an option to send a JSON-based parameter dictionary and I couldn&rsquo;t find any way at the time of writing this article. We came up with a hack to achieve this and I would want to write it up in this blog post.</p>
@@ -1204,7 +1204,7 @@ For our use case, we had been looking at an option to send a JSON-based paramete
 </span></span></code></pre></div><ul>
 <li>The other way to trigger a pipeline is by calling the <strong>RunPipeline API</strong>, I wrote a small program</li>
 </ul>
-<script src="https://gist.github.com/rizwan-kh/c08955a24bfc1eb3eaa48248acd012e0.js"></script>
+<script type="application/javascript" src="https://gist.github.com/rizwan-kh/c08955a24bfc1eb3eaa48248acd012e0.js"></script>
 
 <h3 id="unflatten-json--operation">Unflatten JSON &amp; operation</h3>
 <p>Now the baton is at the Azure DevOps end to decode and re-configure this as a JSON, I used a simple job and Python script to achieve this</p>
@@ -1247,7 +1247,7 @@ For our use case, we had been looking at an option to send a JSON-based paramete
 </span></span></code></pre></div><p>Here, the <code>request.json</code> is a proper JSON file ready to be used by any application/program in the Azure Pipeline;
 We noticed one issue though, the conversion process, converts all other data types to string datatype, so may be you would need to change that or add some logic to create json/dict with type-safe.</p>
 ]]></content></item><item><title>(Azure DevOps) Committing and Pushing to Azure Git Repository from Azure Pipeline</title><link>https://rizwan-kh.github.io/posts/2021/03/azure-devops-committing-and-pushing-to-azure-git-repository-from-azure-pipeline/</link><pubDate>Sun, 14 Mar 2021 00:28:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2021/03/azure-devops-committing-and-pushing-to-azure-git-repository-from-azure-pipeline/</guid><description>Azure Git Repository Workflow In a unique use-case scenario, we encountered the need to dynamically generate Terraform HCL files during Azure DevOps pipeline operations and subsequently commit and push these files back to Azure Git Repos. While this isn&amp;rsquo;t a conventional operation, we successfully achieved this using the pipeline configuration outlined below.
-Assuming your pipeline has completed its tasks, including the generation or modification of files, the next step is to commit and push these changes to the Git repository.</description><content type="html"><![CDATA[<p><img alt="azure" src="/azure-pipelines.png"></p>
+Assuming your pipeline has completed its tasks, including the generation or modification of files, the next step is to commit and push these changes to the Git repository.</description><content type="html"><![CDATA[<p><img src="/azure-pipelines.png" alt="azure"></p>
 <h2 id="azure-git-repository-workflow">Azure Git Repository Workflow</h2>
 <p>In a unique use-case scenario, we encountered the need to dynamically generate Terraform HCL files during Azure DevOps pipeline operations and subsequently commit and push these files back to Azure Git Repos. While this isn&rsquo;t a conventional operation, we successfully achieved this using the pipeline configuration outlined below.</p>
 <p>Assuming your pipeline has completed its tasks, including the generation or modification of files, the next step is to commit and push these changes to the Git repository. This action will inevitably trigger another pipeline, with the second pipeline focused on deployment rather than the initial Terraform file generation.</p>
@@ -1377,7 +1377,7 @@ Why Vulnerability Analysis? Containerized applications, while providing isolatio
 <h2 id="conclusion">Conclusion</h2>
 <p>Docker vulnerability analysis is an integral part of maintaining a secure containerized environment. By leveraging dedicated tools and following best practices, you can identify and address vulnerabilities, ensuring that your containerized applications remain resilient against potential security threats.</p>
 ]]></content></item><item><title>Hugo &amp; GitHub - Setup Static Website on GitHub</title><link>https://rizwan-kh.github.io/posts/2020/06/hugo-github-setup-static-website-on-github/</link><pubDate>Fri, 12 Jun 2020 22:32:01 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2020/06/hugo-github-setup-static-website-on-github/</guid><description>Hugo and Github Account A small write-up on how this site was setup. There are plenty of materials available all over the internet, but this is more of a self-help document for myself to refer back in future to understand how this was all setup.
-Hugo can be downloaded from their official release page A GitHub account needs to be created from this link and a public repo is required to be setup here After installing Hugo, to generate a new site, run the below command:</description><content type="html"><![CDATA[<p><img alt="Hub" src="/hugo-logo-wide.svg"></p>
+Hugo can be downloaded from their official release page A GitHub account needs to be created from this link and a public repo is required to be setup here After installing Hugo, to generate a new site, run the below command:</description><content type="html"><![CDATA[<p><img src="/hugo-logo-wide.svg" alt="Hub"></p>
 <h2 id="hugo-and-github-account">Hugo and Github Account</h2>
 <p>A small write-up on how <a href="https://rizwan-kh.github.io">this site</a> was setup. There are plenty of materials available all over the internet, but this is more of a self-help document for myself to refer back in future to understand how this was all setup.</p>
 <ul>
@@ -1539,7 +1539,7 @@ vagrant init hashicorp/bionic64 vagrant up vagrant ssh This is a pretty simple w
 </span></span><span style="display:flex;"><span>vagrant ssh
 </span></span></code></pre></div><p>This is a pretty simple way to spin up a new Ubuntu VM, we can do a lot more which I will try to write up in later posts.</p>
 ]]></content></item><item><title>Gitlab CI &amp; Kaniko to build Docker Images</title><link>https://rizwan-kh.github.io/posts/2020/02/gitlab-ci-kaniko-to-build-docker-images/</link><pubDate>Wed, 12 Feb 2020 12:11:00 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2020/02/gitlab-ci-kaniko-to-build-docker-images/</guid><description>Introduction You can build container images from a Dockerfile inside a container or a Kubernetes cluster, though Jérôme Petazzoni strongly discourages doing so. He wrote a detailed blog that can be read here on why not to build container images using Dockerfile inside a container or a Kubernetes cluster.
-Context You will get N number of blogs on how to use the CI/CD of GitLab; here we will see an easy reference point to extend a file and create CI/CD for Docker Image to be built and stored in the same GitLab registry using kaniko.</description><content type="html"><![CDATA[<p><img alt="GitLab" src="/gitlab.jpeg"></p>
+Context You will get N number of blogs on how to use the CI/CD of GitLab; here we will see an easy reference point to extend a file and create CI/CD for Docker Image to be built and stored in the same GitLab registry using kaniko.</description><content type="html"><![CDATA[<p><img src="/gitlab.jpeg" alt="GitLab"></p>
 <h3 id="introduction">Introduction</h3>
 <p>You can build container images from a Dockerfile inside a container or a Kubernetes cluster, though <em>Jérôme Petazzoni</em> strongly discourages doing so. He wrote a detailed blog that can be read <a href="http://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/">here</a> on why not to build container images using Dockerfile inside a container or a Kubernetes cluster.</p>
 <hr>
@@ -1589,7 +1589,7 @@ It is a tool to build container images from a Dockerfile inside a container or a
 <p><strong>Note</strong>: If you want to use the GitLab docker registry and store docker images in the GitLab project; this by default is disabled and needs to be enabled in the General setting section.</p>
 ]]></content></item><item><title>How to use service accounts for Kubernetes imagePullSecrets</title><link>https://rizwan-kh.github.io/posts/2020/01/how-to-use-service-accounts-for-kubernetes-imagepullsecrets/</link><pubDate>Thu, 02 Jan 2020 17:40:27 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2020/01/how-to-use-service-accounts-for-kubernetes-imagepullsecrets/</guid><description>What are Service Accounts in Kubernetes? As per Kubernetes.io - A service account provides an identity for processes that run in a Pod.
 One can think of service accounts as service users for pods. They help pods authenticate with the api-server and interact with it.
-Many times, we come across a situation where our organization uses a private Docker registry to store the Docker images and to make this available we need to create a docker-registry kubernetes secret and pass as imagePullSecrets in the deployment manifest.</description><content type="html"><![CDATA[<p><img alt="Kubernetes" src="/kubernetes.jpg"></p>
+Many times, we come across a situation where our organization uses a private Docker registry to store the Docker images and to make this available we need to create a docker-registry kubernetes secret and pass as imagePullSecrets in the deployment manifest.</description><content type="html"><![CDATA[<p><img src="/kubernetes.jpg" alt="Kubernetes"></p>
 <h2 id="what-are-service-accounts-in-kubernetes">What are Service Accounts in Kubernetes?</h2>
 <p>As per <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/">Kubernetes.io</a> - A service account provides an identity for processes that run in a Pod.</p>
 <p>One can think of service accounts as service users for pods. They help pods authenticate with the api-server and interact with it.</p>
@@ -1617,13 +1617,13 @@ Many times, we come across a situation where our organization uses a private Doc
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-p <span style="color:#e6db74">&#39;{&#34;imagePullSecrets&#34;: [{&#34;name&#34;: &#34;registry-cred&#34;}]}&#39;</span> -n my-namespace
 </span></span></code></pre></div>]]></content></item><item><title>Docker Cheat Sheet</title><link>https://rizwan-kh.github.io/posts/2019/10/docker-cheat-sheet/</link><pubDate>Fri, 11 Oct 2019 05:11:13 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2019/10/docker-cheat-sheet/</guid><description>Below are a few of the main and basic commands used in Docker, an easy pick-up and good-to-go command page for docker troubleshooting.
 Alias If you are a lazy developer/sysadmin like me, the first thing you should do on your system is to make easy alias of all the long commands, below are the ones I often use on any system I use daily:
-These can be imported on ~/.</description><content type="html"><![CDATA[<p><img alt="docker" src="/docker.png">
+These can be imported on ~/.</description><content type="html"><![CDATA[<p><img src="/docker.png" alt="docker">
 Below are a few of the main and basic commands used in Docker, an easy pick-up and good-to-go command page for docker troubleshooting.</p>
 <h2 id="alias">Alias</h2>
 <hr>
 <p>If you are a lazy developer/sysadmin like me, the first thing you should do on your system is to make easy alias of all the long commands, below are the ones I often use on any system I use daily:</p>
 <p>These can be imported on ~/.bashrc (if you use bash) or ~/.zshrc (if you are a MAC user and use ZSH)</p>
-<script src="https://gist.github.com/rizwan-kh/032e587751e54a2fd26f44c0267ea5c5.js"></script>
+<script type="application/javascript" src="https://gist.github.com/rizwan-kh/032e587751e54a2fd26f44c0267ea5c5.js"></script>
 
 <h3 id="commands-and-their-usage">Commands and their usage</h3>
 <p>Mostly used commands are aliased above, but to explain what each does, please read on</p>
@@ -1661,7 +1661,7 @@ Below are a few of the main and basic commands used in Docker, an easy pick-up a
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># to see logs from containers</span>
 </span></span><span style="display:flex;"><span>docker logs CONTAINERNAME/CONTAINERID
-</span></span></code></pre></div>]]></content></item><item><title>tmux</title><link>https://rizwan-kh.github.io/posts/2019/06/tmux/</link><pubDate>Thu, 13 Jun 2019 21:53:35 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2019/06/tmux/</guid><description>tmux - Terminal Multiplexer tmux is a terminal multiplexer. It helps switch between multiple programs in one terminal, detach them(they keep running in the background) and reattach them when needed. I started using tmux as someone recommended me to start using it as it helps with CKA &amp;amp; CKAD (which I have still not attempted) and then later on I was heavily using it for my website(with Hugo). I had previously used mPutty, but mPutty uses multiple logged-in sessions to display on the screen, whereas tmux simply multiplies the existing sessions on screen.</description><content type="html"><![CDATA[<p><img alt="tmux" src="/tmux-logo.png"></p>
+</span></span></code></pre></div>]]></content></item><item><title>tmux</title><link>https://rizwan-kh.github.io/posts/2019/06/tmux/</link><pubDate>Thu, 13 Jun 2019 21:53:35 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2019/06/tmux/</guid><description>tmux - Terminal Multiplexer tmux is a terminal multiplexer. It helps switch between multiple programs in one terminal, detach them(they keep running in the background) and reattach them when needed. I started using tmux as someone recommended me to start using it as it helps with CKA &amp;amp; CKAD (which I have still not attempted) and then later on I was heavily using it for my website(with Hugo). I had previously used mPutty, but mPutty uses multiple logged-in sessions to display on the screen, whereas tmux simply multiplies the existing sessions on screen.</description><content type="html"><![CDATA[<p><img src="/tmux-logo.png" alt="tmux"></p>
 <h1 id="tmux---terminal-multiplexer">tmux - Terminal Multiplexer</h1>
 <p>tmux is a terminal multiplexer. It helps switch between multiple programs in one terminal, detach them(they keep running in the background) and reattach them when needed. I started using tmux as someone recommended me to start using it as it helps with CKA &amp; CKAD (which I  have still not attempted) and then later on I was heavily using it for my website(with Hugo). I had previously used mPutty, but mPutty uses multiple logged-in sessions to display on the screen, whereas tmux simply multiplies the existing sessions on screen.</p>
 <h3 id="installation">Installation</h3>
@@ -1767,6 +1767,122 @@ Below are a few of the main and basic commands used in Docker, an easy pick-up a
 </tbody>
 </table>
 <p>That&rsquo;s all more or less the keystroke you need to know; It comes off naturally when you start using it after a few days but until then - you can refer to these as needed.</p>
+]]></content></item><item><title>(Linux) Debug Shell Scripts</title><link>https://rizwan-kh.github.io/posts/2018/05/linux-debug-shell-scripts/</link><pubDate>Tue, 01 May 2018 12:30:00 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2018/05/linux-debug-shell-scripts/</guid><description>Debug Shell Scripts In my experience, people when they want to debug a shell script, they usually use the set +xv and all this does is print each operation on the console output.
+I found a better way to debug the shell script, which is consistent with going over each line on the press of the enter key
+Simply add the below line in front of the place from where you want to start the debug</description><content type="html"><![CDATA[<h1 id="debug-shell-scripts">Debug Shell Scripts</h1>
+<p>In my experience, people when they want to debug a shell script, they usually use the <code>set +xv</code> and all this does is print each operation on the console output.</p>
+<p>I found a better way to debug the shell script, which is consistent with going over each line on the press of the enter key</p>
+<p>Simply add the below line in front of the place from where you want to start the debug</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>trap <span style="color:#e6db74">&#39;(read -p &#34;[$BASH_SOURCE:$LINENO] $BASH_COMMAND&#34;)&#39;</span> DEBUG
+</span></span></code></pre></div><p>This command sets a <code>trap</code> for the <code>DEBUG</code> signal, which pauses the script and prompts you with the current source file, line number, and command being executed. You can press Enter to proceed to the next line.</p>
+<h2 id="example-usage">Example Usage</h2>
+<ol>
+<li>Insert the <code>trap</code> command at the desired location in your script:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Starting script...&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>trap <span style="color:#e6db74">&#39;(read -p &#34;[$BASH_SOURCE:$LINENO] $BASH_COMMAND&#34;)&#39;</span> DEBUG
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Your script code here</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;This is a test line.&#34;</span>
+</span></span><span style="display:flex;"><span>var<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#66d9ef">$((</span>var+2<span style="color:#66d9ef">))</span>
+</span></span></code></pre></div><ol start="2">
+<li>Run your script as usual. The script will pause at each line where the <code>trap</code> command is active, allowing you to inspect the execution flow interactively.</li>
+</ol>
+<h2 id="summary">Summary</h2>
+<ul>
+<li>Debugging Method: Use <code>trap '(read -p &quot;[$BASH_SOURCE:$LINENO] $BASH_COMMAND&quot;)' DEBUG</code> to pause and inspect script execution line-by-line.</li>
+</ul>
+<p>This approach offers a more interactive way to debug shell scripts compared to traditional methods, giving you better control over script execution.</p>
+]]></content></item><item><title>(Linux) Extract Public Key &amp; Fingerprint from Private</title><link>https://rizwan-kh.github.io/posts/2018/03/linux-extract-public-key-fingerprint-from-private/</link><pubDate>Thu, 15 Mar 2018 00:28:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2018/03/linux-extract-public-key-fingerprint-from-private/</guid><description>Extract Public Key and Fingerprint from Private Key When managing SSH keys, you may need to extract the public key or obtain the fingerprint of a private key. Below are the commands to accomplish these tasks.
+Get the Public Key To extract the public key from a private key file, use the following command:
+ssh-keygen -f keyname -y Replace keyname with the path to your private key file.
+Get the Fingerprint SHA-1 Fingerprint Convert the private key to DER format and compute the SHA-1 fingerprint:</description><content type="html"><![CDATA[<h1 id="extract-public-key-and-fingerprint-from-private-key">Extract Public Key and Fingerprint from Private Key</h1>
+<p>When managing SSH keys, you may need to extract the public key or obtain the fingerprint of a private key. Below are the commands to accomplish these tasks.</p>
+<h2 id="get-the-public-key">Get the Public Key</h2>
+<p>To extract the public key from a private key file, use the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>ssh-keygen -f keyname -y
+</span></span></code></pre></div><p>Replace <code>keyname</code> with the path to your private key file.</p>
+<h2 id="get-the-fingerprint">Get the Fingerprint</h2>
+<h3 id="sha-1-fingerprint">SHA-1 Fingerprint</h3>
+<p>Convert the private key to DER format and compute the SHA-1 fingerprint:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>openssl pkcs8 -in path_to_private_key -inform PEM -outform DER -topk8 -nocrypt | openssl sha1 -c
+</span></span></code></pre></div><h3 id="md5-fingerprint">MD5 Fingerprint</h3>
+<p>Extract the public key in DER format and compute the MD5 fingerprint:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>openssl rsa -in path_to_private_key -pubout -outform DER | openssl md5 -c
+</span></span></code></pre></div><h2 id="summary">Summary</h2>
+<ul>
+<li>Public Key: <code>ssh-keygen -f keyname -y</code></li>
+<li>SHA-1 Fingerprint: <code>openssl pkcs8 -in path_to_private_key -inform PEM -outform DER -topk8 -nocrypt | openssl sha1 -c</code></li>
+<li>MD5 Fingerprint: <code>openssl rsa -in path_to_private_key -pubout -outform DER | openssl md5 -c</code></li>
+</ul>
+<p>These commands help you extract the public key and obtain the fingerprints for verification purposes.</p>
+]]></content></item><item><title>(Linux) Remove systemd process</title><link>https://rizwan-kh.github.io/posts/2018/03/linux-remove-systemd-process/</link><pubDate>Thu, 15 Mar 2018 00:28:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2018/03/linux-remove-systemd-process/</guid><description>Removing a systemd process from your Linux machine The below steps are to be performed to remove a systemd process
+View the service unit file systemctl cat [servicename] Stop and disable the service systemctl stop [servicename] systemctl disable [servicename] Remove the service file rm /etc/systemd/system/[servicename] rm /etc/systemd/system/[servicename] #symlinks that might be related Reload systemd configuration systemctl daemon-reload Reset the failed systemd service systemctl reset-failed</description><content type="html"><![CDATA[<h1 id="removing-a-systemd-process-from-your-linux-machine">Removing a systemd process from your Linux machine</h1>
+<p>The below steps are to be performed to remove a systemd process</p>
+<h2 id="view-the-service-unit-file">View the service unit file</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>systemctl cat <span style="color:#f92672">[</span>servicename<span style="color:#f92672">]</span>
+</span></span></code></pre></div><h2 id="stop-and-disable-the-service">Stop and disable the service</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>systemctl stop <span style="color:#f92672">[</span>servicename<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>systemctl disable <span style="color:#f92672">[</span>servicename<span style="color:#f92672">]</span>
+</span></span></code></pre></div><h2 id="remove-the-service-file">Remove the service file</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>rm /etc/systemd/system/<span style="color:#f92672">[</span>servicename<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>rm /etc/systemd/system/<span style="color:#f92672">[</span>servicename<span style="color:#f92672">]</span> <span style="color:#75715e">#symlinks that might be related</span>
+</span></span></code></pre></div><h2 id="reload-systemd-configuration">Reload systemd configuration</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>systemctl daemon-reload
+</span></span></code></pre></div><h2 id="reset-the-failed-systemd-service">Reset the failed systemd service</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>systemctl reset-failed
+</span></span></code></pre></div>]]></content></item><item><title>(Linux) Convert pem to ppk</title><link>https://rizwan-kh.github.io/posts/2018/02/linux-convert-pem-to-ppk/</link><pubDate>Wed, 14 Feb 2018 00:28:21 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2018/02/linux-convert-pem-to-ppk/</guid><description>Convert PEM to PPK &amp;amp; PPK to PEM If you&amp;rsquo;re using AWS EC2, you may need to convert PPK to PEM (or vice versa) when trying to SSH from different operating systems. Below are instructions on how to perform these conversions using the puttygen tool.
+Convert PPK to PEM Install puttygen:
+On Linux: You can install putty-tools using your package manager. For example, on Debian-based systems, run: sudo apt-get install putty-tools On Windows: Download and install PuTTY from the official website.</description><content type="html"><![CDATA[<h1 id="convert-pem-to-ppk--ppk-to-pem">Convert PEM to PPK &amp; PPK to PEM</h1>
+<p>If you&rsquo;re using AWS EC2, you may need to convert PPK to PEM (or vice versa) when trying to SSH from different operating systems. Below are instructions on how to perform these conversions using the <code>puttygen</code> tool.</p>
+<h2 id="convert-ppk-to-pem">Convert PPK to PEM</h2>
+<ol>
+<li>
+<p><strong>Install <code>puttygen</code></strong>:</p>
+<ul>
+<li>On <strong>Linux</strong>: You can install <code>putty-tools</code> using your package manager. For example, on Debian-based systems, run:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo apt-get install putty-tools
+</span></span></code></pre></div></li>
+<li>On <strong>Windows</strong>: Download and install PuTTY from the <a href="https://www.putty.org/">official website</a>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Convert the file</strong>:</p>
+<ul>
+<li>Open your terminal or command prompt.</li>
+<li>Run the following command to convert the PPK file to PEM format:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>puttygen your-key.ppk -O private-openssh -o your-key.pem
+</span></span></code></pre></div></li>
+</ul>
+<p>Replace <code>your-key.ppk</code> with the name of your PPK file, and <code>your-key.pem</code> with the desired name for your PEM file.</p>
+</li>
+</ol>
+<h2 id="convert-pem-to-ppk">Convert PEM to PPK</h2>
+<ol>
+<li>
+<p><strong>Install <code>puttygen</code></strong>: Follow the same installation steps as above.</p>
+</li>
+<li>
+<p><strong>Convert the file</strong>:</p>
+<ul>
+<li>Open your terminal or command prompt.</li>
+<li>Run the following command to convert the PEM file to PPK format:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>puttygen your-key.pem -O private -o your-key.ppk
+</span></span></code></pre></div></li>
+</ul>
+<p>Replace <code>your-key.pem</code> with the name of your PEM file, and <code>your-key.ppk</code> with the desired name for your PPK file.</p>
+</li>
+</ol>
+<h2 id="summary">Summary</h2>
+<ul>
+<li><strong>PEM to PPK</strong>: Use <code>puttygen your-key.pem -O private -o your-key.ppk</code></li>
+<li><strong>PPK to PEM</strong>: Use <code>puttygen your-key.ppk -O private-openssh -o your-key.pem</code></li>
+</ul>
+<p>These conversions are particularly useful for managing SSH keys across different systems and applications. Ensure that you handle and store your private keys securely.</p>
 ]]></content></item><item><title/><link>https://rizwan-kh.github.io/posts/1/01/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://rizwan-kh.github.io/posts/1/01/</guid><description>title: &amp;ldquo;GKE Audit logs - Find the cluster resources audit logs&amp;rdquo; date: 2023-28-02T05:40:00+04:00 draft: false toc: false images: tags:
 gke autopilot gcp Introduction In a scenario where you need to validate the creator of a specific Google Kubernetes Engine (GKE) cluster, especially when there is no clear ownership or standard naming conventions, leveraging the Google Logging Console can provide valuable insights. This guide aims to demonstrate how you can utilize Google Cloud&amp;rsquo;s Logging Console to identify the creator of a GKE cluster.</description><content type="html"><![CDATA[<p>title: &ldquo;GKE Audit logs - Find the cluster resources audit logs&rdquo;
 date: 2023-28-02T05:40:00+04:00
