@@ -4,7 +4,7 @@
 <p>We got a binary locally available to use. Now we faced the challenge of how to use the local binary, as with each <code>terraform init</code> command, terraform was pulling the module from registry.terraform.io.</p>
 <h3 id="setup">Setup</h3>
 <p>Looking around the documents, we found a way and all it needed was to create a <code>~/.terraformrc</code> file with the below content</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>provider_installation <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>provider_installation <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>  dev_overrides <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;registry.terraform.io/databricks/databricks&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/Users/rizwan/GitHub/databricks-terraform/&#34;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
@@ -1883,45 +1883,6 @@ On Linux: You can install putty-tools using your package manager. For example, o
 <li><strong>PPK to PEM</strong>: Use <code>puttygen your-key.ppk -O private-openssh -o your-key.pem</code></li>
 </ul>
 <p>These conversions are particularly useful for managing SSH keys across different systems and applications. Ensure that you handle and store your private keys securely.</p>
-]]></content></item><item><title/><link>https://rizwan-kh.github.io/posts/1/01/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://rizwan-kh.github.io/posts/1/01/</guid><description>title: &amp;ldquo;GKE Audit logs - Find the cluster resources audit logs&amp;rdquo; date: 2023-28-02T05:40:00+04:00 draft: false toc: false images: tags:
-gke autopilot gcp Introduction In a scenario where you need to validate the creator of a specific Google Kubernetes Engine (GKE) cluster, especially when there is no clear ownership or standard naming conventions, leveraging the Google Logging Console can provide valuable insights. This guide aims to demonstrate how you can utilize Google Cloud&amp;rsquo;s Logging Console to identify the creator of a GKE cluster.</description><content type="html"><![CDATA[<p>title: &ldquo;GKE Audit logs - Find the cluster resources audit logs&rdquo;
-date: 2023-28-02T05:40:00+04:00
-draft: false
-toc: false
-images:
-tags:</p>
-<ul>
-<li>gke</li>
-<li>autopilot</li>
-<li>gcp</li>
-</ul>
-<hr>
-<h2 id="introduction">Introduction</h2>
-<p>In a scenario where you need to validate the creator of a specific Google Kubernetes Engine (GKE) cluster, especially when there is no clear ownership or standard naming conventions, leveraging the Google Logging Console can provide valuable insights. This guide aims to demonstrate how you can utilize Google Cloud&rsquo;s Logging Console to identify the creator of a GKE cluster.</p>
-<h2 id="commands">Commands</h2>
-<p>The following command is designed to be executed in the Cloud Logging console. Ensure to replace the placeholder with the actual cluster name within the quotes in the last line.</p>
-<h3 id="cluster-created">Cluster Created</h3>
-<pre tabindex="0"><code>resource.type=&#34;gke_cluster&#34;
-(log_id(&#34;cloudaudit.googleapis.com/data_access&#34;) OR
-log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
-protoPayload.methodName:&#34;CreateCluster&#34;
-resource.labels.cluster_name=&#34;autopilot-cluster-1&#34;
-</code></pre><h2 id="additional-examples">Additional Examples</h2>
-<h3 id="cluster-deleted">Cluster Deleted</h3>
-<p>To identify who deleted a GKE cluster:</p>
-<pre tabindex="0"><code>resource.type=&#34;gke_cluster&#34;
-(log_id(&#34;cloudaudit.googleapis.com/data_access&#34;) OR
-log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
-protoPayload.methodName:&#34;DeleteCluster&#34;
-resource.labels.cluster_name=&#34;your-cluster-name&#34;
-</code></pre><h3 id="node-pool-created">Node Pool Created</h3>
-<p>To find out who created a specific GKE node pool:</p>
-<pre tabindex="0"><code>resource.type=&#34;gke_nodepool&#34;
-(log_id(&#34;cloudaudit.googleapis.com/data_access&#34;) OR
-log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
-protoPayload.methodName:&#34;CreateNodePool&#34;
-resource.labels.node_pool_name=&#34;your-node-pool-name&#34;
-</code></pre><p>These commands can be adapted based on your specific use case, allowing you to gain insights into various GKE cluster activities through the Google Logging Console.</p>
 ]]></content></item><item><title>Delve - Go Debugger</title><link>https://rizwan-kh.github.io/posts/1/01/delve-go-debugger/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://rizwan-kh.github.io/posts/1/01/delve-go-debugger/</guid><description>Introduction Delve is a powerful debugger for Go(Golang).
 Installation To install latest version of Delve, use the below command
 go install github.com/go-delve/delve/cmd/dlv@latest Make sure that $GOPATH/bin or your Go binary path is in your PATH environment variable.
@@ -1986,4 +1947,31 @@ dlv debug &amp;lt;program.</description><content type="html"><![CDATA[<h2 id="in
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>quit
 </span></span></code></pre></div></li>
 </ul>
+]]></content></item><item><title>GKE Audit logs - Find the cluster resources audit logs</title><link>https://rizwan-kh.github.io/posts/1/01/gke-audit-logs-find-the-cluster-resources-audit-logs/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://rizwan-kh.github.io/posts/1/01/gke-audit-logs-find-the-cluster-resources-audit-logs/</guid><description>Introduction In a scenario where you need to validate the creator of a specific Google Kubernetes Engine (GKE) cluster, especially when there is no clear ownership or standard naming conventions, leveraging the Google Logging Console can provide valuable insights. This guide aims to demonstrate how you can utilize Google Cloud&amp;rsquo;s Logging Console to identify the creator of a GKE cluster.
+Commands The following command is designed to be executed in the Cloud Logging console.</description><content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<p>In a scenario where you need to validate the creator of a specific Google Kubernetes Engine (GKE) cluster, especially when there is no clear ownership or standard naming conventions, leveraging the Google Logging Console can provide valuable insights. This guide aims to demonstrate how you can utilize Google Cloud&rsquo;s Logging Console to identify the creator of a GKE cluster.</p>
+<h2 id="commands">Commands</h2>
+<p>The following command is designed to be executed in the Cloud Logging console. Ensure to replace the placeholder with the actual cluster name within the quotes in the last line.</p>
+<h3 id="cluster-created">Cluster Created</h3>
+<pre tabindex="0"><code>resource.type=&#34;gke_cluster&#34;
+(log_id(&#34;cloudaudit.googleapis.com/data_access&#34;) OR
+log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
+protoPayload.methodName:&#34;CreateCluster&#34;
+resource.labels.cluster_name=&#34;autopilot-cluster-1&#34;
+</code></pre><h2 id="additional-examples">Additional Examples</h2>
+<h3 id="cluster-deleted">Cluster Deleted</h3>
+<p>To identify who deleted a GKE cluster:</p>
+<pre tabindex="0"><code>resource.type=&#34;gke_cluster&#34;
+(log_id(&#34;cloudaudit.googleapis.com/data_access&#34;) OR
+log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
+protoPayload.methodName:&#34;DeleteCluster&#34;
+resource.labels.cluster_name=&#34;your-cluster-name&#34;
+</code></pre><h3 id="node-pool-created">Node Pool Created</h3>
+<p>To find out who created a specific GKE node pool:</p>
+<pre tabindex="0"><code>resource.type=&#34;gke_nodepool&#34;
+(log_id(&#34;cloudaudit.googleapis.com/data_access&#34;) OR
+log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
+protoPayload.methodName:&#34;CreateNodePool&#34;
+resource.labels.node_pool_name=&#34;your-node-pool-name&#34;
+</code></pre><p>These commands can be adapted based on your specific use case, allowing you to gain insights into various GKE cluster activities through the Google Logging Console.</p>
 ]]></content></item></channel></rss>
