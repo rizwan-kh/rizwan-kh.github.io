@@ -19,7 +19,7 @@ We got a binary locally available to use. Now we faced the challenge of how to u
 
 Looking around the documents, we found a way and all it needed was to create a `~/.terraformrc` file with the below content
 
-```sh
+```bash
 provider_installation {
   dev_overrides {
     "registry.terraform.io/databricks/databricks" = "/Users/rizwan/GitHub/databricks-terraform/"
