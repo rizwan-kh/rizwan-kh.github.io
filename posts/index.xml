@@ -1922,4 +1922,79 @@ log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
 protoPayload.methodName:&#34;CreateNodePool&#34;
 resource.labels.node_pool_name=&#34;your-node-pool-name&#34;
 </code></pre><p>These commands can be adapted based on your specific use case, allowing you to gain insights into various GKE cluster activities through the Google Logging Console.</p>
+]]></content></item><item><title/><link>https://rizwan-kh.github.io/posts/1/01/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://rizwan-kh.github.io/posts/1/01/</guid><description>title: &amp;ldquo;Delve - Go Debugger&amp;rdquo; date: 2025-13-03T10:40:00+04:00 draft: false toc: false images: tags:
+go debugger delve dlv Introduction Delve is a powerful debugger for Go(Golang).
+Installation To install latest version of Delve, use the below command
+go install github.com/go-delve/delve/cmd/dlv@latest Make sure that $GOPATH/bin or your Go binary path is in your PATH environment variable.
+Quick Usage You can use delve in many ways, the one I prefer is as below</description><content type="html"><![CDATA[<p>title: &ldquo;Delve - Go Debugger&rdquo;
+date: 2025-13-03T10:40:00+04:00
+draft: false
+toc: false
+images:
+tags:</p>
+<ul>
+<li>go</li>
+<li>debugger</li>
+<li>delve</li>
+<li>dlv</li>
+</ul>
+<hr>
+<h2 id="introduction">Introduction</h2>
+<p><a href="https://github.com/go-delve/delve">Delve</a> is a powerful debugger for Go(Golang).</p>
+<h2 id="installation">Installation</h2>
+<p>To install latest version of Delve, use the below command</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go install github.com/go-delve/delve/cmd/dlv@latest
+</span></span></code></pre></div><p>Make sure that <code>$GOPATH/bin</code> or your Go binary path is in your <code>PATH</code> environment variable.</p>
+<h2 id="quick-usage">Quick Usage</h2>
+<p>You can use delve in many ways, the one I prefer is as below</p>
+<ul>
+<li>
+<p>Start a Program with Delve</p>
+<p>You can start a Go program under Delve by running:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dlv debug &lt;program.go&gt;
+</span></span></code></pre></div><p>This will compile and run the program in debug mode, allowing you to set breakpoints and interact with it.</p>
+</li>
+<li>
+<p>Attach to a Running Process</p>
+<p>If your Go program is already running, you can attach Delve to it by using the process ID (PID):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dlv attach &lt;pid&gt;
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="basic-commands">Basic Commands</h3>
+<p>Once delve is running, you can use the below commands to move around</p>
+<ul>
+<li>
+<p>Set breakpoints</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>break &lt;function_name&gt;
+</span></span></code></pre></div><p>Or for specific lines</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>break &lt;filename&gt;:&lt;line_number&gt;
+</span></span></code></pre></div></li>
+<li>
+<p>Run program</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">continue</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Step through the code</p>
+<ul>
+<li>Step into function: <code>step</code></li>
+<li>Step over function: <code>next</code></li>
+<li>Step out of current function: <code>stepout</code></li>
+</ul>
+</li>
+<li>
+<p>Inspect variables</p>
+<ul>
+<li>Print variable: <code>print &lt;variable_name&gt;</code></li>
+<li>Display the value of a variable at a breakpoint.</li>
+</ul>
+</li>
+<li>
+<p>List breakpoints</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>breakpoints
+</span></span></code></pre></div></li>
+<li>
+<p>Exit the debug mode</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>quit
+</span></span></code></pre></div></li>
+</ul>
 ]]></content></item></channel></rss>
