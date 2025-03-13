@@ -1,4 +1,68 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Rizwan Khan👨🏻‍💻</title><link>https://rizwan-kh.github.io/posts/</link><description>Recent content in Posts on Rizwan Khan👨🏻‍💻</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Sun, 04 Aug 2024 11:50:27 +0400</lastBuildDate><atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>How to use local provider in Terraform</title><link>https://rizwan-kh.github.io/posts/2024/08/how-to-use-local-provider-in-terraform/</link><pubDate>Sun, 04 Aug 2024 11:50:27 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2024/08/how-to-use-local-provider-in-terraform/</guid><description>Enable local Terraform provider for Testing/Development Introduction Recently, we faced an issue with databricks/databricks provider and we spend alomost 2 weeks figuring out an auth issue that we saw in the provider for storage_account for th Unity Catalog. And thus, we wanted to dive into the databricks provider golang code to see if we can add few debug statements and understand where it was failing. So we cloned the repo from GitHub, made the changes and used the contributing.</description><content type="html"><![CDATA[<h2 id="enable-local-terraform-provider-for-testingdevelopment">Enable local Terraform provider for Testing/Development</h2>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Rizwan Khan👨🏻‍💻</title><link>https://rizwan-kh.github.io/posts/</link><description>Recent content in Posts on Rizwan Khan👨🏻‍💻</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Thu, 13 Mar 2025 10:40:00 +0400</lastBuildDate><atom:link href="https://rizwan-kh.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Delve - Go Debugger</title><link>https://rizwan-kh.github.io/posts/2025/03/delve-go-debugger/</link><pubDate>Thu, 13 Mar 2025 10:40:00 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2025/03/delve-go-debugger/</guid><description>Introduction Delve is a powerful debugger for Go(Golang).
+Installation To install latest version of Delve, use the below command
+go install github.com/go-delve/delve/cmd/dlv@latest Make sure that $GOPATH/bin or your Go binary path is in your PATH environment variable.
+Quick Usage You can use delve in many ways, the one I prefer is as below
+Start a Program with Delve
+You can start a Go program under Delve by running:
+dlv debug &amp;lt;program.</description><content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<p><a href="https://github.com/go-delve/delve">Delve</a> is a powerful debugger for Go(Golang).</p>
+<h2 id="installation">Installation</h2>
+<p>To install latest version of Delve, use the below command</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go install github.com/go-delve/delve/cmd/dlv@latest
+</span></span></code></pre></div><p>Make sure that <code>$GOPATH/bin</code> or your Go binary path is in your <code>PATH</code> environment variable.</p>
+<h2 id="quick-usage">Quick Usage</h2>
+<p>You can use delve in many ways, the one I prefer is as below</p>
+<ul>
+<li>
+<p>Start a Program with Delve</p>
+<p>You can start a Go program under Delve by running:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dlv debug &lt;program.go&gt;
+</span></span></code></pre></div><p>This will compile and run the program in debug mode, allowing you to set breakpoints and interact with it.</p>
+</li>
+<li>
+<p>Attach to a Running Process</p>
+<p>If your Go program is already running, you can attach Delve to it by using the process ID (PID):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dlv attach &lt;pid&gt;
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="basic-commands">Basic Commands</h3>
+<p>Once delve is running, you can use the below commands to move around</p>
+<ul>
+<li>
+<p>Set breakpoints</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>break &lt;function_name&gt;
+</span></span></code></pre></div><p>Or for specific lines</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>break &lt;filename&gt;:&lt;line_number&gt;
+</span></span></code></pre></div></li>
+<li>
+<p>Run program</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">continue</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Step through the code</p>
+<ul>
+<li>Step into function: <code>step</code></li>
+<li>Step over function: <code>next</code></li>
+<li>Step out of current function: <code>stepout</code></li>
+</ul>
+</li>
+<li>
+<p>Inspect variables</p>
+<ul>
+<li>Print variable: <code>print &lt;variable_name&gt;</code></li>
+<li>Display the value of a variable at a breakpoint.</li>
+</ul>
+</li>
+<li>
+<p>List breakpoints</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>breakpoints
+</span></span></code></pre></div></li>
+<li>
+<p>Exit the debug mode</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>quit
+</span></span></code></pre></div></li>
+</ul>
+]]></content></item><item><title>How to use local provider in Terraform</title><link>https://rizwan-kh.github.io/posts/2024/08/how-to-use-local-provider-in-terraform/</link><pubDate>Sun, 04 Aug 2024 11:50:27 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2024/08/how-to-use-local-provider-in-terraform/</guid><description>Enable local Terraform provider for Testing/Development Introduction Recently, we faced an issue with databricks/databricks provider and we spend alomost 2 weeks figuring out an auth issue that we saw in the provider for storage_account for th Unity Catalog. And thus, we wanted to dive into the databricks provider golang code to see if we can add few debug statements and understand where it was failing. So we cloned the repo from GitHub, made the changes and used the contributing.</description><content type="html"><![CDATA[<h2 id="enable-local-terraform-provider-for-testingdevelopment">Enable local Terraform provider for Testing/Development</h2>
 <h3 id="introduction">Introduction</h3>
 <p>Recently, we faced an issue with <a href="https://github.com/databricks/terraform-provider-databricks">databricks/databricks</a> provider and we spend alomost 2 weeks figuring out an auth issue that we saw in the provider for storage_account for th Unity Catalog. And thus, we wanted to dive into the databricks provider golang code to see if we can add few debug statements and understand where it was failing. So we cloned the repo from GitHub, made the changes and used the <code>contributing.md</code> to learn how to build the package - it was as easy as running the command <code>make install</code> and the Makefile had all the magic command configured.</p>
 <p>We got a binary locally available to use. Now we faced the challenge of how to use the local binary, as with each <code>terraform init</code> command, terraform was pulling the module from registry.terraform.io.</p>
@@ -224,6 +288,33 @@ Why CI/CD for ADF? Azure Data Factory is a cloud-based data integration service 
 <p>Start leveraging the benefits of ADF CI/CD today, and witness the transformation in your data engineering practices.</p>
 <p>Happy Deploying!</p>
 <hr>
+]]></content></item><item><title>GKE Audit logs - Find the cluster resources audit logs</title><link>https://rizwan-kh.github.io/posts/2023/02/gke-audit-logs-find-the-cluster-resources-audit-logs/</link><pubDate>Tue, 28 Feb 2023 05:40:00 +0400</pubDate><guid>https://rizwan-kh.github.io/posts/2023/02/gke-audit-logs-find-the-cluster-resources-audit-logs/</guid><description>Introduction In a scenario where you need to validate the creator of a specific Google Kubernetes Engine (GKE) cluster, especially when there is no clear ownership or standard naming conventions, leveraging the Google Logging Console can provide valuable insights. This guide aims to demonstrate how you can utilize Google Cloud&amp;rsquo;s Logging Console to identify the creator of a GKE cluster.
+Commands The following command is designed to be executed in the Cloud Logging console.</description><content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<p>In a scenario where you need to validate the creator of a specific Google Kubernetes Engine (GKE) cluster, especially when there is no clear ownership or standard naming conventions, leveraging the Google Logging Console can provide valuable insights. This guide aims to demonstrate how you can utilize Google Cloud&rsquo;s Logging Console to identify the creator of a GKE cluster.</p>
+<h2 id="commands">Commands</h2>
+<p>The following command is designed to be executed in the Cloud Logging console. Ensure to replace the placeholder with the actual cluster name within the quotes in the last line.</p>
+<h3 id="cluster-created">Cluster Created</h3>
+<pre tabindex="0"><code>resource.type=&#34;gke_cluster&#34;
+(log_id(&#34;cloudaudit.googleapis.com/data_access&#34;) OR
+log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
+protoPayload.methodName:&#34;CreateCluster&#34;
+resource.labels.cluster_name=&#34;autopilot-cluster-1&#34;
+</code></pre><h2 id="additional-examples">Additional Examples</h2>
+<h3 id="cluster-deleted">Cluster Deleted</h3>
+<p>To identify who deleted a GKE cluster:</p>
+<pre tabindex="0"><code>resource.type=&#34;gke_cluster&#34;
+(log_id(&#34;cloudaudit.googleapis.com/data_access&#34;) OR
+log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
+protoPayload.methodName:&#34;DeleteCluster&#34;
+resource.labels.cluster_name=&#34;your-cluster-name&#34;
+</code></pre><h3 id="node-pool-created">Node Pool Created</h3>
+<p>To find out who created a specific GKE node pool:</p>
+<pre tabindex="0"><code>resource.type=&#34;gke_nodepool&#34;
+(log_id(&#34;cloudaudit.googleapis.com/data_access&#34;) OR
+log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
+protoPayload.methodName:&#34;CreateNodePool&#34;
+resource.labels.node_pool_name=&#34;your-node-pool-name&#34;
+</code></pre><p>These commands can be adapted based on your specific use case, allowing you to gain insights into various GKE cluster activities through the Google Logging Console.</p>
 ]]></content></item><item><title>Reload nginx without restarting the container/pod</title><link>https://rizwan-kh.github.io/posts/2023/02/reload-nginx-without-restarting-the-container/pod/</link><pubDate>Wed, 08 Feb 2023 20:04:03 -0400</pubDate><guid>https://rizwan-kh.github.io/posts/2023/02/reload-nginx-without-restarting-the-container/pod/</guid><description>Introduction Today in a troubleshooting session, one of the pods we were working with had an Angular application exposed via an nginx server and we wanted to change a few settings in the custom-nginx.conf, for which the developer informed us that he would need to rebuild the image and the CI pipeline will take around 10-15mins for the build, scan and deploy.
 I suggested two approaches
 map custom-nginx.conf as a configmap in the pod restart/reload nginx process We went ahead with the second approach as it was the more time-saving option.</description><content type="html"><![CDATA[<p><img src="/nginx.png" alt="nginx"></p>
@@ -1883,95 +1974,4 @@ On Linux: You can install putty-tools using your package manager. For example, o
 <li><strong>PPK to PEM</strong>: Use <code>puttygen your-key.ppk -O private-openssh -o your-key.pem</code></li>
 </ul>
 <p>These conversions are particularly useful for managing SSH keys across different systems and applications. Ensure that you handle and store your private keys securely.</p>
-]]></content></item><item><title>Delve - Go Debugger</title><link>https://rizwan-kh.github.io/posts/1/01/delve-go-debugger/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://rizwan-kh.github.io/posts/1/01/delve-go-debugger/</guid><description>Introduction Delve is a powerful debugger for Go(Golang).
-Installation To install latest version of Delve, use the below command
-go install github.com/go-delve/delve/cmd/dlv@latest Make sure that $GOPATH/bin or your Go binary path is in your PATH environment variable.
-Quick Usage You can use delve in many ways, the one I prefer is as below
-Start a Program with Delve
-You can start a Go program under Delve by running:
-dlv debug &amp;lt;program.</description><content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
-<p><a href="https://github.com/go-delve/delve">Delve</a> is a powerful debugger for Go(Golang).</p>
-<h2 id="installation">Installation</h2>
-<p>To install latest version of Delve, use the below command</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go install github.com/go-delve/delve/cmd/dlv@latest
-</span></span></code></pre></div><p>Make sure that <code>$GOPATH/bin</code> or your Go binary path is in your <code>PATH</code> environment variable.</p>
-<h2 id="quick-usage">Quick Usage</h2>
-<p>You can use delve in many ways, the one I prefer is as below</p>
-<ul>
-<li>
-<p>Start a Program with Delve</p>
-<p>You can start a Go program under Delve by running:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dlv debug &lt;program.go&gt;
-</span></span></code></pre></div><p>This will compile and run the program in debug mode, allowing you to set breakpoints and interact with it.</p>
-</li>
-<li>
-<p>Attach to a Running Process</p>
-<p>If your Go program is already running, you can attach Delve to it by using the process ID (PID):</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dlv attach &lt;pid&gt;
-</span></span></code></pre></div></li>
-</ul>
-<h3 id="basic-commands">Basic Commands</h3>
-<p>Once delve is running, you can use the below commands to move around</p>
-<ul>
-<li>
-<p>Set breakpoints</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>break &lt;function_name&gt;
-</span></span></code></pre></div><p>Or for specific lines</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>break &lt;filename&gt;:&lt;line_number&gt;
-</span></span></code></pre></div></li>
-<li>
-<p>Run program</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">continue</span>
-</span></span></code></pre></div></li>
-<li>
-<p>Step through the code</p>
-<ul>
-<li>Step into function: <code>step</code></li>
-<li>Step over function: <code>next</code></li>
-<li>Step out of current function: <code>stepout</code></li>
-</ul>
-</li>
-<li>
-<p>Inspect variables</p>
-<ul>
-<li>Print variable: <code>print &lt;variable_name&gt;</code></li>
-<li>Display the value of a variable at a breakpoint.</li>
-</ul>
-</li>
-<li>
-<p>List breakpoints</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>breakpoints
-</span></span></code></pre></div></li>
-<li>
-<p>Exit the debug mode</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>quit
-</span></span></code></pre></div></li>
-</ul>
-]]></content></item><item><title>GKE Audit logs - Find the cluster resources audit logs</title><link>https://rizwan-kh.github.io/posts/1/01/gke-audit-logs-find-the-cluster-resources-audit-logs/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://rizwan-kh.github.io/posts/1/01/gke-audit-logs-find-the-cluster-resources-audit-logs/</guid><description>Introduction In a scenario where you need to validate the creator of a specific Google Kubernetes Engine (GKE) cluster, especially when there is no clear ownership or standard naming conventions, leveraging the Google Logging Console can provide valuable insights. This guide aims to demonstrate how you can utilize Google Cloud&amp;rsquo;s Logging Console to identify the creator of a GKE cluster.
-Commands The following command is designed to be executed in the Cloud Logging console.</description><content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
-<p>In a scenario where you need to validate the creator of a specific Google Kubernetes Engine (GKE) cluster, especially when there is no clear ownership or standard naming conventions, leveraging the Google Logging Console can provide valuable insights. This guide aims to demonstrate how you can utilize Google Cloud&rsquo;s Logging Console to identify the creator of a GKE cluster.</p>
-<h2 id="commands">Commands</h2>
-<p>The following command is designed to be executed in the Cloud Logging console. Ensure to replace the placeholder with the actual cluster name within the quotes in the last line.</p>
-<h3 id="cluster-created">Cluster Created</h3>
-<pre tabindex="0"><code>resource.type=&#34;gke_cluster&#34;
-(log_id(&#34;cloudaudit.googleapis.com/data_access&#34;) OR
-log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
-protoPayload.methodName:&#34;CreateCluster&#34;
-resource.labels.cluster_name=&#34;autopilot-cluster-1&#34;
-</code></pre><h2 id="additional-examples">Additional Examples</h2>
-<h3 id="cluster-deleted">Cluster Deleted</h3>
-<p>To identify who deleted a GKE cluster:</p>
-<pre tabindex="0"><code>resource.type=&#34;gke_cluster&#34;
-(log_id(&#34;cloudaudit.googleapis.com/data_access&#34;) OR
-log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
-protoPayload.methodName:&#34;DeleteCluster&#34;
-resource.labels.cluster_name=&#34;your-cluster-name&#34;
-</code></pre><h3 id="node-pool-created">Node Pool Created</h3>
-<p>To find out who created a specific GKE node pool:</p>
-<pre tabindex="0"><code>resource.type=&#34;gke_nodepool&#34;
-(log_id(&#34;cloudaudit.googleapis.com/data_access&#34;) OR
-log_id(&#34;cloudaudit.googleapis.com/activity&#34;))
-protoPayload.methodName:&#34;CreateNodePool&#34;
-resource.labels.node_pool_name=&#34;your-node-pool-name&#34;
-</code></pre><p>These commands can be adapted based on your specific use case, allowing you to gain insights into various GKE cluster activities through the Google Logging Console.</p>
 ]]></content></item></channel></rss>
